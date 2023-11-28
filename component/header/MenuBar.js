@@ -1,12 +1,26 @@
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faArrowAltCircleLeft, faArrowAltCircleRight, faArrowLeft, faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { DrawerActions } from "@react-navigation/native";
+import { DrawerActions, useRoute } from "@react-navigation/native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { View } from "react-native";
 
 function MenuBar({ navigation }, props) {
-  return (
+  const route = useRoute();
+  // console.log(route.name);
+  return route.name !== "Home" ? (
+    <TouchableOpacity
+      onPress={() => navigation.goBack()}
+      style={{
+        marginLeft: 20,
+        backgroundColor: "#C1272D",
+        padding: 10,
+        borderRadius: 5,
+      }}
+    >
+      <FontAwesomeIcon icon={faArrowLeft} size={25} color="#FFf" />
+    </TouchableOpacity>
+  ) : (
     <TouchableOpacity
       onPress={() => navigation.openDrawer()}
       style={{

@@ -7,8 +7,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { withTheme } from "react-native-paper";
 import ProductCard from "./ProductCard";
 
-function TrendingArtist({ theme }) {
-  console.log(Dimensions.get("window").width);
+function TrendingArtist({ theme, catname, navigation }) {
+  // console.log(Dimensions.get("window").width);
   return (
     <View style={styles.trendingArtist}>
       <View
@@ -19,7 +19,9 @@ function TrendingArtist({ theme }) {
           justifyContent: "space-between",
         }}
       >
-        <Text style={styles.trendText}>Trending Artists</Text>
+        <Text style={styles.trendText}>
+          {catname ? catname : "Trending Artists"}
+        </Text>
         <Text
           style={{
             marginRight: 20,
@@ -34,7 +36,7 @@ function TrendingArtist({ theme }) {
           View All
         </Text>
       </View>
-      <ProductCard />
+      <ProductCard navigation={navigation} />
     </View>
   );
 }
@@ -48,6 +50,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     justifyContent: "flex-start",
     alignItems: "flex-start",
+    height: "100%",
   },
   trendText: {
     fontSize: 20,
@@ -55,5 +58,5 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     width: Dimensions.get("window").width / 2,
     // height:100,
-  }
+  },
 });

@@ -25,16 +25,15 @@ function MainScreen({ theme, navigation }) {
             alignContent: "center",
             // backgroundColor: theme.colors.myOwnColor,
             height: "100%",
-            paddingBottom: 120,
+            paddingBottom: 100,
           }}
         >
           <Banner />
-          <TrendingArtist />
+          <TrendingArtist navigation={navigation} />
           <Artist />
-
         </View>
       </ScrollView>
-      <Footer />
+      <Footer navigation={navigation} />
     </LinearGradient>
   );
 }

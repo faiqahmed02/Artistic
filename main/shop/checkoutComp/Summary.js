@@ -1,0 +1,222 @@
+import React from "react";
+import { Image } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { Text } from "react-native";
+import { View } from "react-native";
+import { withTheme } from "react-native-paper";
+import { useSelector } from "react-redux";
+import ButtonComp from "../../../component/mainscreen/ButtonComp";
+import { ScrollView } from "react-native";
+
+function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCancel }) {
+  const handleNext = () => {
+    setFormData({ ...formData, field1 });
+    onSubmit();
+  };
+  const state = useSelector((state) => state.cartState);
+  console.log(formData);
+
+  return (
+    <ScrollView>
+      <View
+        style={{
+          marginLeft: 10,
+          marginRight: 10,
+          // justifyContent:"flex-start",
+          alignItems: "center",
+        }}
+      >
+        <View>
+          <Text
+            style={{
+              textAlign: "left",
+              width: 380,
+              fontSize: 20,
+              fontWeight: 700,
+              lineHeight: 40,
+              letterSpacing: 0,
+
+              // backgroundColor:"black"
+            }}
+          >
+            Summary
+          </Text>
+        </View>
+        {state !== null
+          ? state.map((d, i) => {
+              return (
+                <View
+                  key={i}
+                  style={{
+                    // flex: 1,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexDirection: "row",
+                    backgroundColor: "white",
+                    // alignItems: "center",
+                    height: "auto",
+                    // width: "90%",
+                    height: 100,
+                    padding: 10,
+                    // paddingTop:100,
+                    //   margin: 10,
+                    marginTop: 10,
+                  }}
+                >
+                  <View>
+                    <Image
+                      source={require("../../../assets/product_img_1.png")}
+                      style={{ width: 79, height: 82 }}
+                    />
+                  </View>
+                  <View style={{ padding: 10, width: "75%" }}>
+                    <Text
+                      style={{
+                        textAlign: "left",
+                        fontSize: 12,
+                        fontWeight: "400",
+                        lineHeight: 16,
+                        letterSpacing: 0,
+                        textAlign: "left",
+                        color: "#29ABE2",
+                      }}
+                    >
+                      $ {d.price} x 4
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: "600",
+                        lineHeight: 22,
+                        letterSpacing: 0,
+                        textAlign: "left",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {d.artworkName}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "400",
+                        lineHeight: 16,
+                        letterSpacing: 0,
+                        textAlign: "left",
+                        color: "#868889",
+                      }}
+                    >
+                      {d.description}
+                    </Text>
+                  </View>
+                </View>
+              );
+            })
+          : ""}
+        <View
+          style={{
+            borderBottomWidth: 3,
+            borderTopWidth: 3,
+            borderColor: "#BBBBBBCC",
+            padding: 10,
+            marginTop: 10,
+            width: "100%",
+          }}
+        >
+          <Text
+            style={{
+              textAlign: "left",
+              width: 340,
+              fontSize: 16,
+              fontWeight: 700,
+              lineHeight: 40,
+              letterSpacing: 0,
+
+              // backgroundColor:"black"
+            }}
+          >
+            Shipping Address
+          </Text>
+          <Text
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              lineHeight: 20,
+              letterSpacing: 0,
+              textAlign: "left",
+              color: "#868889",
+            }}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+            ornare ornare pulvinar. Etiam pellentesque neque et.
+          </Text>
+        </View>
+        <View
+          style={{
+            marginTop: 10,
+            width: "100%",
+            padding: 10,
+          }}
+        >
+          <Text
+            style={{
+              textAlign: "left",
+              width: 340,
+              fontSize: 16,
+              fontWeight: 700,
+              lineHeight: 40,
+              letterSpacing: 0,
+
+              // backgroundColor:"black"
+            }}
+          >
+            Payment
+          </Text>
+          <Text>Card Payment</Text>
+          <Text
+            style={{
+              color: theme.colors.linkColor,
+            }}
+          >
+            5678 **** ****
+          </Text>
+          <TouchableOpacity onPress={onPrevious}>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: 400,
+                lineHeight: 20,
+                letterSpacing: 0,
+                marginTop: 10,
+                borderBottomWidth: 1,
+                borderColor: "black",
+                width: 52,
+                paddingBottom: 4,
+              }}
+            >
+              Change
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <ButtonComp btnText="Pay" onPress={onSubmit} />
+        <TouchableOpacity onPress={handleCancel}>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: "500",
+              lineHeight: 18,
+              letterSpacing: 0,
+              textAlign: "center",
+              color: "#29ABE2",
+              marginTop: 10,
+            }}
+          
+          >
+            Cancel
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+}
+
+export default withTheme(Summary);

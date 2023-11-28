@@ -6,62 +6,67 @@ import { Image } from "react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native";
 
-function ProductCard() {
+const artworks = [
+  {
+    id: 1,
+    artistName: "John Doe",
+    artworkName: "Sunset at Sea",
+    price: 250,
+    artworkType: "Painting",
+    artworkSize: "24x36 inches",
+    artworkWeight: "2 kg",
+    quantity: 1,
+    description:
+      "A beautiful painting depicting a serene sunset over the ocean.",
+    artWorkImage: require("../../assets/product_img_1.png"),
+  },
+  {
+    id: 2,
+    artistName: "Jane Smith",
+    artworkName: "Abstract Reflections",
+    price: 180,
+    artworkType: "Sculpture",
+    artworkSize: "12x18x10 inches",
+    artworkWeight: "3.5 kg",
+    quantity: 3,
+    description:
+      "An abstract sculpture reflecting multiple emotions and shapes.",
+    artWorkImage: require("../../assets/product_img_1.png"),
+  },
+  {
+    id: 3,
+    artistName: "Michle Jackson",
+    artworkName: "Reflections Jackson",
+    price: 980,
+    artworkType: "Sculpture",
+    artworkSize: "12x18x10 inches",
+    artworkWeight: "3.5 kg",
+    quantity: 3,
+    description:
+      "An abstract sculpture reflecting multiple emotions and shapes.",
+    artWorkImage: require("../../assets/product_img_1.png"),
+  },
+  // Add more artworks as needed
+];
+
+function ProductCard({ navigation }) {
+  const goToProductPage = (data) => {
+    navigation.navigate("Product Page", { productId: data });
+  };
   return (
     <ScrollView horizontal style={{ maxHeight: 190 }}>
-      <View
-        style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          flexDirection: "row",
-          height: 190,
-        }}
-      >
-        <View style={styles.productCard}>
-          <Image
-            style={styles.productImg}
-            source={require("../../assets/product_img_1.png")}
-          />
-          <Text style={styles.productTitle}>Product Title</Text>
-          <Text style={styles.productPrice}>$78.00</Text>
-          <TouchableOpacity>
-            <Text style={styles.productBtn}>Add To cart</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <Image
-            style={styles.productImg}
-            source={require("../../assets/product_img_1.png")}
-          />
-          <Text style={styles.productTitle}>Product Title</Text>
-          <Text style={styles.productPrice}>$78.00</Text>
-          <TouchableOpacity>
-            <Text style={styles.productBtn}>Add To cart</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <Image
-            style={styles.productImg}
-            source={require("../../assets/product_img_1.png")}
-          />
-          <Text style={styles.productTitle}>Product Title</Text>
-          <Text style={styles.productPrice}>$78.00</Text>
-          <TouchableOpacity>
-            <Text style={styles.productBtn}>Add To cart</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <Image
-            style={styles.productImg}
-            source={require("../../assets/product_img_1.png")}
-          />
-          <Text style={styles.productTitle}>Product Title</Text>
-          <Text style={styles.productPrice}>$78.00</Text>
-          <TouchableOpacity>
-            <Text style={styles.productBtn}>Add To cart</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      {artworks.map((d, i) => {
+        return (
+          <View style={styles.productCard} key={i}>
+            <Image style={styles.productImg} source={d.artWorkImage} />
+            <Text style={styles.productTitle}>{d.artworkName}</Text>
+            <Text style={styles.productPrice}>${d.price}</Text>
+            <TouchableOpacity onPress={() => goToProductPage(d)}>
+              <Text style={styles.productBtn}>View Product</Text>
+            </TouchableOpacity>
+          </View>
+        );
+      })}
     </ScrollView>
   );
 }

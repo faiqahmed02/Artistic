@@ -6,11 +6,8 @@ const rootSlice = createSlice({
 
   initialState: {
     user: null,
-    pagetile: "",
-    ccbudget_data: [],
-    orientation: "",
-    MonthlyIncome: [],
-    addMonthBill: false,
+    cartState: [],
+    credentials:{},
   },
 
   reducers: {
@@ -20,32 +17,15 @@ const rootSlice = createSlice({
     logOut: (state) => {
       state.user = null;
     },
-    pageTitle: (state, action) => {
-      state.pagetile = action.payload;
+    userCredentialse: (state, action) => {
+      state.credentials = action.payload;
     },
-    ccBudgetData: (state, action) => {
-      state.ccbudget_data = action.payload;
-    },
-    currentOrientation: (state, action) => {
-      state.orientation = action.payload;
-    },
-    MonthlyIncomeMethod: (state, action) => {
-      state.MonthlyIncome = action.payload;
-    },
-    AddMonthBill: (state, action) => {
-      state.addMonthBill = action.payload;
+    cartReducer: (state, action) => {
+      state.cartState = action.payload;
     },
   },
 });
 
 // Actions
-export const {
-  logIn,
-  logOut,
-  pageTitle,
-  ccBudgetData,
-  currentOrientation,
-  MonthlyIncomeMethod,
-  AddMonthBill,
-} = rootSlice.actions;
+export const { logIn, logOut, cartReducer, userCredentialse } = rootSlice.actions;
 export const reducer = rootSlice.reducer;

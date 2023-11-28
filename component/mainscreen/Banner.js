@@ -2,30 +2,42 @@ import React, { useState, useRef } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { Text, View, SafeAreaView } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import img1 from "../../assets/ban_1.png";
+import { Image } from "react-native";
 
 function Banner() {
   const width = Dimensions.get("window").width;
+  const imgArr = [img1, img1, img1, img1,img1, img1, img1, img1];
   return (
-    <View style={{textAlign: "center", alignItems: "center", }}>
+    <View style={{ textAlign: "center", alignItems: "center" }}>
       <Carousel
         loop
-        width={width}
+        width={width/2}
         height={width / 2}
         autoPlay={true}
-        data={[...new Array(6).keys()]}
-        scrollAnimationDuration={1000}
-        onSnapToItem={(index) => console.log("current index:", index)}
+        data={imgArr}
+        autoFillData
         mode="parallax"
-        pagingEnabled
-        renderItem={({ index }) => (
+        scrollAnimationDuration={1000}
+        
+        // onSnapToItem={(index) => console.log("current index:", index)}
+        // pagingEnabled
+        renderItem={({ item }) => (
           <View
             style={{
               flex: 1,
-              borderWidth: 1,
+              // borderWidth: 1,
+              alignItems:"center",
               justifyContent: "center",
             }}
           >
-            <Text style={{ textAlign: "center", fontSize: 30 }}>{index}</Text>
+            {/* <Text style={{ textAlign: "center", fontSize: 30 }}>{item}</Text> */}
+            <Image
+              source={item}
+              style={{
+                width:"100%"
+              }}
+            />
           </View>
         )}
       />
@@ -44,7 +56,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 27,
     textAlign: "center",
-    width:350,
-
+    width: 350,
   },
 });
