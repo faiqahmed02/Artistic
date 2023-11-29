@@ -88,7 +88,7 @@ function SingleProduct({ theme }) {
             justifyContent: "center",
             alignItems: "center",
             padding: 10,
-            height: Dimensions.get("window").height,
+            height: "100%",
             // paddingTop:320
           }}
         >
