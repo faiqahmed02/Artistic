@@ -24,8 +24,8 @@ function MainScreen({ theme, navigation }) {
             // flex: 1,
             alignContent: "center",
             // backgroundColor: theme.colors.myOwnColor,
-            height: "100%",
-            paddingBottom: 100,
+            height: Dimensions.get("window").height,
+            // paddingBottom: 100,
           }}
         >
           <Banner />

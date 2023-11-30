@@ -17,7 +17,7 @@ function Footer({ theme, navigation }) {
     <View
       style={{
         position: "absolute",
-        bottom: "7%",
+        bottom: "3%",
         width: Dimensions.get("window").width,
         height: 70,
         backgroundColor: "white",
