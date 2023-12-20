@@ -88,7 +88,7 @@ function Login({ theme, navigation }) {
             onChangeText={(username) =>
               setLoginForm({
                 ...loginForm,
-                userName: username,
+                username: username,
               })
             }
           />
@@ -131,7 +131,7 @@ function Login({ theme, navigation }) {
               fontSize: 26,
             }}
             onPress={() => {
-              alert("Component Under Development");
+              navigation.navigate("Select Account");
             }}
             textColor="#29ABE2"
           >

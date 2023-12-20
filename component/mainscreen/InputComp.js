@@ -13,6 +13,9 @@ function InputComp(props) {
       style={styles.shadow}
       secureTextEntry={props.secureTextEntry}
       right={props.right === true ? <TextInput.Icon name="eye" /> : false}
+      onBlur={props.onPressOut}
+      error={props.error}
+      inputMode={props.inputMode}
     />
   );
 }

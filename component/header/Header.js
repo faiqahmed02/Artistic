@@ -22,6 +22,8 @@ import {
   faCross,
   faWindowClose,
 } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../store/rootSlice";
 
 const nav = [
   {
@@ -63,6 +65,15 @@ const nav = [
 ];
 
 function Header({ theme, navigation }) {
+  const dispatch = useDispatch();
+
+  const headerAction = (d) => {
+    console.log(d);
+    if (d === "Logout") {
+      dispatch(logOut());
+    }
+    navigation.closeDrawer();
+  };
   return (
     <LinearGradient
       style={{ alignItems: "left" }}
@@ -72,9 +83,9 @@ function Header({ theme, navigation }) {
         style={{
           height: "100%",
           // margin: 20,
-          paddingLeft:20,
-          paddingTop:20,
-          paddingBottom:20,
+          paddingLeft: 20,
+          paddingTop: 20,
+          paddingBottom: 20,
           width: Dimensions.get("window").width,
           overflow: "hidden",
           // backgroundColor:"black"
@@ -119,7 +130,11 @@ function Header({ theme, navigation }) {
           <Text style={styles.d_user}>Max John</Text>
           {nav.map((d, i) => {
             return (
-              <TouchableOpacity key={i} style={styles.navcomp}>
+              <TouchableOpacity
+                key={i}
+                style={styles.navcomp}
+                onPress={() => headerAction(d.name)}
+              >
                 <Image source={d.icon} />
                 <Text style={styles.navtext}>{d.name}</Text>
               </TouchableOpacity>

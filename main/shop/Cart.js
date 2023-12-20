@@ -48,9 +48,17 @@ function Cart({ theme, navigation }) {
   // dispatch(logOut())
   const checkOutBtn = () => {
     if (user) {
-      navigation.navigate("Checkout");
+      if (!cart.length) {
+        navigation.navigate("Home");
+      } else {
+        navigation.navigate("Checkout");
+      }
+    } else if (!cart.length) {
+      alert("Add Some Product First");
     } else {
       navigation.navigate("Login");
+    }
+    {
       // console.log("clicked");
     }
     // console.log("clicked");
@@ -219,7 +227,10 @@ function Cart({ theme, navigation }) {
         )}
       </ScrollView>
       {cart ? (
-        <ButtonComp onPress={() => checkOutBtn()} btnText="CHECKOUT" />
+        <ButtonComp
+          onPress={() => checkOutBtn()}
+          btnText={!cart.length ? "Add Product" : "CHECKOUT"}
+        />
       ) : (
         ""
       )}

@@ -26,6 +26,8 @@ import Login from "./main/user/Login";
 import SingleProduct from "./main/shop/SingleProduct";
 import Checkout from "./main/shop/Checkout";
 import Thankyou from "./main/shop/Thankyou";
+import AccountType from "./main/user/AccountType";
+import SignUp from "./main/user/SignUp";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -84,6 +86,8 @@ export default function App() {
               <Drawer.Screen name="Thank You" component={Thankyou} />
               <Drawer.Screen name="Notification" component={Login} />
               <Drawer.Screen name="Login" component={Login} />
+              <Drawer.Screen name="Select Account" component={AccountType} />
+              <Drawer.Screen name="Signup" component={SignUp} />
             </Drawer.Navigator>
           </NavigationContainer>
         </PaperProvider>

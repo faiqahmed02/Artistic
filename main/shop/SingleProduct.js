@@ -31,7 +31,7 @@ function SingleProduct({ theme }) {
   const route = useRoute();
   const { productId } = route.params;
   // console.log(productId);
-  const [cart, setCart] = useState([]);
+  const [productCart, setProductCart] = useState([]);
   const cartState = useSelector((state) => state.cartState);
   const dispatch = useDispatch();
   const state = useSelector((state) => state.cartState);
@@ -46,39 +46,40 @@ function SingleProduct({ theme }) {
       setCount(count + 1);
     }
   };
+  const cartData = {
+    artistName: productId.artistName,
+    artworkName: productId.artworkName,
+    artworkSize: productId.artworkSize,
+    artworkType: productId.artworkType,
+    artworkWeight: productId.artworkWeight,
+    description: productId.description,
+    id: productId.id,
+    price: productId.price,
+    quantity: productId.quantity,
+    cartQty: count,
+  };
 
   const addToCart = () => {
-    const cartData = {
-      artistName: productId.artistName,
-      artworkName: productId.artworkName,
-      artworkSize: productId.artworkSize,
-      artworkType: productId.artworkType,
-      artworkWeight: productId.artworkWeight,
-      description: productId.description,
-      id: productId.id,
-      price: productId.price,
-      quantity: productId.quantity,
-      cartQty: count,
-    };
-    // Check if the product is already in the cart
+   
+    // Check if the product is already in the productCart
     const isProductInCart = cartState.some((item) => item.id === productId.id);
 
     if (!isProductInCart) {
-      // Product doesn't exist in the cart, add it
+      // Product doesn't exist in the productCart, add it
       // dispatch();
-      setCart([...cart, cartData]);
-      // dispatch(cartReducer(cart));
-      // console.log("Product added to cart:", cartData);
-      // console.log(cartData);
+      setProductCart([...cartState, cartData]);
+      dispatch(cartReducer(productCart));
+      // console.log("Product added to productCart:", cartData);
+      console.log(cartData);
     } else {
-      // console.log("Product already in the cart:", cartData);
-      // dispatch(cartReducer(cart));
+      // console.log("Product already in the productCart:", cartData);
+      // dispatch(cartReducer(productCart));
     }
   };
 
-  useEffect(() => {
-    dispatch(cartReducer(cart));
-  }, [cart, state]);
+  // useEffect(() => {
+  //   dispatch(cartReducer(productCart));
+  // }, [productCart, state]);
   // console.log(JSON.stringify(cartState) + " " + "Haan Han My hi hu");
   return (
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>

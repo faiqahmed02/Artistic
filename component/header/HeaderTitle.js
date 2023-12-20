@@ -14,7 +14,7 @@ function HeaderTitle({ navigation }) {
       <Text style={styles.nameTitle}>
         {" "}
         {user ? (
-          "Hi " + user.userName
+          "Hi " + user.username
         ) : (
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text style={styles.nameTitle}>Login</Text>
