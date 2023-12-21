@@ -68,7 +68,7 @@ function SingleProduct({ theme }) {
       // Product doesn't exist in the productCart, add it
       // dispatch();
       setProductCart([...cartState, cartData]);
-      dispatch(cartReducer(productCart));
+      // dispatch(cartReducer(productCart));
       // console.log("Product added to productCart:", cartData);
       console.log(cartData);
     } else {
@@ -77,9 +77,9 @@ function SingleProduct({ theme }) {
     }
   };
 
-  // useEffect(() => {
-  //   dispatch(cartReducer(productCart));
-  // }, [productCart, state]);
+  useEffect(() => {
+    dispatch(cartReducer(productCart));
+  }, [productCart]);
   // console.log(JSON.stringify(cartState) + " " + "Haan Han My hi hu");
   return (
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
