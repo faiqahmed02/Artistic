@@ -24,7 +24,7 @@ function MainScreen({ theme, navigation }) {
             // flex: 1,
             alignContent: "center",
             // backgroundColor: theme.colors.myOwnColor,
-            height: Dimensions.get("window").height,
+            height: "100%",
             // paddingBottom: 100,
           }}
         >
