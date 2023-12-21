@@ -21,7 +21,7 @@ function Login({ theme, navigation }) {
   console.log(routes);
   const handleStaySignIn = () => {
     if (checked !== "checked") {
-      if (loginForm.userName) {
+      if (loginForm.username) {
         setChecked("checked");
         dispatch(userCredentialse(loginForm));
       }
@@ -32,7 +32,7 @@ function Login({ theme, navigation }) {
 
   const handleLogin = () => {
     // console.log(loginForm);
-    if (loginForm.userName) {
+    if (loginForm.username) {
       dispatch(logIn(loginForm));
       setTimeout(() => {
         navigation.navigate("Checkout");
