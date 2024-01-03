@@ -27,7 +27,7 @@ const obj = {
   },
 };
 
-function SingleProduct({ theme }) {
+function SingleProduct({ theme, navigation }) {
   const [count, setCount] = useState(1);
   const route = useRoute();
   const { productId } = route.params;
@@ -102,7 +102,6 @@ function SingleProduct({ theme }) {
               borderRadius: 5,
             }}
           />
-          <Arimageviwer />
           <View
             style={{
               // flex:2
@@ -115,6 +114,8 @@ function SingleProduct({ theme }) {
                 width: "65%",
               }}
             >
+
+          <Button  onPress={() => navigation.navigate("ArView")}>New CHange</Button>
               <Text style={styles.productTitle}>Artwork Details</Text>
               <View style={styles.productmeta}>
                 <View style={{ flexDirection: "row" }}>
