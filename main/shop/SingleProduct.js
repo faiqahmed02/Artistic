@@ -13,7 +13,6 @@ import { ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { cartReducer } from "../../store/rootSlice";
-import Arimageviwer from "../../component/mainscreen/ARImageviwer";
 
 const obj = {
   artworkDetails: {
