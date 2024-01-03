@@ -7,7 +7,7 @@ PODS:
     - ExpoModulesCore
   - EXConstants (14.4.2):
     - ExpoModulesCore
-  - EXFileSystem (13.2.1):
+  - EXFileSystem (15.4.5):
     - ExpoModulesCore
   - EXFont (11.4.0):
     - ExpoModulesCore
@@ -699,7 +699,7 @@ SPEC CHECKSUMS:
   EXApplication: 042aa2e3f05258a16962ea1a9914bf288db9c9a1
   EXCamera: 6e6e79bf01a2b8190268d93297d8e79a843d5ede
   EXConstants: ce5bbea779da8031ac818c36bea41b10e14d04e1
-  EXFileSystem: bbfe3441f1f7f64942d8df2aa4264b6c7a27807c
+  EXFileSystem: f8b838a880254de42a5a7da20ed5ce12e2697c1b
   EXFont: 738c44c390953ebcbab075a4848bfbef025fd9ee
   EXImageLoader: 34b214f9387e98f3c73989f15d8d5b399c9ab3f7
   Expo: f446f9811b9dfc0abc05a1613966c8475bc6795e
