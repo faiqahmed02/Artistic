@@ -1,14 +1,22 @@
-// App.js
-import React, { useRef, useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { Camera } from "expo-camera";
-import { GLView } from "expo-gl";
-import { Renderer } from "expo-three";
-import * as THREE from "three";
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Camera } from 'expo-camera';
+import { GLView } from 'expo-gl';
+import { Renderer } from 'expo-three';
+import * as THREE from 'three';
 
-function Arimageviwer() {
-  const renderer = useRef(null);
+const Arimageviewer = () => {
+  const [hasPermission, setHasPermission] = useState(null);
+  const [cameraRef, setCameraRef] = useState(null);
   const [imageVisible, setImageVisible] = useState(false);
+  const renderer = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
 
   const toggleImage = () => {
     setImageVisible(!imageVisible);
@@ -21,7 +29,7 @@ function Arimageviwer() {
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     const geometry = new THREE.BoxGeometry(1, 1, 0.1);
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load(require("../../assets/single_product.png")); // Image URL
+    const texture = textureLoader.load(require("../../assets/product_img_1.png")); // Image URL
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const cube = new THREE.Mesh(geometry, material);
@@ -43,7 +51,7 @@ function Arimageviwer() {
     animate();
   };
 
-  const _onContextCreate = async (gl) => {
+  const onContextCreate = async (gl) => {
     const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
     renderer.current = new Renderer({ gl });
     renderer.current.setSize(width, height);
@@ -51,26 +59,35 @@ function Arimageviwer() {
     renderImage();
   };
 
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={Camera.Constants.Type.back}>
-        <GLView style={styles.glView} onContextCreate={_onContextCreate} />
+      <Camera
+        style={styles.camera}
+        type={Camera.Constants.Type.back}
+        ref={(ref) => setCameraRef(ref)}
+      >
+        <GLView style={styles.glView} onContextCreate={onContextCreate} />
       </Camera>
       <View style={styles.overlay}>
         <TouchableOpacity onPress={toggleImage}>
-          <Text style={styles.buttonText}>
-            {imageVisible ? "Hide Image" : "Show Image"}
-          </Text>
+          <Text style={styles.buttonText}>{imageVisible ? 'Hide Image' : 'Show Image'}</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   camera: {
     flex: 1,
@@ -79,18 +96,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   overlay: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 20,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    fontWeight: 'bold',
+    color: 'white',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     padding: 10,
     borderRadius: 10,
   },
 });
 
-export default Arimageviwer;
+export default Arimageviewer;
