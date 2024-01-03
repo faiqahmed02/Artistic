@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#1B1B1B",
     fontSize: 24,
-    fontFamily: "Roboto",
+    amily: "Roboto",
     fontWeight: "900",
   },
   link: {

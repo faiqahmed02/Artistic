@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   textD: {
     color: "#1B1B1B",
     fontSize: 24,
-    fontFamily: "Roboto",
+    // fontFamily: "Roboto",
     fontWeight: "900",
   },
   accT: {

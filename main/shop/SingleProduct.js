@@ -13,6 +13,7 @@ import { ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { cartReducer } from "../../store/rootSlice";
+import Arimageviwer from "../../component/mainscreen/Arimageviwer";
 
 const obj = {
   artworkDetails: {
@@ -101,6 +102,7 @@ function SingleProduct({ theme }) {
               borderRadius: 5,
             }}
           />
+          <Arimageviwer />
           <View
             style={{
               // flex:2
@@ -285,7 +287,7 @@ function SingleProduct({ theme }) {
           >
             <Text
               style={{
-                fontFamily: "Roboto",
+                // fontFamily: "Roboto",
                 fontSize: 18,
                 fontWeight: "700",
                 lineHeight: 21,
