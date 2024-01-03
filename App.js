@@ -28,7 +28,7 @@ import Checkout from "./main/shop/Checkout";
 import Thankyou from "./main/shop/Thankyou";
 import AccountType from "./main/user/AccountType";
 import SignUp from "./main/user/SignUp";
-import Arimageviwer from "./component/mainscreen/ArimageViwer";
+import Arimageviwer from "./component/mainscreen/ARImageviwer";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();

@@ -6,7 +6,7 @@ import { GLView } from "expo-gl";
 import { Renderer } from "expo-three";
 import * as THREE from "three";
 
-function Arimageviwer(props) {
+function Arimageviwer() {
   const renderer = useRef(null);
   const [imageVisible, setImageVisible] = useState(false);
 
