@@ -71,6 +71,8 @@ function Header({ theme, navigation }) {
     console.log(d);
     if (d === "Logout") {
       dispatch(logOut());
+    }else{
+      navigation.navigate(d)
     }
     navigation.closeDrawer();
   };

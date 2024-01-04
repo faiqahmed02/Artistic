@@ -10,6 +10,8 @@ const Arimageviewer = () => {
   const [cameraRef, setCameraRef] = useState(null);
   const [imageVisible, setImageVisible] = useState(false);
   const renderer = useRef(null);
+  const scene = useRef(null);
+  const cube = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -25,30 +27,18 @@ const Arimageviewer = () => {
   const renderImage = () => {
     if (!renderer.current || !imageVisible) return;
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    scene.current = new THREE.Scene();
+
     const geometry = new THREE.BoxGeometry(1, 1, 0.1);
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load(require("../../assets/product_img_1.png")); // Image URL
+    const texture = textureLoader.load('https://via.placeholder.com/512'); // Image URL
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
-    const cube = new THREE.Mesh(geometry, material);
+    cube.current = new THREE.Mesh(geometry, material);
 
-    cube.position.z = -3;
+    cube.current.position.set(0, 0, 0); // Adjust position to be in front of the camera
 
-    scene.add(cube);
-    camera.position.z = 5;
-
-    const animate = () => {
-      requestAnimationFrame(animate);
-
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-
-      renderer.current.render(scene, camera);
-    };
-
-    animate();
+    scene.current.add(cube.current);
   };
 
   const onContextCreate = async (gl) => {
@@ -57,6 +47,18 @@ const Arimageviewer = () => {
     renderer.current.setSize(width, height);
 
     renderImage();
+    animate();
+  };
+
+  const animate = () => {
+    requestAnimationFrame(animate);
+
+    if (renderer.current && scene.current && cube.current) {
+      cube.current.rotation.x += 0.01;
+      cube.current.rotation.y += 0.01;
+
+      renderer.current.render(scene.current, cameraRef);
+    }
   };
 
   if (hasPermission === null) {

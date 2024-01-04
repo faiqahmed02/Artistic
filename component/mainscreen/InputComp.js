@@ -4,6 +4,24 @@ import { View } from "react-native";
 import { TextInput } from "react-native-paper";
 
 function InputComp(props) {
+
+
+
+  const styles = StyleSheet.create({
+    shadow: {
+      borderColor: "none", // if you need
+      //   borderWidth:1,
+      overflow: "hidden",
+      shadowColor: "black",
+      shadowRadius: 10,
+      shadowOpacity: 1,
+      marginBottom: 10,
+      backgroundColor: "white",
+      width:"100%",
+      height:props.height
+    },
+  });
+  
   return (
     <TextInput
       placeholder={props.placeholder}
@@ -16,21 +34,11 @@ function InputComp(props) {
       onBlur={props.onPressOut}
       error={props.error}
       inputMode={props.inputMode}
+      multiline={props.multiline}
+      maxLength={props.maxLength}
     />
   );
 }
 
 export default InputComp;
 
-const styles = StyleSheet.create({
-  shadow: {
-    borderColor: "none", // if you need
-    //   borderWidth:1,
-    overflow: "hidden",
-    shadowColor: "black",
-    shadowRadius: 10,
-    shadowOpacity: 1,
-    marginBottom: 10,
-    backgroundColor: "white",
-  },
-});

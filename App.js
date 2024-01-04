@@ -29,6 +29,13 @@ import Thankyou from "./main/shop/Thankyou";
 import AccountType from "./main/user/AccountType";
 import SignUp from "./main/user/SignUp";
 import Arimageviwer from "./component/mainscreen/ARImageviwer";
+import EventsArchive from "./main/events/EventsArchive";
+import EventsDetails from "./main/events/EventsDetails";
+import About from "./main/other/About";
+import ClassesArchive from "./main/classes/ClassesArchive";
+import Polices from "./main/other/Polices";
+import Terms from "./main/other/Terms";
+import Support from "./main/other/Support";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -80,9 +87,14 @@ export default function App() {
               drawerContent={(props) => <Header {...props} />}
             >
               <Drawer.Screen name="Home" component={MainScreen} />
+              <Drawer.Screen name="About Us" component={About} />
+              <Drawer.Screen name="ZicoArt Policies & Requirements" component={Polices} />
+              <Drawer.Screen name="ZicoArt Terms & Conditions" component={Terms} />
+              <Drawer.Screen name="Technical Support" component={Support} />
               <Drawer.Screen name="Products" component={Products} />
               <Drawer.Screen name="Cart" component={Cart} />
               <Drawer.Screen name="Checkout" component={Checkout} />
+              <Drawer.Screen name="My Orders" component={Checkout} />
               <Drawer.Screen name="Product Page" component={SingleProduct} />
               <Drawer.Screen name="Thank You" component={Thankyou} />
               <Drawer.Screen name="Notification" component={Login} />
@@ -90,6 +102,11 @@ export default function App() {
               <Drawer.Screen name="Select Account" component={AccountType} />
               <Drawer.Screen name="Signup" component={SignUp} />
               <Drawer.Screen name="ArView" component={Arimageviwer} />
+              {/* Events */}
+              <Drawer.Screen name="Events" component={EventsArchive} />
+              <Drawer.Screen name="Events Details" component={EventsDetails} />
+              {/* Classes */}
+              <Drawer.Screen name="Classes" component={ClassesArchive} />
             </Drawer.Navigator>
           </NavigationContainer>
         </PaperProvider>

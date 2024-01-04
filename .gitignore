@@ -7,7 +7,7 @@ node_modules/
 .expo/
 dist/
 web-build/
-
+.eslintignore
 # Native
 *.orig.*
 *.jks
