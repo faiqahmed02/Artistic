@@ -21,6 +21,7 @@ function About({ theme }) {
               source={require("../../assets/about.png")}
               style={{
                 width: 269,
+                maxWidth:"100%",
                 height: 197,
               }}
             />

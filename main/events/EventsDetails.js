@@ -320,6 +320,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: 361, // Use window width
+    maxWidth:"100%",
     height: 292, // Use window height or a specific height
   },
   activeDesign: {

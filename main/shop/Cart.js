@@ -219,6 +219,7 @@ function Cart({ theme, navigation }) {
             style={{
               height: 700,
               width: 200,
+              maxWidth:"100%",
               backgroundColor: theme.colors.linkColor,
             }}
           >

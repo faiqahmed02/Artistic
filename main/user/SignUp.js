@@ -118,6 +118,7 @@ function SignUp({ theme, navigation }) {
             style={{
               height: 100,
               width: 100,
+              maxWidth:"100%",
               borderRadius: 50,
               backgroundColor: "black",
               flex: 1,

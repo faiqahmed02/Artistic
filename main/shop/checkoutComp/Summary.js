@@ -31,6 +31,7 @@ function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCanc
             style={{
               textAlign: "left",
               width: 380,
+              maxWidth:"100%",
               fontSize: 20,
               fontWeight: 700,
               lineHeight: 40,
@@ -126,6 +127,7 @@ function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCanc
             style={{
               textAlign: "left",
               width: 340,
+              maxWidth:"100%",
               fontSize: 16,
               fontWeight: 700,
               lineHeight: 40,
@@ -161,6 +163,7 @@ function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCanc
             style={{
               textAlign: "left",
               width: 340,
+              maxWidth:"100%",
               fontSize: 16,
               fontWeight: 700,
               lineHeight: 40,

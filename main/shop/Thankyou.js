@@ -19,6 +19,7 @@ function Thankyou({ theme, navigation }) {
             fontSize: 18,
             lineHeight: 24,
             width: 321,
+            maxWidth:"100%",
             textAlign: "center",
             marginTop: 20,
           }}

@@ -11,6 +11,7 @@ function Popup({ visible, hideModal }) {
     backgroundColor: "white",
     padding: 20,
     width: 325,
+    maxWidth:"100%",
     height: 219,
     alignSelf: "center",
     alignItems: "center",

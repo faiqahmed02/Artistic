@@ -72,6 +72,7 @@ function Login({ theme, navigation }) {
             fontSize: 18,
             lineHeight: 26,
             width: 197,
+            maxWidth:"100%"
           }}
         >
           Welcome To The Vibrant World of Arts.
@@ -124,6 +125,7 @@ function Login({ theme, navigation }) {
               borderWidth: 1,
               borderColor: "#29ABE2",
               width: 345,
+              maxWidth:"100%",
               height: 50,
               borderRadius: 0,
               justifyContent: "center",

@@ -102,6 +102,7 @@ const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
           style={{
             backgroundColor: "#C1272D",
             width: 345,
+            maxWidth:"100%",
             height: 50,
             borderRadius: 0,
             justifyContent: "center",

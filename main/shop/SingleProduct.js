@@ -99,6 +99,7 @@ function SingleProduct({ theme, navigation }) {
               width: 343,
               height: 197,
               borderRadius: 5,
+              maxWidth:"100%"
             }}
           />
           <View

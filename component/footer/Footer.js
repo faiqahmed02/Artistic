@@ -49,7 +49,9 @@ function Footer({ theme, navigation }) {
         />
       </TouchableOpacity>
       <FontAwesomeIcon icon={faBell} color={theme.colors.linkColor} size={22} />
+      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
       <FontAwesomeIcon icon={faUser} color={theme.colors.linkColor} size={22} />
+      </TouchableOpacity>
     </View>
   );
 }

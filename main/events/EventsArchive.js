@@ -20,6 +20,7 @@ function EventsArchive({ theme, navigation }) {
               display: "flex",
               flexDirection: "row",
               width: 345,
+              maxWidth:"100%",
               height: 194,
               backgroundColor: "white",
               borderRadius: 10,

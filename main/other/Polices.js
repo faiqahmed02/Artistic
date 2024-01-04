@@ -21,6 +21,7 @@ function Polices({ theme }) {
               source={require("../../assets/polices.png")}
               style={{
                 width: 269,
+                maxWidth:"100%",
                 height: 197,
               }}
             />
