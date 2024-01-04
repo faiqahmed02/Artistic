@@ -115,7 +115,7 @@ function SingleProduct({ theme, navigation }) {
               }}
             >
 
-          <Button  onPress={() => navigation.navigate("ArView")}>New CHange</Button>
+          <Button  onPress={() => navigation.navigate("ArView")}>View in AR</Button>
               <Text style={styles.productTitle}>Artwork Details</Text>
               <View style={styles.productmeta}>
                 <View style={{ flexDirection: "row" }}>
