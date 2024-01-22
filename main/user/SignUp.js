@@ -14,12 +14,16 @@ import ButtonComp from "../../component/mainscreen/ButtonComp";
 import { useState } from "react";
 import { logIn, signUpReducer } from "../../store/rootSlice";
 import Popup from "../../component/mainscreen/Popup";
+import { auth, db } from "../../firebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { addUser } from "../../firestoreFunctions/User";
 
 function SignUp({ theme, navigation }) {
   const [visible, setVisible] = React.useState(false);
   const state = useSelector((state) => state.signupState);
   const userstate = useSelector((state) => state.user);
   const [image, setImage] = React.useState(null);
+  const [role, setRole] = useState('');
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: "",
@@ -47,7 +51,7 @@ function SignUp({ theme, navigation }) {
     }
   };
 
-  const createAccount = () => {
+  const createAccount = async () => {
     if (
       formData.fullName &&
       formData.emailAdress &&
@@ -63,6 +67,37 @@ function SignUp({ theme, navigation }) {
             user_data: formData,
           })
         );
+        try {
+          // Create user with email and password
+          // const { user } = await auth.createUserWithEmailAndPassword(formData.emailAdress, formData.password);
+          createUserWithEmailAndPassword(auth, formData.emailAdress, formData.password)
+          .then(async (userCredential) => {
+            // Signed up 
+            const user = userCredential.user;
+            console.log(user);
+            const data = {
+              name: formData.fullName,
+              role: state.user_role,
+              emailAdress: formData.emailAdress,
+              pNumber: formData.pNumber,
+              username: formData.username,
+            }
+
+            addUser(user.uid, data)
+      
+            console.log('User created successfully:', user);
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+          });
+          // Add user data to Firestore
+         
+        } catch (error) {
+          console.error('Error creating user:', error.message);
+        }
         console.log(state);
         setVisible(true);
       }
@@ -101,6 +136,10 @@ function SignUp({ theme, navigation }) {
     console.log(userstate);
     // };
   };
+
+
+
+
   return (
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
       <ScrollView style={styles.signupScreen}>
@@ -201,7 +240,7 @@ function SignUp({ theme, navigation }) {
             placeholder="Security Code"
             onChangeText={(seq) => console.log(seq)}
           />
-          <ButtonComp btnText="Create Account" onPress={createAccount} />
+          <ButtonComp btnText="Create Account" onPress={() => createAccount()} />
         </View>
         <Popup visible={visible} hideModal={hideModal} showModal={showModal} />
       </ScrollView>
