@@ -28,7 +28,7 @@ import Checkout from "./main/shop/Checkout";
 import Thankyou from "./main/shop/Thankyou";
 import AccountType from "./main/user/AccountType";
 import SignUp from "./main/user/SignUp";
-import Arimageviwer from "./component/mainscreen/ARImageviwer";
+import Arimageviwer from "./component/mainscreen/Arimageviwer";
 import EventsArchive from "./main/events/EventsArchive";
 import EventsDetails from "./main/events/EventsDetails";
 import About from "./main/other/About";
