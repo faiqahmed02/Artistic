@@ -15,7 +15,7 @@ import { useState } from "react";
 import { logIn, signUpReducer } from "../../store/rootSlice";
 import Popup from "../../component/mainscreen/Popup";
 import { auth, db } from "../../firebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { addUser } from "../../firestoreFunctions/User";
 
 function SignUp({ theme, navigation }) {
@@ -31,7 +31,7 @@ function SignUp({ theme, navigation }) {
     pNumber: "",
     password: "",
     confirmP: "",
-    username: "",
+    username: ""
   });
   const [emailValidate, setEmailValidate] = useState(false);
   const [pwdValidation, setPwdValidation] = useState(true);
@@ -70,7 +70,7 @@ function SignUp({ theme, navigation }) {
         try {
           // Create user with email and password
           // const { user } = await auth.createUserWithEmailAndPassword(formData.emailAdress, formData.password);
-          createUserWithEmailAndPassword(auth, formData.emailAdress, formData.password)
+          await createUserWithEmailAndPassword(auth, formData.emailAdress, formData.password)
           .then(async (userCredential) => {
             // Signed up 
             const user = userCredential.user;
@@ -81,9 +81,29 @@ function SignUp({ theme, navigation }) {
               emailAdress: formData.emailAdress,
               pNumber: formData.pNumber,
               username: formData.username,
-            }
+              dateCreated: new Date()
 
-            addUser(user.uid, data)
+            }
+            await signInWithEmailAndPassword(auth, formData.emailAdress, formData.password).then((res) => {
+              auth.currentUser({
+                email: formData.emailAdress,
+                emailVerified: false,
+                phoneNumber: formData.pNumber,
+                password: formData.password,
+                displayName: formData.fullName,
+                photoURL: 'http://www.example.com/12345678/photo.png',
+                disabled: false,
+              })
+              .then((userRecord) => {
+                addUser(user.uid, data)
+                // See the UserRecord reference doc for the contents of userRecord.
+                console.log('Successfully created new user:', userRecord.uid);
+              })
+              .catch((error) => {
+                console.log('Error creating new user:', error);
+              });
+            })
+            
       
             console.log('User created successfully:', user);
             // ...

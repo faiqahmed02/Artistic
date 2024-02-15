@@ -11,6 +11,8 @@ import ButtonComp from "../../component/mainscreen/ButtonComp";
 import { TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import { logIn, logOut, userCredentialse } from "../../store/rootSlice";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
 
 function Login({ theme, navigation }) {
   const [loginForm, setLoginForm] = useState({});
@@ -21,7 +23,7 @@ function Login({ theme, navigation }) {
   console.log(routes);
   const handleStaySignIn = () => {
     if (checked !== "checked") {
-      if (loginForm.username) {
+      if (loginForm.email) {
         setChecked("checked");
         dispatch(userCredentialse(loginForm));
       }
@@ -30,17 +32,22 @@ function Login({ theme, navigation }) {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // console.log(loginForm);
-    if (loginForm.username) {
-      dispatch(logIn(loginForm));
-      setTimeout(() => {
-        navigation.navigate("Checkout");
-      }, 2000);
+    if (loginForm.email) {
+      await signInWithEmailAndPassword(auth, loginForm.email, loginForm.password).then((res) => {
+        dispatch(logIn(auth.currentUser));
+        setTimeout(() => {
+          navigation.navigate("Checkout");
+        }, 2000);
+      }).catch((err) => {
+        alert(err)
+      })
+
     } else {
       alert("Please Add user Name or Password");
-    }
-  };
+    };
+  }
 
   return (
     <LinearGradient
@@ -72,7 +79,7 @@ function Login({ theme, navigation }) {
             fontSize: 18,
             lineHeight: 26,
             width: 197,
-            maxWidth:"100%"
+            maxWidth: "100%"
           }}
         >
           Welcome To The Vibrant World of Arts.
@@ -83,13 +90,14 @@ function Login({ theme, navigation }) {
           }}
         >
           <InputComp
-            placeholder="User Name"
+            placeholder="Email Address"
             secureTextEntry={false}
             // text="Michal"
-            onChangeText={(username) =>
+            inputMode="text"
+            onChangeText={(email) =>
               setLoginForm({
                 ...loginForm,
-                username: username,
+                email: email,
               })
             }
           />
@@ -125,7 +133,7 @@ function Login({ theme, navigation }) {
               borderWidth: 1,
               borderColor: "#29ABE2",
               width: 345,
-              maxWidth:"100%",
+              maxWidth: "100%",
               height: 50,
               borderRadius: 0,
               justifyContent: "center",

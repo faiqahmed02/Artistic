@@ -5,6 +5,7 @@ import { faMugHot } from "@fortawesome/free-solid-svg-icons";
 import { StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native";
+import { auth } from "../../firebaseConfig";
 
 function HeaderTitle({ navigation }) {
   // console.log(Dimensions.get("window").width);
@@ -14,7 +15,7 @@ function HeaderTitle({ navigation }) {
       <Text style={styles.nameTitle}>
         {" "}
         {user ? (
-          "Hi " + user.username
+          "Hi " + auth.currentUser ?  user.displayName : ""
         ) : (
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text style={styles.nameTitle}>Login</Text>

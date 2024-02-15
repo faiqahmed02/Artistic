@@ -36,6 +36,8 @@ import ClassesArchive from "./main/classes/ClassesArchive";
 import Polices from "./main/other/Polices";
 import Terms from "./main/other/Terms";
 import Support from "./main/other/Support";
+import Profile from "./main/user/Profile";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -52,66 +54,70 @@ export default function App() {
     },
   };
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <PaperProvider theme={theme}>
-          <StatusBar style="auto" />
-          <NavigationContainer>
-            <Drawer.Navigator
-              initialRouteName="Home"
-              screenOptions={({ navigation }) => ({
-                drawerStyle: {
-                  // backgroundColor: "#c6cbef",
-                  width: "100%",
-                },
-                headerStyle: {
-                  backgroundColor: "#E1C9AA",
-                  height: 90,
-                },
-                title: <HeaderTitle navigation={navigation} />,
-                headerTintColor: "#000",
-                headerTitleAlign: "left",
-                headerTintColor: "#fff",
-                headerTitleStyle: {
-                  fontWeight: "bold",
-                  textAlign: "left",
-                },
-                headerShown: true,
-                headerLeft: () => {
-                  return <MenuBar navigation={navigation} />;
-                },
-                headerRight: () => {
-                  return <RightHeader navigation={navigation} />;
-                },
-              })}
-              drawerContent={(props) => <Header {...props} />}
-            >
-              <Drawer.Screen name="Home" component={MainScreen} />
-              <Drawer.Screen name="About Us" component={About} />
-              <Drawer.Screen name="ZicoArt Policies & Requirements" component={Polices} />
-              <Drawer.Screen name="ZicoArt Terms & Conditions" component={Terms} />
-              <Drawer.Screen name="Technical Support" component={Support} />
-              <Drawer.Screen name="Products" component={Products} />
-              <Drawer.Screen name="Cart" component={Cart} />
-              <Drawer.Screen name="Checkout" component={Checkout} />
-              <Drawer.Screen name="My Orders" component={Checkout} />
-              <Drawer.Screen name="Product Page" component={SingleProduct} />
-              <Drawer.Screen name="Thank You" component={Thankyou} />
-              <Drawer.Screen name="Notification" component={Login} />
-              <Drawer.Screen name="Login" component={Login} />
-              <Drawer.Screen name="Select Account" component={AccountType} />
-              <Drawer.Screen name="Signup" component={SignUp} />
-              <Drawer.Screen name="ArView" component={Arimageviwer} />
-              {/* Events */}
-              <Drawer.Screen name="Events" component={EventsArchive} />
-              <Drawer.Screen name="Events Details" component={EventsDetails} />
-              {/* Classes */}
-              <Drawer.Screen name="Classes" component={ClassesArchive} />
-            </Drawer.Navigator>
-          </NavigationContainer>
-        </PaperProvider>
-      </PersistGate>
-    </Provider>
+
+    <StripeProvider publishableKey="pk_test_51IzlXYEHdax3d8oTDo9zwCBLNA7tqvVToG60ijHDZVTlkZf3j4cXGNZlOCrWrZeXwxRyWy8ovfFvLBk4dZHvM4lK00mg1kJn6V">
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <PaperProvider theme={theme}>
+            <StatusBar style="auto" />
+            <NavigationContainer>
+              <Drawer.Navigator
+                initialRouteName="Home"
+                screenOptions={({ navigation }) => ({
+                  drawerStyle: {
+                    // backgroundColor: "#c6cbef",
+                    width: "100%",
+                  },
+                  headerStyle: {
+                    backgroundColor: "#E1C9AA",
+                    height: 90,
+                  },
+                  title: <HeaderTitle navigation={navigation} />,
+                  headerTintColor: "#000",
+                  headerTitleAlign: "left",
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    textAlign: "left",
+                  },
+                  headerShown: true,
+                  headerLeft: () => {
+                    return <MenuBar navigation={navigation} />;
+                  },
+                  headerRight: () => {
+                    return <RightHeader navigation={navigation} />;
+                  },
+                })}
+                drawerContent={(props) => <Header {...props} />}
+              >
+                <Drawer.Screen name="Home" component={MainScreen} />
+                <Drawer.Screen name="About Us" component={About} />
+                <Drawer.Screen name="ZicoArt Policies & Requirements" component={Polices} />
+                <Drawer.Screen name="ZicoArt Terms & Conditions" component={Terms} />
+                <Drawer.Screen name="Technical Support" component={Support} />
+                <Drawer.Screen name="Products" component={Products} />
+                <Drawer.Screen name="Cart" component={Cart} />
+                <Drawer.Screen name="Checkout" component={Checkout} />
+                <Drawer.Screen name="My Orders" component={Checkout} />
+                <Drawer.Screen name="Product Page" component={SingleProduct} />
+                <Drawer.Screen name="Thank You" component={Thankyou} />
+                <Drawer.Screen name="Notification" component={Login} />
+                <Drawer.Screen name="Login" component={Login} />
+                <Drawer.Screen name="Select Account" component={AccountType} />
+                <Drawer.Screen name="Signup" component={SignUp} />
+                <Drawer.Screen name="Profile" component={Profile} />
+                <Drawer.Screen name="ArView" component={Arimageviwer} />
+                {/* Events */}
+                <Drawer.Screen name="Events" component={EventsArchive} />
+                <Drawer.Screen name="Events Details" component={EventsDetails} />
+                {/* Classes */}
+                <Drawer.Screen name="Classes" component={ClassesArchive} />
+              </Drawer.Navigator>
+            </NavigationContainer>
+          </PaperProvider>
+        </PersistGate>
+      </Provider>
+    </StripeProvider>
   );
 }
 

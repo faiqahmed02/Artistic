@@ -11,6 +11,7 @@ import { Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { View } from "react-native";
 import { withTheme } from "react-native-paper";
+import { auth } from "../../firebaseConfig";
 
 function Footer({ theme, navigation }) {
   return (
@@ -49,7 +50,7 @@ function Footer({ theme, navigation }) {
         />
       </TouchableOpacity>
       <FontAwesomeIcon icon={faBell} color={theme.colors.linkColor} size={22} />
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <TouchableOpacity onPress={() => navigation.navigate(!auth.currentUser ? "Login" : "Profile")}>
       <FontAwesomeIcon icon={faUser} color={theme.colors.linkColor} size={22} />
       </TouchableOpacity>
     </View>

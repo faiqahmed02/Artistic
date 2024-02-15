@@ -22,60 +22,69 @@ import {
   faCross,
   faWindowClose,
 } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/rootSlice";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
 
-const nav = [
-  {
-    icon: require("../../assets/box.png"),
-    name: "Home",
-  },
-  {
-    icon: require("../../assets/box.png"),
-    name: "My Orders",
-  },
-  {
-    icon: require("../../assets/box.png"),
-    name: "Events",
-  },
-  {
-    icon: require("../../assets/box.png"),
-    name: "Classes",
-  },
-  {
-    icon: require("../../assets/box.png"),
-    name: "About Us",
-  },
-  {
-    icon: require("../../assets/box.png"),
-    name: "Technical Support",
-  },
-  {
-    icon: require("../../assets/box.png"),
-    name: "ZicoArt Policies & Requirements",
-  },
-  {
-    icon: require("../../assets/box.png"),
-    name: "ZicoArt Terms & Conditions",
-  },
-  {
-    icon: require("../../assets/box.png"),
-    name: "Logout",
-  },
-];
+
 
 function Header({ theme, navigation }) {
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state.user)
+  const nav = [
+    {
+      icon: require("../../assets/box.png"),
+      name: "Home",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "My Orders",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Events",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Classes",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "About Us",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Technical Support",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "ZicoArt Policies & Requirements",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "ZicoArt Terms & Conditions",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: auth.currentUser && user.uid ? "Logout" : "Login",
+    },
+  ];
   const headerAction = (d) => {
     console.log(d);
     if (d === "Logout") {
-      dispatch(logOut());
-    }else{
+
+      signOut(auth).then((res) => {
+        dispatch(logOut());
+      }).catch((err) => {
+        alert("no one is logged in")
+      })
+    } else {
       navigation.navigate(d)
     }
     navigation.closeDrawer();
   };
+  console.log(user);
   return (
     <LinearGradient
       style={{ alignItems: "left" }}
