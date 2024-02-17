@@ -18,7 +18,7 @@ function ButtonComp(props) {
     },
   });
   return (
-    <Button style={styles.btn} textColor="white" onPress={props.onPress}>
+    <Button style={styles.btn} textColor="white" onPress={props.onPress} disabled={props.disabled}>
       {props.btnText}
     </Button>
   );

@@ -7,6 +7,7 @@ import { withTheme } from "react-native-paper";
 import { useSelector } from "react-redux";
 import ButtonComp from "../../../component/mainscreen/ButtonComp";
 import { ScrollView } from "react-native";
+import CheckoutScreen from "../CheckoutScreen";
 
 function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCancel }) {
   const handleNext = () => {
@@ -200,7 +201,8 @@ function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCanc
             </Text>
           </TouchableOpacity>
         </View>
-        <ButtonComp btnText="Pay" onPress={onSubmit} />
+        {/* <ButtonComp btnText="Pay" onPress={onSubmit} /> */}
+        <CheckoutScreen />
         <TouchableOpacity onPress={handleCancel}>
           <Text
             style={{

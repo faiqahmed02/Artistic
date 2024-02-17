@@ -161,7 +161,7 @@ function Profile({ theme, navigation }) {
               {isSubscribed ? (
                 <Text>You are subscribed!</Text>
               ) : (
-                <ButtonComp btnText="Subscribe" onPress={handleSubscription} />
+                <ButtonComp btnText="Subscribe" onPress={() => navigation.navigate("Checkout Screen")} />
               )}
               {/* <ButtonComp btnText="Logout" onPress={handleLogout} /> */}
             </View>
