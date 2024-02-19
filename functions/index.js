@@ -8,11 +8,9 @@ const stripe = require("stripe")("sk_test_51IzlXYEHdax3d8oTs8GSzm7fM2zr8tHcLSfuf
 admin.initializeApp();
 
 exports.createPaymentIntent = functions.https.onRequest(async (req, res) => {
-  const {amount, customerId} = req.body;
+  const {amount} = req.body;
   try {
-    const customer = customerId ?
-    await stripe.customers.retrieve(customerId) :
-    await stripe.customers.create();
+    const customer = await stripe.customers.create();
     const ephemeralKey = await stripe.ephemeralKeys.create(
         {customer: customer.id},
         {apiVersion: "2020-08-27"},
