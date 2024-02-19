@@ -39,6 +39,9 @@ import Support from "./main/other/Support";
 import Profile from "./main/user/Profile";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import CheckoutScreen from "./main/shop/CheckoutScreen";
+import Subscription from "./main/subscription/Subscription";
+import SubNow from "./main/subscription/SubNow";
+import MyOrders from "./main/shop/orders/MyOrders";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -99,7 +102,7 @@ export default function App() {
                 <Drawer.Screen name="Products" component={Products} />
                 <Drawer.Screen name="Cart" component={Cart} />
                 <Drawer.Screen name="Checkout" component={Checkout} />
-                <Drawer.Screen name="My Orders" component={Checkout} />
+                <Drawer.Screen name="My Orders" component={MyOrders} />
                 <Drawer.Screen name="Product Page" component={SingleProduct} />
                 <Drawer.Screen name="Thank You" component={Thankyou} />
                 <Drawer.Screen name="Notification" component={Login} />
@@ -114,6 +117,10 @@ export default function App() {
                 <Drawer.Screen name="Events Details" component={EventsDetails} />
                 {/* Classes */}
                 <Drawer.Screen name="Classes" component={ClassesArchive} />
+                {/* Subsciptios */}
+                <Drawer.Screen name="Subscriptions" component={Subscription} />
+                <Drawer.Screen name="Pay Now" component={SubNow} />
+
               </Drawer.Navigator>
             </NavigationContainer>
           </PaperProvider>

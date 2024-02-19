@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { logIn, logOut, userCredentialse } from "../../store/rootSlice";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
+import { addUser } from "../../firestoreFunctions/User";
 
 function Login({ theme, navigation }) {
   const [loginForm, setLoginForm] = useState({});
@@ -37,6 +38,14 @@ function Login({ theme, navigation }) {
     if (loginForm.email) {
       await signInWithEmailAndPassword(auth, loginForm.email, loginForm.password).then((res) => {
         dispatch(logIn(auth.currentUser));
+        const user = auth.currentUser
+        const data = {
+          email: user.email,
+          emailVerified: user.emailVerified,
+          phoneNumber: user.phoneNumber,
+          displayName: user.displayName,
+        }
+        addUser(auth.currentUser.uid, data)
         setTimeout(() => {
           navigation.navigate("Checkout");
         }, 2000);

@@ -7,6 +7,7 @@ function ButtonComp(props) {
     btn: {
       backgroundColor: "#C1272D",
       width: props.width ? props.width : 345,
+      maxWidth:"100%",
       height: 50,
       borderRadius: 0,
       justifyContent: "center",

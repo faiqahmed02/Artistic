@@ -1,8 +1,8 @@
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 export async function addUser(userId, formData) {
-  await setDoc(doc(db, "users", userId), formData);
+  await updateDoc(doc(db, "users", userId), formData);
 }
 
 export async function getUser(userID) {
