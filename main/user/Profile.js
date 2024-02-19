@@ -24,19 +24,7 @@ function Profile({ theme, navigation }) {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const createPaymentIntent = httpsCallable(functions, 'createPaymentIntent');
   useEffect(() => {
-    const updateUserData = () => {
-      updateProfile(auth.currentUser, {
-        displayName: "Alex Smith", photoURL: "https://example.com/jane-q-user/profile.jpg", 
-      }).then(() => {
-        // Profile updated!
-        console.log("updated");
-        // ...
-      }).catch((error) => {
-        // An error occurred
-        // ...
-        console.log(error);
-      });
-    }
+   
     const unsubscribe = () => {
       if (auth.currentUser) {
         setUser(auth.currentUser);
@@ -47,8 +35,7 @@ function Profile({ theme, navigation }) {
         setIsSubscribed(false);
       }
     }
-
-    updateUserData()
+    // updateUserData()
     return () => unsubscribe();
   }, []);
 
@@ -139,7 +126,7 @@ function Profile({ theme, navigation }) {
           </View>
           <View style={{ alignItems: "center", marginVertical: 10 }}>
             <Text style={{ color: theme.colors.linkColor }}>Full Name</Text>
-            {/* <Text>{user.username}</Text> */}
+            <Text>{auth.currentUser.displayName}</Text>
           </View>
           <View style={{ alignItems: "center", marginVertical: 10 }}>
             <Text style={{ color: theme.colors.linkColor }}>Store Name</Text>
@@ -155,19 +142,6 @@ function Profile({ theme, navigation }) {
           </View>
 
           <ButtonComp btnText={"Edit"} />
-          {auth.currentUser ? (
-            <View>
-              <Text>Welcome, {auth.currentUser.email}!</Text>
-              {isSubscribed ? (
-                <Text>You are subscribed!</Text>
-              ) : (
-                <ButtonComp btnText="Subscribe" onPress={() => navigation.navigate("Checkout Screen")} />
-              )}
-              {/* <ButtonComp btnText="Logout" onPress={handleLogout} /> */}
-            </View>
-          ) : (
-            <Text>Please log in to continue.</Text>
-          )}
         </View>
       </View>
     </LinearGradient>

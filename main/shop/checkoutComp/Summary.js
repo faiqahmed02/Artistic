@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import ButtonComp from "../../../component/mainscreen/ButtonComp";
 import { ScrollView } from "react-native";
 import CheckoutScreen from "../CheckoutScreen";
+import { auth } from "../../../firebaseConfig";
 
 function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCancel }) {
   const handleNext = () => {
@@ -202,7 +203,7 @@ function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCanc
           </TouchableOpacity>
         </View>
         {/* <ButtonComp btnText="Pay" onPress={onSubmit} /> */}
-        <CheckoutScreen />
+        <CheckoutScreen amount="10000" cus_email={auth.currentUser.email} cus_name={auth.currentUser.displayName} />
         <TouchableOpacity onPress={handleCancel}>
           <Text
             style={{

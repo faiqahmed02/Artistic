@@ -26,18 +26,19 @@ const Arimageviewer = () => {
 
   const renderImage = () => {
     if (!renderer.current || !imageVisible) return;
-
+  
     scene.current = new THREE.Scene();
-
+  
     const geometry = new THREE.BoxGeometry(1, 1, 0.1);
     const textureLoader = new THREE.TextureLoader();
     const texture = textureLoader.load('https://via.placeholder.com/512'); // Image URL
-
+  
     const material = new THREE.MeshBasicMaterial({ map: texture });
     cube.current = new THREE.Mesh(geometry, material);
-
-    cube.current.position.set(0, 0, 0); // Adjust position to be in front of the camera
-
+  
+    // Adjust position to be in the center and in front of the camera
+    cube.current.position.set(0, 0, -2);
+  
     scene.current.add(cube.current);
   };
 

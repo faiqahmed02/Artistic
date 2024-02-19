@@ -5,32 +5,42 @@ import { Alert, Button, View } from 'react-native';
 import { useStripe } from '@stripe/stripe-react-native';
 import ButtonComp from '../../component/mainscreen/ButtonComp';
 import { auth } from '../../firebaseConfig';
+import { getUser } from '../../firestoreFunctions/User';
 
 const API_URL = 'https://us-central1-zicoart-173b5.cloudfunctions.net'; // Replace with your Firebase Cloud Function URL
 
-export default function CheckoutScreen() {
+export default function CheckoutScreen({ amount, cus_email, cus_name }) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [loading, setLoading] = useState(false);
-
+  const [stripCusId, setStripeCusId] = useState("")
+  const getCustomerIdFrom = () => {
+    getUser(auth.currentUser.uid).then((res) => {
+      console.log(res.stripeId);
+      setStripeCusId(res.stripeId)
+    })
+  }
   const fetchPaymentSheetParams = async () => {
-    const response = await fetch(`${API_URL}/createPaymentIntent`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({amount:10000})
-    });
+    if (stripCusId !== "") {
+      const response = await fetch(`${API_URL}/createPaymentIntent`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ amount, cus_email, cus_name, customerId: stripCusId })
+      });
 
-    const { paymentIntent, ephemeralKey, customer } = await response.json();
+      const { paymentIntent, ephemeralKey, customer } = await response.json();
+      console.log(customer);
+      return {
+        paymentIntent,
+        ephemeralKey,
+        customer,
+      };
+    }
 
-    return {
-      paymentIntent,
-      ephemeralKey,
-      customer,
-    };
   };
 
-  const initializePaymentSheet = async () => {
+  const initializePaymentSheet = async (cus_id) => {
     try {
       const {
         paymentIntent,
@@ -38,7 +48,7 @@ export default function CheckoutScreen() {
         customer,
         publishableKey,
       } = await fetchPaymentSheetParams();
-
+      console.log(customer);
       const { error } = await initPaymentSheet({
         merchantDisplayName: 'Example, Inc.',
         customerId: customer,
@@ -46,7 +56,8 @@ export default function CheckoutScreen() {
         paymentIntentClientSecret: paymentIntent,
         allowsDelayedPaymentMethods: true,
         defaultBillingDetails: {
-          name: 'Jane Doe',
+          name: cus_name,
+          email: cus_email
         },
       });
 
@@ -69,7 +80,11 @@ export default function CheckoutScreen() {
   };
 
   useEffect(() => {
+    getCustomerIdFrom()
+    if (stripCusId) {
+
     initializePaymentSheet();
+    }
   }, []);
 
   return (

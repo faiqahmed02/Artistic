@@ -17,6 +17,7 @@ import Popup from "../../component/mainscreen/Popup";
 import { auth, db } from "../../firebaseConfig";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { addUser } from "../../firestoreFunctions/User";
+import { updateProfile } from "firebase/auth";
 
 function SignUp({ theme, navigation }) {
   const [visible, setVisible] = React.useState(false);
@@ -50,7 +51,9 @@ function SignUp({ theme, navigation }) {
       setImage(result.assets[0].uri);
     }
   };
+  const updateUserData = () => {
 
+  }
   const createAccount = async () => {
     if (
       formData.fullName &&
@@ -71,50 +74,68 @@ function SignUp({ theme, navigation }) {
           // Create user with email and password
           // const { user } = await auth.createUserWithEmailAndPassword(formData.emailAdress, formData.password);
           await createUserWithEmailAndPassword(auth, formData.emailAdress, formData.password)
-          .then(async (userCredential) => {
-            // Signed up 
-            const user = userCredential.user;
-            console.log(user);
-            const data = {
-              name: formData.fullName,
-              role: state.user_role,
-              emailAdress: formData.emailAdress,
-              pNumber: formData.pNumber,
-              username: formData.username,
-              dateCreated: new Date()
+            .then(async (userCredential) => {
+              // Signed up 
+              const user = userCredential.user;
+              console.log(user);
+              const data = {
+                name: formData.fullName,
+                role: state.user_role,
+                emailAdress: formData.emailAdress,
+                pNumber: formData.pNumber,
+                username: formData.username,
+                dateCreated: new Date()
 
-            }
-            await signInWithEmailAndPassword(auth, formData.emailAdress, formData.password).then((res) => {
-              auth.currentUser({
-                email: formData.emailAdress,
-                emailVerified: false,
-                phoneNumber: formData.pNumber,
-                password: formData.password,
-                displayName: formData.fullName,
-                photoURL: 'http://www.example.com/12345678/photo.png',
-                disabled: false,
+              }
+              await signInWithEmailAndPassword(auth, formData.emailAdress, formData.password).then(async (res) => {
+                // auth.currentUser({
+                //   email: formData.emailAdress,
+                //   emailVerified: false,
+                //   phoneNumber: formData.pNumber,
+                //   password: formData.password,
+                //   displayName: formData.fullName,
+                //   photoURL: image,
+                //   disabled: false,
+                // })
+                await updateProfile(auth.currentUser, {
+                  email: formData.emailAdress,
+                  emailVerified: false,
+                  phoneNumber: formData.pNumber,
+                  password: formData.password,
+                  displayName: formData.fullName,
+                  photoURL: image,
+                  disabled: false,
+                }).then(() => {
+                  // Profile updated!
+                  addUser(user.uid, data)
+                  // See the UserRecord reference doc for the contents of userRecord.
+                  console.log('Successfully created new user:', userRecord.uid);
+                  console.log("updated");
+                  // ..
+                }).catch((error) => {
+                  // An error occurred
+                  // ...
+                  console.log(error);
+                })
+                  .then((userRecord) => {
+
+                  })
+                  .catch((error) => {
+                    console.log('Error creating new user:', error);
+                  });
               })
-              .then((userRecord) => {
-                addUser(user.uid, data)
-                // See the UserRecord reference doc for the contents of userRecord.
-                console.log('Successfully created new user:', userRecord.uid);
-              })
-              .catch((error) => {
-                console.log('Error creating new user:', error);
-              });
+
+
+              console.log('User created successfully:', user);
+              // ...
             })
-            
-      
-            console.log('User created successfully:', user);
-            // ...
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // ..
-          });
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              // ..
+            });
           // Add user data to Firestore
-         
+
         } catch (error) {
           console.error('Error creating user:', error.message);
         }
@@ -177,7 +198,7 @@ function SignUp({ theme, navigation }) {
             style={{
               height: 100,
               width: 100,
-              maxWidth:"100%",
+              maxWidth: "100%",
               borderRadius: 50,
               backgroundColor: "black",
               flex: 1,

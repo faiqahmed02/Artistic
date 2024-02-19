@@ -271,7 +271,7 @@ function EventsDetails({ theme }) {
                 efficitur turpis non hendrerit. Class aptent taciti sociosqu ad
                 litora torquent per conubia nostra, per inceptos himenaeos.
                 Nulla dui nisi, dictum sed malesuada consectetur, egestas in
-                metus. Nam a dictum sem.  Lorem ipsum dolor sit amet,
+                metus. Nam a dictum sem.Lorem ipsum dolor sit amet,
                 consectetur adipiscing elit. Donec nec scelerisque mauris, quis
                 maximus lorem. Pellentesque vitae magna sodales mauris
                 sollicitudin pulvinar et id nisi. Praesent vitae dui id

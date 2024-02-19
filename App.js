@@ -56,7 +56,7 @@ export default function App() {
   };
   return (
 
-    <StripeProvider publishableKey="pk_live_51O6zEOL6nN1tsRc3SXVKuVkPTpD5zr25yf1wY3DDiKMWxgBzTgRJElOYVQfWfmTkejRCODQIogPEpk98VRgpcVWL008XhDgW0L">
+    <StripeProvider publishableKey="pk_test_51IzlXYEHdax3d8oTDo9zwCBLNA7tqvVToG60ijHDZVTlkZf3j4cXGNZlOCrWrZeXwxRyWy8ovfFvLBk4dZHvM4lK00mg1kJn6V">
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <PaperProvider theme={theme}>
