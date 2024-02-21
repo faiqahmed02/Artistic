@@ -18,9 +18,9 @@ function Footer({ theme, navigation }) {
     <View
       style={{
         position: "absolute",
-        bottom: "3%",
+        bottom: 0,
         width: Dimensions.get("window").width,
-        height: 70,
+        height: 100,
         backgroundColor: "white",
         borderRadius: 10,
         justifyContent: "space-around",
@@ -32,26 +32,26 @@ function Footer({ theme, navigation }) {
         <FontAwesomeIcon
           icon={faThLarge}
           color={theme.colors.linkColor}
-          size={22}
+          size={25}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
         <FontAwesomeIcon
           icon={faBagShopping}
           color={theme.colors.linkColor}
-          size={22}
+          size={25}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Home")}>
         <FontAwesomeIcon
           icon={faHome}
           color={theme.colors.linkColor}
-          size={22}
+          size={25}
         />
       </TouchableOpacity>
-      <FontAwesomeIcon icon={faBell} color={theme.colors.linkColor} size={22} />
+      <FontAwesomeIcon icon={faBell} color={theme.colors.linkColor} size={25} />
       <TouchableOpacity onPress={() => navigation.navigate(!auth.currentUser ? "Login" : "Profile")}>
-      <FontAwesomeIcon icon={faUser} color={theme.colors.linkColor} size={22} />
+      <FontAwesomeIcon icon={faUser} color={theme.colors.linkColor} size={25} />
       </TouchableOpacity>
     </View>
   );

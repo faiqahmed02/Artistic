@@ -22,7 +22,7 @@ function RightHeader({ navigation }) {
     >
       {/* <View style={{ marginRight: 20 }}> */}
       <TouchableOpacity
-        onPress={() => navigation.openDrawer()}
+        onPress={() => navigation.navigate("Chat")}
         style={{
           // marginLeft: 20,
           backgroundColor: "#C1272D",

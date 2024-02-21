@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Text } from "react-native";
 import { StyleSheet } from "react-native";
@@ -49,7 +50,8 @@ const artworks = [
   // Add more artworks as needed
 ];
 
-function ProductCard({ navigation }) {
+function ProductCard() {
+  const navigation = useNavigation()
   const goToProductPage = (data) => {
     navigation.navigate("Product Page", { productId: data });
   };

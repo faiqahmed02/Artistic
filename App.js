@@ -42,6 +42,7 @@ import CheckoutScreen from "./main/shop/CheckoutScreen";
 import Subscription from "./main/subscription/Subscription";
 import SubNow from "./main/subscription/SubNow";
 import MyOrders from "./main/shop/orders/MyOrders";
+import ChatScreen from "./main/user/ChatScreen";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -110,6 +111,7 @@ export default function App() {
                 <Drawer.Screen name="Select Account" component={AccountType} />
                 <Drawer.Screen name="Signup" component={SignUp} />
                 <Drawer.Screen name="Profile" component={Profile} />
+                <Drawer.Screen name="Chat" component={ChatScreen} />
                 <Drawer.Screen name="ArView" component={Arimageviwer} />
                 <Drawer.Screen name="Checkout Screen" component={CheckoutScreen} />
                 {/* Events */}

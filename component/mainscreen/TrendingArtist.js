@@ -7,7 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { withTheme } from "react-native-paper";
 import ProductCard from "./ProductCard";
 
-function TrendingArtist({ theme, catname, navigation }) {
+function TrendingArtist({ theme, catname, navigation }, props) {
   // console.log(Dimensions.get("window").width);
   return (
     <View style={styles.trendingArtist}>
@@ -22,6 +22,7 @@ function TrendingArtist({ theme, catname, navigation }) {
         <Text style={styles.trendText}>
           {catname ? catname : "Trending Artists"}
         </Text>
+        <TouchableOpacity onPress={navigation}>
         <Text
           style={{
             marginRight: 20,
@@ -35,8 +36,9 @@ function TrendingArtist({ theme, catname, navigation }) {
         >
           View All
         </Text>
+        </TouchableOpacity>
       </View>
-      <ProductCard navigation={navigation} />
+      <ProductCard navigation={props.navigation2} />
     </View>
   );
 }

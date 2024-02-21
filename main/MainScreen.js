@@ -25,11 +25,11 @@ function MainScreen({ theme, navigation }) {
             alignContent: "center",
             // backgroundColor: theme.colors.myOwnColor,
             height: "100%",
-            // paddingBottom: 100,
+            paddingBottom: 100,
           }}
         >
           <Banner />
-          <TrendingArtist navigation={navigation} />
+          <TrendingArtist navigation={() => navigation.navigate("Products")} navigation2={navigation}/>
           <Artist />
         </View>
       </ScrollView>

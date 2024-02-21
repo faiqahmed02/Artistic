@@ -71,12 +71,12 @@ function Header({ theme, navigation }) {
     },
     {
       icon: require("../../assets/box.png"),
-      name: auth.currentUser && user.uid ? "Logout" : "Login",
+      name: auth.currentUser ? "Logout" : "Login",
     },
   ];
   const headerAction = (d) => {
     console.log(d);
-    if (d === "Logout") {
+    if (d === "Logout" && auth.currentUser) {
 
       signOut(auth).then((res) => {
         dispatch(logOut());
@@ -130,6 +130,7 @@ function Header({ theme, navigation }) {
             style={{
               // width:"40%",
               // height:"auto"
+              marginLeft:10,
               marginTop: 20,
               marginBottom: 20,
             }}
@@ -140,6 +141,7 @@ function Header({ theme, navigation }) {
             source={require("../../assets/profile_picture.png")}
             style={{
               marginTop: 10,
+              marginLeft:10,
             }}
           />
           <Text style={styles.d_user}>Max John</Text>
@@ -173,10 +175,12 @@ const styles = StyleSheet.create({
     width: 168,
     lineHeight: 30,
     // wordWrap: "break-word",
+    paddingLeft:10
   },
   d_user: {
     // Max John
     color: "#0A0A0A",
+    paddingLeft:10,
     fontSize: 20,
     // fontFamily: 'Roboto';
     fontWeight: "600",
@@ -198,6 +202,7 @@ const styles = StyleSheet.create({
     gap: 10,
     marginTop: 10,
     marginBottom: 10,
+    paddingLeft:10
   },
   navtext: {
     // Home

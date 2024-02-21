@@ -97,6 +97,7 @@ function SignUp({ theme, navigation }) {
                 //   photoURL: image,
                 //   disabled: false,
                 // })
+                dispatch(logIn(auth.currentUser));
                 await updateProfile(auth.currentUser, {
                   email: formData.emailAdress,
                   emailVerified: false,

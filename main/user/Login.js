@@ -45,7 +45,7 @@ function Login({ theme, navigation }) {
           phoneNumber: user.phoneNumber,
           displayName: user.displayName,
         }
-        addUser(auth.currentUser.uid, data)
+        // addUser(auth.currentUser.uid, data)
         setTimeout(() => {
           navigation.navigate("Checkout");
         }, 2000);
