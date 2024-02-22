@@ -197,7 +197,7 @@ function SignUp({ theme, navigation }) {
 
   return (
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
-      <ScrollView style={styles.signupScreen}>
+      <ScrollView style={styles.signupScreen} automaticallyAdjustsScrollIndicatorInsets={true}>
         <Text style={styles.textD}>Create Account as a</Text>
         <Text style={styles.accT}>
           {state.user_role ? state.user_role : ""}

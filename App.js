@@ -45,6 +45,7 @@ import MyOrders from "./main/shop/orders/MyOrders";
 import ChatScreen from "./main/user/ChatScreen";
 import EventSubmissionForm from "./main/events/AddEvent";
 import { useEffect } from "react";
+import AddClasses from "./main/classes/AddClasses";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -139,7 +140,7 @@ export default function App() {
                 />
                 {/* Classes */}
                 <Drawer.Screen name="Classes" component={ClassesArchive} />
-                <Drawer.Screen name="Create Classes" component={ClassesArchive} />
+                <Drawer.Screen name="Create Classes" component={AddClasses} />
                 {/* Subsciptios */}
                 <Drawer.Screen name="Subscriptions" component={Subscription} />
                 <Drawer.Screen name="Pay Now" component={SubNow} />

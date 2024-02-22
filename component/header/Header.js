@@ -48,6 +48,10 @@ function Header({ theme, navigation }) {
     },
     {
       icon: require("../../assets/box.png"),
+      name: "Subscriptions",
+    },
+    {
+      icon: require("../../assets/box.png"),
       name: "Events",
     },
     {

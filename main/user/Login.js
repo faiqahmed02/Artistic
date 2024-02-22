@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { Image, Text } from "react-native";
+import { Image, ScrollView, Text } from "react-native";
 import { View } from "react-native";
 import { Button, Checkbox, withTheme } from "react-native-paper";
 import InputComp from "../../component/mainscreen/InputComp";
@@ -72,6 +72,7 @@ function Login({ theme, navigation }) {
       style={{ alignItems: "center", padding: 10 }}
       colors={[theme.colors.myOwnColor, "transparent"]}
     >
+      <ScrollView automaticallyAdjustsScrollIndicatorInsets={true}>
       <View>
         <Image source={require("../../assets/logo.png")} />
         <Text
@@ -167,6 +168,7 @@ function Login({ theme, navigation }) {
           </Button>
         </View>
       </View>
+      </ScrollView>
     </LinearGradient>
   );
 }
