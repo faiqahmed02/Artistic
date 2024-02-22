@@ -10,10 +10,16 @@ import { useState } from "react";
 import ButtonComp from "../../component/mainscreen/ButtonComp";
 import { TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-import { logIn, logOut, userCredentialse, userTypeReducer } from "../../store/rootSlice";
+import {
+  logIn,
+  logOut,
+  userCredentialse,
+  userTypeReducer,
+} from "../../store/rootSlice";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { addUser, getUser } from "../../firestoreFunctions/User";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 function Login({ theme, navigation }) {
   const [loginForm, setLoginForm] = useState({});
@@ -36,139 +42,146 @@ function Login({ theme, navigation }) {
   const handleLogin = async () => {
     // console.log(loginForm);
     if (loginForm.email) {
-      await signInWithEmailAndPassword(auth, loginForm.email, loginForm.password).then(async (res) => {
-        dispatch(logIn(auth.currentUser));
-        // React.useEffect(() => {
+      await signInWithEmailAndPassword(
+        auth,
+        loginForm.email,
+        loginForm.password
+      )
+        .then(async (res) => {
+          dispatch(logIn(auth.currentUser));
+          // React.useEffect(() => {
           if (auth.currentUser) {
-           await getUser(auth.currentUser.uid).then((res) => {
+            await getUser(auth.currentUser.uid).then((res) => {
               console.log(res);
-              dispatch(userTypeReducer(res))
-            })
+              dispatch(userTypeReducer(res));
+            });
           }
-        // console.log(auth.currentUser)
-        // }, [auth.currentUser])
-        const user = auth.currentUser
-        const data = {
-          email: user.email,
-          emailVerified: user.emailVerified,
-          phoneNumber: user.phoneNumber,
-          displayName: user.displayName,
-        }
-        // addUser(auth.currentUser.uid, data)
-        setTimeout(() => {
-          navigation.navigate("Checkout");
-        }, 2000);
-      }).catch((err) => {
-        alert(err)
-      })
-
+          // console.log(auth.currentUser)
+          // }, [auth.currentUser])
+          const user = auth.currentUser;
+          const data = {
+            email: user.email,
+            emailVerified: user.emailVerified,
+            phoneNumber: user.phoneNumber,
+            displayName: user.displayName,
+          };
+          // addUser(auth.currentUser.uid, data)
+          setTimeout(() => {
+            navigation.navigate("Checkout");
+          }, 2000);
+        })
+        .catch((err) => {
+          alert(err);
+        });
     } else {
       alert("Please Add user Name or Password");
-    };
-  }
+    }
+  };
 
   return (
     <LinearGradient
       style={{ alignItems: "center", padding: 10 }}
       colors={[theme.colors.myOwnColor, "transparent"]}
     >
-      <ScrollView automaticallyAdjustsScrollIndicatorInsets={true}>
-      <View>
-        <Image source={require("../../assets/logo.png")} />
-        <Text
-          style={{
-            textAlign: "center",
-            fontSize: 13.5,
-            lineHeight: 44,
-            fontWeight: "400",
-          }}
-        >
-          Discover the Art Of Possibility
-        </Text>
-      </View>
-      <View
-        style={{
-          width: "100%",
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "left",
-            fontWeight: "600",
-            fontSize: 18,
-            lineHeight: 26,
-            width: 197,
-            maxWidth: "100%"
-          }}
-        >
-          Welcome To The Vibrant World of Arts.
-        </Text>
+       <KeyboardAwareScrollView>
+        <View>
+          <Image source={require("../../assets/logo.png")} />
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 13.5,
+              lineHeight: 44,
+              fontWeight: "400",
+            }}
+          >
+            Discover the Art Of Possibility
+          </Text>
+        </View>
         <View
           style={{
-            marginTop: 15,
+            width: "100%",
           }}
         >
-          <InputComp
-            placeholder="Email Address"
-            secureTextEntry={false}
-            // text="Michal"
-            inputMode="text"
-            onChangeText={(email) =>
-              setLoginForm({
-                ...loginForm,
-                email: email,
-              })
-            }
-          />
-          <InputComp
-            placeholder="Password"
-            secureTextEntry={true}
-            right={true}
-            // text="xyz123!"
-            onChangeText={(pass) =>
-              setLoginForm({
-                ...loginForm,
-                password: pass,
-              })
-            }
-          />
-          <Checkbox.Item
-            label="Keep Sign in"
-            position="leading"
-            style={{ width: 160 }}
-            status={"checked"}
-            color={theme.colors.linkColor}
-            onPress={() => handleStaySignIn()}
-          />
-        </View>
-        <View style={{ alignItems: "center" }}>
-          <ButtonComp btnText="Sign in" onPress={() => handleLogin()} />
-          <TouchableOpacity style={{ marginTop: 20, marginBottom: 20 }}>
-            <Text>Don't have an account?</Text>
-          </TouchableOpacity>
-          <Button
+          <Text
             style={{
-              backgroundColor: "transparent",
-              borderWidth: 1,
-              borderColor: "#29ABE2",
-              width: 345,
+              textAlign: "left",
+              fontWeight: "600",
+              fontSize: 18,
+              lineHeight: 26,
+              width: 197,
               maxWidth: "100%",
-              height: 50,
-              borderRadius: 0,
-              justifyContent: "center",
-              margin: "auto",
-              fontSize: 26,
             }}
-            onPress={() => {
-              navigation.navigate("Select Account");
-            }}
-            textColor="#29ABE2"
           >
-            CREATE AN ACCOUNT
-          </Button>
+            Welcome To The Vibrant World of Arts.
+          </Text>
+         
+            <View
+              style={{
+                marginTop: 15,
+              }}
+            >
+              <InputComp
+                placeholder="Email Address"
+                secureTextEntry={false}
+                // text="Michal"
+                inputMode="text"
+                onChangeText={(email) =>
+                  setLoginForm({
+                    ...loginForm,
+                    email: email,
+                  })
+                }
+              />
+              <InputComp
+                placeholder="Password"
+                secureTextEntry={true}
+                right={true}
+                // text="xyz123!"
+                onChangeText={(pass) =>
+                  setLoginForm({
+                    ...loginForm,
+                    password: pass,
+                  })
+                }
+              />
+              <Checkbox.Item
+                label="Keep Sign in"
+                position="leading"
+                style={{ width: 160 }}
+                status={"checked"}
+                color={theme.colors.linkColor}
+                onPress={() => handleStaySignIn()}
+              />
+            </View>
+         
+          <View style={{ alignItems: "center" }}>
+            <ButtonComp btnText="Sign in" onPress={() => handleLogin()} />
+            <TouchableOpacity style={{ marginTop: 20, marginBottom: 20 }}>
+              <Text>Don't have an account?</Text>
+            </TouchableOpacity>
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                borderWidth: 1,
+                borderColor: "#29ABE2",
+                width: 345,
+                maxWidth: "100%",
+                height: 50,
+                borderRadius: 0,
+                justifyContent: "center",
+                margin: "auto",
+                fontSize: 26,
+              }}
+              onPress={() => {
+                navigation.navigate("Select Account");
+              }}
+              textColor="#29ABE2"
+            >
+              CREATE AN ACCOUNT
+            </Button>
+          </View>
         </View>
-      </View>
-      </ScrollView>
+        </KeyboardAwareScrollView>
     </LinearGradient>
   );
 }
