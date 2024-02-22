@@ -100,24 +100,18 @@ const Checkout = ({ theme, navigation }) => {
           />
         )}
         {step === 2 && (
-          <Payment
-            formData={formData}
-            setFormData={setFormData}
-            onPrevious={onPrevious}
-            onNext={onNext}
-            // onSubmit={onSubmit}
-          />
+           <Summary
+           formData={formData}
+           setFormData={setFormData}
+           onPrevious={onPrevious}
+           onSubmit={onSubmit}
+           theme={theme}
+           handleCancel={handleCancel}
+         />
         )}
-        {step === 3 && (
-          <Summary
-            formData={formData}
-            setFormData={setFormData}
-            onPrevious={onPrevious}
-            onSubmit={onSubmit}
-            theme={theme}
-            handleCancel={handleCancel}
-          />
-        )}
+        {/* {step === 3 && (
+       
+        )} */}
       </View>
     </LinearGradient>
   );

@@ -16,7 +16,13 @@ function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCanc
     onSubmit();
   };
   const state = useSelector((state) => state.cartState);
-  console.log(formData);
+  console.log(state);
+
+  const totalAmount = state.reduce((acc, product) => {
+    return acc + (product.price * product.quantity);
+  }, 0);
+
+  console.log(totalAmount);
 
   return (
     <ScrollView>
@@ -203,7 +209,7 @@ function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCanc
           </TouchableOpacity>
         </View>
         {/* <ButtonComp btnText="Pay" onPress={onSubmit} /> */}
-        <CheckoutScreen amount="10000" cus_email={auth.currentUser.email} cus_name={auth.currentUser.displayName} />
+        <CheckoutScreen amount={totalAmount*1000} cus_email={auth.currentUser.email} cus_name={auth.currentUser.displayName} />
         <TouchableOpacity onPress={handleCancel}>
           <Text
             style={{
