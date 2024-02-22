@@ -23,13 +23,19 @@ function Products({ theme, navigation }) {
     >
       <ScrollView>
         <TrendingArtist
-          navigation={navigation}
+          navigation={navigation.navigate("Products")}
           catname="New York Arts Gallery"
         />
-        <TrendingArtist navigation={navigation} catname="Vanity Art Gallery" />
-        <TrendingArtist navigation={navigation} catname="Artist-Run Gallery" />
         <TrendingArtist
-          navigation={navigation}
+          navigation={navigation.navigate("Products")}
+          catname="Vanity Art Gallery"
+        />
+        <TrendingArtist
+          navigation={navigation.navigate("Products")}
+          catname="Artist-Run Gallery"
+        />
+        <TrendingArtist
+          navigation={navigation.navigate("Products")}
           catname="Exhibition Arts Gallery"
         />
       </ScrollView>

@@ -10,10 +10,10 @@ import { useState } from "react";
 import ButtonComp from "../../component/mainscreen/ButtonComp";
 import { TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-import { logIn, logOut, userCredentialse } from "../../store/rootSlice";
+import { logIn, logOut, userCredentialse, userTypeReducer } from "../../store/rootSlice";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
-import { addUser } from "../../firestoreFunctions/User";
+import { addUser, getUser } from "../../firestoreFunctions/User";
 
 function Login({ theme, navigation }) {
   const [loginForm, setLoginForm] = useState({});
@@ -36,8 +36,17 @@ function Login({ theme, navigation }) {
   const handleLogin = async () => {
     // console.log(loginForm);
     if (loginForm.email) {
-      await signInWithEmailAndPassword(auth, loginForm.email, loginForm.password).then((res) => {
+      await signInWithEmailAndPassword(auth, loginForm.email, loginForm.password).then(async (res) => {
         dispatch(logIn(auth.currentUser));
+        // React.useEffect(() => {
+          if (auth.currentUser) {
+           await getUser(auth.currentUser.uid).then((res) => {
+              console.log(res);
+              dispatch(userTypeReducer(res))
+            })
+          }
+        // console.log(auth.currentUser)
+        // }, [auth.currentUser])
         const user = auth.currentUser
         const data = {
           email: user.email,

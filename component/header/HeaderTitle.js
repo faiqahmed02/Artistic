@@ -6,10 +6,12 @@ import { StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native";
 import { auth } from "../../firebaseConfig";
+import { getUser } from "../../firestoreFunctions/User";
 
 function HeaderTitle({ navigation }) {
   // console.log(Dimensions.get("window").width);
   const user = useSelector((state) => state.user);
+
   return (
     <View>
       <Text style={styles.nameTitle}>

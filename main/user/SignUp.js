@@ -12,11 +12,11 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { TouchableOpacity } from "react-native";
 import ButtonComp from "../../component/mainscreen/ButtonComp";
 import { useState } from "react";
-import { logIn, signUpReducer } from "../../store/rootSlice";
+import { logIn, signUpReducer, userTypeReducer } from "../../store/rootSlice";
 import Popup from "../../component/mainscreen/Popup";
 import { auth, db } from "../../firebaseConfig";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { addUser } from "../../firestoreFunctions/User";
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
+import { addUser, getUser } from "../../firestoreFunctions/User";
 import { updateProfile } from "firebase/auth";
 
 function SignUp({ theme, navigation }) {
@@ -86,7 +86,10 @@ function SignUp({ theme, navigation }) {
                 username: formData.username,
                 dateCreated: new Date()
 
+          
+
               }
+              
               await signInWithEmailAndPassword(auth, formData.emailAdress, formData.password).then(async (res) => {
                 // auth.currentUser({
                 //   email: formData.emailAdress,
@@ -97,6 +100,7 @@ function SignUp({ theme, navigation }) {
                 //   photoURL: image,
                 //   disabled: false,
                 // })
+               
                 dispatch(logIn(auth.currentUser));
                 await updateProfile(auth.currentUser, {
                   email: formData.emailAdress,
@@ -106,9 +110,18 @@ function SignUp({ theme, navigation }) {
                   displayName: formData.fullName,
                   photoURL: image,
                   disabled: false,
-                }).then(() => {
+                }).then(async () => {
                   // Profile updated!
-                  addUser(user.uid, data)
+                  addUser(user.uid, data).then((res) => {
+                    getUser(auth.currentUser.uid).then((res) => {
+                      dispatch(userTypeReducer(res))
+                    })
+                  })
+                  await sendEmailVerification(auth.currentUser).then((res) => {
+                  alert("An email verfification email has been sent")
+                  }).catch((err) => {
+                    alert("Error in sending email")
+                  })
                   // See the UserRecord reference doc for the contents of userRecord.
                   console.log('Successfully created new user:', userRecord.uid);
                   console.log("updated");

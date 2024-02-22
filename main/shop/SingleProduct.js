@@ -70,6 +70,7 @@ function SingleProduct({ theme, navigation }) {
       setProductCart([...cartState, cartData]);
       // dispatch(cartReducer(productCart));
       // console.log("Product added to productCart:", cartData);
+      navigation.navigate('Cart')
       console.log(cartData);
     } else {
       // console.log("Product already in the productCart:", cartData);

@@ -1,5 +1,5 @@
 import { DrawerActions } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { withTheme } from "react-native-paper";
@@ -10,8 +10,11 @@ import TrendingArtist from "../component/mainscreen/TrendingArtist";
 import Artist from "../component/mainscreen/Artist";
 import Footer from "../component/footer/Footer";
 import { ScrollView } from "react-native";
+import { getUser } from "../firestoreFunctions/User";
+import { auth } from "../firebaseConfig";
 
 function MainScreen({ theme, navigation }) {
+
   return (
     <LinearGradient
       // Background Linear Gradient

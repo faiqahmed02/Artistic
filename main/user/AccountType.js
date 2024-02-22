@@ -15,7 +15,7 @@ function AccountType({ theme, navigation }) {
     user_role: "",
   });
   const [clicked, setClicked] = useState(false);
-  const dispatch = useDispatch("Buyer");
+  const dispatch = useDispatch();
   const state = useSelector((state) => state.signupState);
   const typeSelected = (t) => {
     setRole({ ...role, user_role: t });

@@ -5,8 +5,13 @@ import React from "react";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { withTheme } from "react-native-paper";
+import { getEvents } from "../../firestoreFunctions/Main";
 
 function EventsArchive({ theme, navigation }) {
+  React.useEffect(() => {
+    getEvents()
+  }, [])
+  
   return (
     <View>
       <LinearGradient

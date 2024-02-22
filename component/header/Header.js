@@ -23,19 +23,24 @@ import {
   faWindowClose,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../store/rootSlice";
+import { logOut, removeUserTypeReducer } from "../../store/rootSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
-
-
+// import { businessNav, buyerNav } from "./nav";
 
 function Header({ theme, navigation }) {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user)
-  const nav = [
+  const user = useSelector((state) => state.user);
+  const user_type = useSelector((state) => state.userType);
+  console.log(user_type);
+  const businessNav = [
     {
       icon: require("../../assets/box.png"),
       name: "Home",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "My Products",
     },
     {
       icon: require("../../assets/box.png"),
@@ -43,15 +48,27 @@ function Header({ theme, navigation }) {
     },
     {
       icon: require("../../assets/box.png"),
-      name: "Subscriptions",
-    },
-    {
-      icon: require("../../assets/box.png"),
       name: "Events",
     },
     {
       icon: require("../../assets/box.png"),
+      name: "Create Event",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Shipments",
+    },
+    {
+      icon: require("../../assets/box.png"),
       name: "Classes",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Create Classes",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Order Selling",
     },
     {
       icon: require("../../assets/box.png"),
@@ -74,17 +91,64 @@ function Header({ theme, navigation }) {
       name: auth.currentUser ? "Logout" : "Login",
     },
   ];
+  
+  
+  const buyerNav = [
+      {
+        icon: require("../../assets/box.png"),
+        name: "Home",
+      },
+      {
+        icon: require("../../assets/box.png"),
+        name: "My Orders",
+      },
+      {
+        icon: require("../../assets/box.png"),
+        name: "Subscriptions",
+      },
+      {
+        icon: require("../../assets/box.png"),
+        name: "Events",
+      },
+      {
+        icon: require("../../assets/box.png"),
+        name: "Classes",
+      },
+      {
+        icon: require("../../assets/box.png"),
+        name: "About Us",
+      },
+      {
+        icon: require("../../assets/box.png"),
+        name: "Technical Support",
+      },
+      {
+        icon: require("../../assets/box.png"),
+        name: "ZicoArt Policies & Requirements",
+      },
+      {
+        icon: require("../../assets/box.png"),
+        name: "ZicoArt Terms & Conditions",
+      },
+      {
+        icon: require("../../assets/box.png"),
+        name: auth.currentUser ? "Logout" : "Login",
+      },
+    ];
+  const nav = user_type && user_type.role === "Business" ? businessNav : buyerNav;
   const headerAction = (d) => {
-    console.log(d);
+    // console.log(d);
     if (d === "Logout" && auth.currentUser) {
-
-      signOut(auth).then((res) => {
-        dispatch(logOut());
-      }).catch((err) => {
-        alert("no one is logged in")
-      })
+      signOut(auth)
+        .then((res) => {
+          dispatch(logOut());
+          dispatch(removeUserTypeReducer());
+        })
+        .catch((err) => {
+          alert("no one is logged in");
+        });
     } else {
-      navigation.navigate(d)
+      navigation.navigate(d);
     }
     navigation.closeDrawer();
   };
@@ -125,26 +189,26 @@ function Header({ theme, navigation }) {
           >
             <FontAwesomeIcon icon={faClose} size={25} color="#FFf" />
           </TouchableOpacity>
-          <Image
-            source={require("../../assets/d_logo.png")}
+         {auth.currentUser && <Image 
+            source={{uri:auth.currentUser.photoURL}}
             style={{
               // width:"40%",
               // height:"auto"
-              marginLeft:10,
+              marginLeft: 10,
               marginTop: 20,
               marginBottom: 20,
             }}
-          />
+          />}
           <Text style={styles.d_text}>Discover the Art Of Possinility</Text>
           <Avatar.Image
             size={93}
             source={require("../../assets/profile_picture.png")}
             style={{
               marginTop: 10,
-              marginLeft:10,
+              marginLeft: 10,
             }}
           />
-          <Text style={styles.d_user}>Max John</Text>
+          <Text style={styles.d_user}>{auth.currentUser ? auth.currentUser.displayName : ""}</Text>
           {nav.map((d, i) => {
             return (
               <TouchableOpacity
@@ -175,12 +239,12 @@ const styles = StyleSheet.create({
     width: 168,
     lineHeight: 30,
     // wordWrap: "break-word",
-    paddingLeft:10
+    paddingLeft: 10,
   },
   d_user: {
     // Max John
     color: "#0A0A0A",
-    paddingLeft:10,
+    paddingLeft: 10,
     fontSize: 20,
     // fontFamily: 'Roboto';
     fontWeight: "600",
@@ -202,7 +266,7 @@ const styles = StyleSheet.create({
     gap: 10,
     marginTop: 10,
     marginBottom: 10,
-    paddingLeft:10
+    paddingLeft: 10,
   },
   navtext: {
     // Home
@@ -214,3 +278,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 });
+
+
+

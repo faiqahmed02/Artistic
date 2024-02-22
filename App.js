@@ -43,6 +43,8 @@ import Subscription from "./main/subscription/Subscription";
 import SubNow from "./main/subscription/SubNow";
 import MyOrders from "./main/shop/orders/MyOrders";
 import ChatScreen from "./main/user/ChatScreen";
+import EventSubmissionForm from "./main/events/AddEvent";
+import { useEffect } from "react";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -58,8 +60,8 @@ export default function App() {
       linkColor: "#C1272D",
     },
   };
-  return (
 
+  return (
     <StripeProvider publishableKey="pk_test_51IzlXYEHdax3d8oTDo9zwCBLNA7tqvVToG60ijHDZVTlkZf3j4cXGNZlOCrWrZeXwxRyWy8ovfFvLBk4dZHvM4lK00mg1kJn6V">
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -97,13 +99,21 @@ export default function App() {
               >
                 <Drawer.Screen name="Home" component={MainScreen} />
                 <Drawer.Screen name="About Us" component={About} />
-                <Drawer.Screen name="ZicoArt Policies & Requirements" component={Polices} />
-                <Drawer.Screen name="ZicoArt Terms & Conditions" component={Terms} />
+                <Drawer.Screen
+                  name="ZicoArt Policies & Requirements"
+                  component={Polices}
+                />
+                <Drawer.Screen
+                  name="ZicoArt Terms & Conditions"
+                  component={Terms}
+                />
                 <Drawer.Screen name="Technical Support" component={Support} />
                 <Drawer.Screen name="Products" component={Products} />
+                <Drawer.Screen name="My Products" component={Products} />
                 <Drawer.Screen name="Cart" component={Cart} />
                 <Drawer.Screen name="Checkout" component={Checkout} />
                 <Drawer.Screen name="My Orders" component={MyOrders} />
+                <Drawer.Screen name="Order Selling" component={MyOrders} />
                 <Drawer.Screen name="Product Page" component={SingleProduct} />
                 <Drawer.Screen name="Thank You" component={Thankyou} />
                 <Drawer.Screen name="Notification" component={Login} />
@@ -113,16 +123,30 @@ export default function App() {
                 <Drawer.Screen name="Profile" component={Profile} />
                 <Drawer.Screen name="Chat" component={ChatScreen} />
                 <Drawer.Screen name="ArView" component={Arimageviwer} />
-                <Drawer.Screen name="Checkout Screen" component={CheckoutScreen} />
+                <Drawer.Screen
+                  name="Checkout Screen"
+                  component={CheckoutScreen}
+                />
                 {/* Events */}
                 <Drawer.Screen name="Events" component={EventsArchive} />
-                <Drawer.Screen name="Events Details" component={EventsDetails} />
+                <Drawer.Screen
+                  name="Events Details"
+                  component={EventsDetails}
+                />
+                <Drawer.Screen
+                  name="Create Event"
+                  component={EventSubmissionForm}
+                />
                 {/* Classes */}
                 <Drawer.Screen name="Classes" component={ClassesArchive} />
+                <Drawer.Screen name="Create Classes" component={ClassesArchive} />
                 {/* Subsciptios */}
                 <Drawer.Screen name="Subscriptions" component={Subscription} />
                 <Drawer.Screen name="Pay Now" component={SubNow} />
 
+                {/* Shippments */}
+
+                <Drawer.Screen name="Shipments" component={SubNow} />
               </Drawer.Navigator>
             </NavigationContainer>
           </PaperProvider>

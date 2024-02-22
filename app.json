@@ -18,7 +18,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.faiqahmed.zicoart",
       "infoPlist": {
-        "NSCameraUsageDescription": "Enable camera for AR image viewing"
+        "NSCameraUsageDescription": "Enable camera for AR image viewing",
+        "NSPhotoLibraryUsageDescription": "Enable your libray usage"
       }
     },
     "android": {
