@@ -174,7 +174,7 @@ function SingleProduct({ theme, navigation }) {
                 style={{
                   backgroundColor: theme.colors.linkColor,
                   padding: 10,
-                  colors: "whiet",
+                  color: "white",
                 }}
                 onPress={() => minusCount()}
               >
@@ -201,7 +201,7 @@ function SingleProduct({ theme, navigation }) {
                 style={{
                   backgroundColor: theme.colors.linkColor,
                   padding: 10,
-                  colors: "whiet",
+                  color: "white",
                 }}
                 onPress={() => addCount()}
               >

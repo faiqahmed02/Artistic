@@ -8,7 +8,7 @@ const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
   const [field1, setField1] = useState({
     Full_Name: "",
     Street_Address: "",
-    Appartment: "",
+    Apartment: "",
     City: "",
     State: "",
     Postal_Code: "",
@@ -27,7 +27,7 @@ const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
       ...field1,
       Full_Name: text,
       Street_Address: text,
-      Appartment: text,
+      Apartment: text,
       City: text,
       State: text,
       Postal_Code: text,
@@ -41,7 +41,7 @@ const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
   const inputs = [
     "Full Name",
     "Street Address",
-    "Appartment",
+    "Apartment",
     "City",
     "State",
     "Postal Code",
@@ -69,8 +69,8 @@ const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
         text={field1.Street_Address ? field1.Street_Address : ""}
       />
       <InputComp
-        placeholder="Appartment"
-        onChangeText={(text) => setField1({ ...field1, Appartment: text })}
+        placeholder="Apartment"
+        onChangeText={(text) => setField1({ ...field1, Apartment: text })}
       />
       <InputComp
         placeholder="City"

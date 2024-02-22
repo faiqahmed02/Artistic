@@ -84,7 +84,7 @@ function ClassesArchive({ theme, navigation }) {
                   </View>
                   <View style={{paddingTop:10}}>
                     <View style={{paddingBottom:5}}>
-                      <Text>ClassesCurriculum and Theme</Text>
+                      <Text>Classes Curriculum and Theme</Text>
                     </View>
                     <View style={{paddingBottom:5}}>
                       <Text>ClassesArt Medium:</Text>
@@ -98,7 +98,7 @@ function ClassesArchive({ theme, navigation }) {
                         {d.medium}
                       </Text>
                     </View>
-                    <Text>ClassesMaterial:</Text>
+                    <Text>Classes Material:</Text>
                     <Text
                       style={{
                         fontSize: 12,
@@ -109,7 +109,7 @@ function ClassesArchive({ theme, navigation }) {
                     >
                       {d.material}
                     </Text>
-                    <Text>ClassesSkill Level:</Text>
+                    <Text>Classes Skill Level:</Text>
                     <Text
                       style={{
                         fontSize: 12,
@@ -120,7 +120,7 @@ function ClassesArchive({ theme, navigation }) {
                     >
                       {d.skillLevel}
                     </Text>
-                    <Text>ClassesNumber of Sessions:</Text>
+                    <Text>Classes Number of Sessions:</Text>
                     <Text
                       style={{
                         fontSize: 12,
@@ -131,7 +131,7 @@ function ClassesArchive({ theme, navigation }) {
                     >
                       {d.numSessions}
                     </Text>
-                    <Text>ClassesDuration per session:</Text>
+                    <Text>Classes Duration per session:</Text>
                     <Text
                       style={{
                         fontSize: 12,
@@ -142,7 +142,7 @@ function ClassesArchive({ theme, navigation }) {
                     >
                       {d.durationPerSession} hr.
                     </Text>
-                    <Text>ClassesPrice:</Text>
+                    <Text>Classes Price:</Text>
                     <Text
                       style={{
                         fontSize: 12,

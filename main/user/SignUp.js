@@ -15,24 +15,29 @@ import { useState } from "react";
 import { logIn, signUpReducer, userTypeReducer } from "../../store/rootSlice";
 import Popup from "../../component/mainscreen/Popup";
 import { auth, db } from "../../firebaseConfig";
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { addUser, getUser } from "../../firestoreFunctions/User";
 import { updateProfile } from "firebase/auth";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 function SignUp({ theme, navigation }) {
   const [visible, setVisible] = React.useState(false);
   const state = useSelector((state) => state.signupState);
   const userstate = useSelector((state) => state.user);
   const [image, setImage] = React.useState(null);
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState("");
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: "",
-    emailAdress: "",
+    emailAddress: "",
     pNumber: "",
     password: "",
     confirmP: "",
-    username: ""
+    username: "",
   });
   const [emailValidate, setEmailValidate] = useState(false);
   const [pwdValidation, setPwdValidation] = useState(true);
@@ -51,13 +56,11 @@ function SignUp({ theme, navigation }) {
       setImage(result.assets[0].uri);
     }
   };
-  const updateUserData = () => {
-
-  }
+  const updateUserData = () => {};
   const createAccount = async () => {
     if (
       formData.fullName &&
-      formData.emailAdress &&
+      formData.emailAddress &&
       formData.pNumber &&
       formData.password &&
       formData.confirmP
@@ -73,26 +76,31 @@ function SignUp({ theme, navigation }) {
         try {
           // Create user with email and password
           // const { user } = await auth.createUserWithEmailAndPassword(formData.emailAdress, formData.password);
-          await createUserWithEmailAndPassword(auth, formData.emailAdress, formData.password)
+          await createUserWithEmailAndPassword(
+            auth,
+            formData.emailAddress,
+            formData.password
+          )
             .then(async (userCredential) => {
-              // Signed up 
+              // Signed up
               const user = userCredential.user;
               console.log(user);
               const data = {
                 name: formData.fullName,
                 role: state.user_role,
-                emailAdress: formData.emailAdress,
+                emailAddress: formData.emailAddress,
                 pNumber: formData.pNumber,
                 username: formData.username,
-                dateCreated: new Date()
+                dateCreated: new Date(),
+              };
 
-          
-
-              }
-              
-              await signInWithEmailAndPassword(auth, formData.emailAdress, formData.password).then(async (res) => {
+              await signInWithEmailAndPassword(
+                auth,
+                formData.emailAddress,
+                formData.password
+              ).then(async (res) => {
                 // auth.currentUser({
-                //   email: formData.emailAdress,
+                //   email: formData.emailAddress,
                 //   emailVerified: false,
                 //   phoneNumber: formData.pNumber,
                 //   password: formData.password,
@@ -100,47 +108,51 @@ function SignUp({ theme, navigation }) {
                 //   photoURL: image,
                 //   disabled: false,
                 // })
-               
+
                 dispatch(logIn(auth.currentUser));
                 await updateProfile(auth.currentUser, {
-                  email: formData.emailAdress,
+                  email: formData.emailAddress,
                   emailVerified: false,
                   phoneNumber: formData.pNumber,
                   password: formData.password,
                   displayName: formData.fullName,
                   photoURL: image,
                   disabled: false,
-                }).then(async () => {
-                  // Profile updated!
-                  addUser(user.uid, data).then((res) => {
-                    getUser(auth.currentUser.uid).then((res) => {
-                      dispatch(userTypeReducer(res))
-                    })
-                  })
-                  await sendEmailVerification(auth.currentUser).then((res) => {
-                  alert("An email verfification email has been sent")
-                  }).catch((err) => {
-                    alert("Error in sending email")
-                  })
-                  // See the UserRecord reference doc for the contents of userRecord.
-                  console.log('Successfully created new user:', userRecord.uid);
-                  console.log("updated");
-                  // ..
-                }).catch((error) => {
-                  // An error occurred
-                  // ...
-                  console.log(error);
                 })
-                  .then((userRecord) => {
-
+                  .then(async () => {
+                    // Profile updated!
+                    addUser(user.uid, data).then((res) => {
+                      getUser(auth.currentUser.uid).then((res) => {
+                        dispatch(userTypeReducer(res));
+                      });
+                    });
+                    await sendEmailVerification(auth.currentUser)
+                      .then((res) => {
+                        alert("An email verification email has been sent");
+                      })
+                      .catch((err) => {
+                        alert("Error in sending email");
+                      });
+                    // See the UserRecord reference doc for the contents of userRecord.
+                    console.log(
+                      "Successfully created new user:",
+                      userRecord.uid
+                    );
+                    console.log("updated");
+                    // ..
                   })
                   .catch((error) => {
-                    console.log('Error creating new user:', error);
+                    // An error occurred
+                    // ...
+                    console.log(error);
+                  })
+                  .then((userRecord) => {})
+                  .catch((error) => {
+                    console.log("Error creating new user:", error);
                   });
-              })
+              });
 
-
-              console.log('User created successfully:', user);
+              console.log("User created successfully:", user);
               // ...
             })
             .catch((error) => {
@@ -149,9 +161,8 @@ function SignUp({ theme, navigation }) {
               // ..
             });
           // Add user data to Firestore
-
         } catch (error) {
-          console.error('Error creating user:', error.message);
+          console.error("Error creating user:", error.message);
         }
         console.log(state);
         setVisible(true);
@@ -163,7 +174,7 @@ function SignUp({ theme, navigation }) {
 
   const validation = () => {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (reg.test(formData.emailAdress) === true) {
+    if (reg.test(formData.emailAddress) === true) {
       setEmailValidate(true);
     } else {
       alert("email not Correct!");
@@ -187,17 +198,17 @@ function SignUp({ theme, navigation }) {
     setVisible(false);
     // async () => {
     dispatch(logIn(formData));
-    navigation.navigate("Home")
+    navigation.navigate("Home");
     console.log(userstate);
     // };
   };
 
-
-
-
   return (
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
-      <ScrollView style={styles.signupScreen} automaticallyAdjustsScrollIndicatorInsets={true}>
+      <ScrollView
+        style={styles.signupScreen}
+        automaticallyAdjustsScrollIndicatorInsets={true}
+      >
         <Text style={styles.textD}>Create Account as a</Text>
         <Text style={styles.accT}>
           {state.user_role ? state.user_role : ""}
@@ -225,78 +236,83 @@ function SignUp({ theme, navigation }) {
             <FontAwesomeIcon icon={faCamera} color="white" size={50} />
           </TouchableOpacity>
         </View>
-        <View>
-          <InputComp
-            placeholder="Full Name"
-            onChangeText={(name) =>
-              setFormData({
-                ...formData,
-                fullName: name,
-              })
-            }
-            inputMode="text"
-          />
-          <InputComp
-            placeholder="User Name"
-            onChangeText={(uname) =>
-              setFormData({
-                ...formData,
-                username: uname,
-              })
-            }
-          />
-          <InputComp
-            placeholder="Email Address"
-            onChangeText={(email) =>
-              setFormData({
-                ...formData,
-                emailAdress: email,
-              })
-            }
-            inputMode="email"
-            error={emailValidate === false ? true : false}
-            onPressOut={validation}
-          />
-          <InputComp
-            placeholder="Phone Number"
-            onChangeText={(num) =>
-              setFormData({
-                ...formData,
-                pNumber: num,
-              })
-            }
-            inputMode="tel"
-          />
-          <InputComp
-            right={true}
-            placeholder="Password"
-            secureTextEntry={true}
-            onChangeText={(pwd) =>
-              setFormData({
-                ...formData,
-                password: pwd,
-              })
-            }
-          />
-          <InputComp
-            right={true}
-            placeholder="Confirm Password"
-            secureTextEntry={true}
-            onChangeText={(cpwd) =>
-              setFormData({
-                ...formData,
-                confirmP: cpwd,
-              })
-            }
-            error={pwdValidation}
-            onPressOut={checkPwd}
-          />
-          <InputComp
-            placeholder="Security Code"
-            onChangeText={(seq) => console.log(seq)}
-          />
-          <ButtonComp btnText="Create Account" onPress={() => createAccount()} />
-        </View>
+        <KeyboardAwareScrollView>
+          <View>
+            <InputComp
+              placeholder="Full Name"
+              onChangeText={(name) =>
+                setFormData({
+                  ...formData,
+                  fullName: name,
+                })
+              }
+              inputMode="text"
+            />
+            <InputComp
+              placeholder="User Name"
+              onChangeText={(uname) =>
+                setFormData({
+                  ...formData,
+                  username: uname,
+                })
+              }
+            />
+            <InputComp
+              placeholder="Email Address"
+              onChangeText={(email) =>
+                setFormData({
+                  ...formData,
+                  emailAddress: email,
+                })
+              }
+              inputMode="email"
+              error={emailValidate === false ? true : false}
+              onPressOut={validation}
+            />
+            <InputComp
+              placeholder="Phone Number"
+              onChangeText={(num) =>
+                setFormData({
+                  ...formData,
+                  pNumber: num,
+                })
+              }
+              inputMode="tel"
+            />
+            <InputComp
+              right={true}
+              placeholder="Password"
+              secureTextEntry={true}
+              onChangeText={(pwd) =>
+                setFormData({
+                  ...formData,
+                  password: pwd,
+                })
+              }
+            />
+            <InputComp
+              right={true}
+              placeholder="Confirm Password"
+              secureTextEntry={true}
+              onChangeText={(cpwd) =>
+                setFormData({
+                  ...formData,
+                  confirmP: cpwd,
+                })
+              }
+              error={pwdValidation}
+              onPressOut={checkPwd}
+            />
+            <InputComp
+              placeholder="Security Code"
+              onChangeText={(seq) => console.log(seq)}
+            />
+            <ButtonComp
+              btnText="Create Account"
+              onPress={() => createAccount()}
+            />
+          </View>
+        </KeyboardAwareScrollView>
         <Popup visible={visible} hideModal={hideModal} showModal={showModal} />
       </ScrollView>
     </LinearGradient>
@@ -307,6 +323,7 @@ export default withTheme(SignUp);
 
 const styles = StyleSheet.create({
   signupScreen: {
+    flexGrow: 1,
     height: Dimensions.get("window").height,
     padding: 20,
     // width: Dimensions.get("window").width,

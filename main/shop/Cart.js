@@ -152,7 +152,7 @@ function Cart({ theme, navigation }) {
                       style={{
                         // backgroundColor: theme.colors.linkColor,
                         padding: 7,
-                        colors: "whiet",
+                        color: "white",
                         width: 40,
                       }}
                       onPress={() => minusCount()}
@@ -186,7 +186,7 @@ function Cart({ theme, navigation }) {
                         padding: 7,
                         width: 40,
                         // top: 12,
-                        colors: "whiet",
+                        color: "white",
                       }}
                       onPress={() => addCount(d.quantity, d.cartQty)}
                     >
@@ -223,7 +223,7 @@ function Cart({ theme, navigation }) {
               backgroundColor: theme.colors.linkColor,
             }}
           >
-            <Text>Hellow</Text>
+            <Text>Hello</Text>
           </View>
         )}
       </ScrollView>

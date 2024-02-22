@@ -9,7 +9,7 @@ function ChatInput() {
         <TouchableOpacity>
             <Image source={require('../../assets/camer_chate.png')} />
         </TouchableOpacity>
-        <InputComp placeholder="Enter Messagge" />
+        <InputComp placeholder="Enter Message" />
         ChatInput</View>;
 }
 

@@ -121,7 +121,7 @@ function Login({ theme, navigation }) {
             }
           />
           <InputComp
-            placeholder="Passward"
+            placeholder="Password"
             secureTextEntry={true}
             right={true}
             // text="xyz123!"

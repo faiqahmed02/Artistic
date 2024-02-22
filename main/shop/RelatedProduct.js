@@ -11,67 +11,67 @@ function RelatedProduct() {
       <ScrollView horizontal>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.realtedProduct}
+            style={styles.relatedProduct}
             source={require("../../assets/related_product.png")}
           />
         </TouchableOpacity>
@@ -82,7 +82,7 @@ function RelatedProduct() {
 export default RelatedProduct;
 
 const styles = StyleSheet.create({
-  realtedProduct: {
+  relatedProduct: {
     margin: 3,
     width:79,
     height:70
