@@ -205,38 +205,36 @@ function SignUp({ theme, navigation }) {
 
   return (
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
-      <ScrollView
-        style={styles.signupScreen}
-        automaticallyAdjustsScrollIndicatorInsets={true}
-      >
-        <Text style={styles.textD}>Create Account as a</Text>
-        <Text style={styles.accT}>
-          {state.user_role ? state.user_role : ""}
-        </Text>
-        <View
-          style={{
-            alignItems: "center",
-          }}
-        >
-          <TouchableOpacity
-            onPress={pickImage}
+      <KeyboardAwareScrollView>
+        <View style={{padding:10, paddingTop:40}}>
+          <Text style={styles.textD}>Create Account as a</Text>
+          <Text style={styles.accT}>
+            {state.user_role ? state.user_role : ""}
+          </Text>
+          <View
             style={{
-              height: 100,
-              width: 100,
-              maxWidth: "100%",
-              borderRadius: 50,
-              backgroundColor: "black",
-              flex: 1,
-              justifyContent: "center",
               alignItems: "center",
-              marginTop: 10,
-              marginBottom: 20,
             }}
           >
-            <FontAwesomeIcon icon={faCamera} color="white" size={50} />
-          </TouchableOpacity>
-        </View>
-        <KeyboardAwareScrollView>
+            <TouchableOpacity
+              onPress={pickImage}
+              style={{
+                height: 100,
+                width: 100,
+                maxWidth: "100%",
+                borderRadius: 50,
+                backgroundColor: "black",
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+                marginBottom: 20,
+              }}
+            >
+              <FontAwesomeIcon icon={faCamera} color="white" size={50} />
+            </TouchableOpacity>
+          </View>
+
           <View>
             <InputComp
               placeholder="Full Name"
@@ -310,11 +308,17 @@ function SignUp({ theme, navigation }) {
             <ButtonComp
               btnText="Create Account"
               onPress={() => createAccount()}
+              width={"100%"}
             />
           </View>
-        </KeyboardAwareScrollView>
-        <Popup visible={visible} hideModal={hideModal} showModal={showModal} />
-      </ScrollView>
+
+          <Popup
+            visible={visible}
+            hideModal={hideModal}
+            showModal={showModal}
+          />
+        </View>
+      </KeyboardAwareScrollView>
     </LinearGradient>
   );
 }
@@ -323,8 +327,6 @@ export default withTheme(SignUp);
 
 const styles = StyleSheet.create({
   signupScreen: {
-    flexGrow: 1,
-    height: Dimensions.get("window").height,
     padding: 20,
     // width: Dimensions.get("window").width,
   },
