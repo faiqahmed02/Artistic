@@ -6,7 +6,7 @@ import ButtonComp from "./ButtonComp";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faArrowAltCircleRight, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
-function Popup({ visible, hideModal }) {
+function Popup({ visible, hideModal, textforpopup }) {
   const containerStyle = {
     backgroundColor: "white",
     padding: 20,
@@ -45,7 +45,7 @@ function Popup({ visible, hideModal }) {
             textAlign:"center"
           }}
         >
-          Your Account is successfully created.
+          {textforpopup ? textforpopup : "Your Account is successfully created."}
         </Text>
         <ButtonComp width={137} btnText={"OK"} onPress={hideModal} />
       </Modal>

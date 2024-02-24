@@ -4,7 +4,7 @@
     "slug": "zico-art",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/playstore.png",
+    "icon": "./assets/zicoarticon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -22,7 +22,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/playstore.png",
+        "foregroundImage": "./assets/zicoarticon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.faiqahmed.zicoart",

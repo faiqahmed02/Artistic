@@ -84,11 +84,11 @@ function Header({ theme, navigation }) {
     },
     {
       icon: require("../../assets/box.png"),
-      name: "ZicoArt Policies & Requirements",
+      name: "Privacy policies",
     },
     {
       icon: require("../../assets/box.png"),
-      name: "ZicoArt Terms & Conditions",
+      name: "Terms & Conditions",
     },
     {
       icon: require("../../assets/box.png"),
@@ -128,11 +128,11 @@ function Header({ theme, navigation }) {
       },
       {
         icon: require("../../assets/box.png"),
-        name: "ZicoArt Policies & Requirements",
+        name: "Privacy policies",
       },
       {
         icon: require("../../assets/box.png"),
-        name: "ZicoArt Terms & Conditions",
+        name: "Terms & Conditions",
       },
       {
         icon: require("../../assets/box.png"),
