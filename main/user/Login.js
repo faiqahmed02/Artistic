@@ -1,33 +1,32 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
-import { Image, ScrollView, Text } from "react-native";
-import { View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Button, Checkbox, withTheme } from "react-native-paper";
-import InputComp from "../../component/mainscreen/InputComp";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import ButtonComp from "../../component/mainscreen/ButtonComp";
-import { TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-import {
-  logIn,
-  logOut,
-  userCredentialse,
-  userTypeReducer,
-} from "../../store/rootSlice";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { addUser, getUser } from "../../firestoreFunctions/User";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { logIn, userTypeReducer } from "../../store/rootSlice";
+import InputComp from "../../component/mainscreen/InputComp";
+import ButtonComp from "../../component/mainscreen/ButtonComp";
 
 function Login({ theme, navigation }) {
   const [loginForm, setLoginForm] = useState({});
   const [checked, setChecked] = useState("unchecked");
   const dispatch = useDispatch();
-  const routes = navigation.getState()?.routes;
 
-  console.log(routes);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (auth.currentUser) {
+        const userData = await getUser(auth.currentUser.uid);
+        dispatch(userTypeReducer(userData));
+      }
+    };
+
+    fetchUserData();
+  }, [auth.currentUser, dispatch]);
+
   const handleStaySignIn = () => {
     if (checked !== "checked") {
       if (loginForm.email) {
@@ -39,25 +38,22 @@ function Login({ theme, navigation }) {
     }
   };
 
-  const handleLogin = async () => {
-    // console.log(loginForm);
-    if (loginForm.email) {
-      await signInWithEmailAndPassword(
-        auth,
-        loginForm.email,
-        loginForm.password
-      )
-        .then(async (res) => {
+  const handleLogin = () => {
+    if (loginForm.email && loginForm.password) {
+      signInWithEmailAndPassword(auth, loginForm.email, loginForm.password)
+        .then((res) => {
           dispatch(logIn(auth.currentUser));
-          // React.useEffect(() => {
+  
           if (auth.currentUser) {
-            await getUser(auth.currentUser.uid).then((res) => {
-              console.log(res);
-              dispatch(userTypeReducer(res));
-            });
+            getUser(auth.currentUser.uid)
+              .then((userData) => {
+                dispatch(userTypeReducer(userData));
+              })
+              .catch((getUserError) => {
+                console.error("Error fetching user data:", getUserError.message);
+              });
           }
-          // console.log(auth.currentUser)
-          // }, [auth.currentUser])
+  
           const user = auth.currentUser;
           const data = {
             email: user.email,
@@ -65,25 +61,27 @@ function Login({ theme, navigation }) {
             phoneNumber: user.phoneNumber,
             displayName: user.displayName,
           };
-          // addUser(auth.currentUser.uid, data)
-          setTimeout(() => {
-            navigation.navigate("Checkout");
-          }, 2000);
+  
+          // addUser(auth.currentUser.uid, data); // Uncomment if needed
+  
+          navigation.navigate("Home");
         })
-        .catch((err) => {
-          alert(err);
+        .catch((error) => {
+          console.error("Login failed:", error.message);
+          alert("Login failed. Please check your credentials and try again.");
         });
     } else {
-      alert("Please Add user Name or Password");
+      alert("Please enter both email and password.");
     }
   };
+  
 
   return (
     <LinearGradient
       style={{ alignItems: "center", padding: 10 }}
       colors={[theme.colors.myOwnColor, "transparent"]}
     >
-       <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView>
         <View>
           <Image source={require("../../assets/logo.png")} />
           <Text
@@ -97,11 +95,7 @@ function Login({ theme, navigation }) {
             Discover the Art Of Possibility
           </Text>
         </View>
-        <View
-          style={{
-            width: "100%",
-          }}
-        >
+        <View style={{ width: "100%" }}>
           <Text
             style={{
               textAlign: "left",
@@ -114,46 +108,38 @@ function Login({ theme, navigation }) {
           >
             Welcome To The Vibrant World of Arts.
           </Text>
-         
-            <View
-              style={{
-                marginTop: 15,
-              }}
-            >
-              <InputComp
-                placeholder="Email Address"
-                secureTextEntry={false}
-                // text="Michal"
-                inputMode="text"
-                onChangeText={(email) =>
-                  setLoginForm({
-                    ...loginForm,
-                    email: email,
-                  })
-                }
-              />
-              <InputComp
-                placeholder="Password"
-                secureTextEntry={true}
-                right={true}
-                // text="xyz123!"
-                onChangeText={(pass) =>
-                  setLoginForm({
-                    ...loginForm,
-                    password: pass,
-                  })
-                }
-              />
-              <Checkbox.Item
-                label="Keep Sign in"
-                position="leading"
-                style={{ width: 160 }}
-                status={"checked"}
-                color={theme.colors.linkColor}
-                onPress={() => handleStaySignIn()}
-              />
-            </View>
-         
+          <View style={{ marginTop: 15 }}>
+            <InputComp
+              placeholder="Email Address"
+              secureTextEntry={false}
+              inputMode="text"
+              onChangeText={(email) =>
+                setLoginForm({
+                  ...loginForm,
+                  email: email,
+                })
+              }
+            />
+            <InputComp
+              placeholder="Password"
+              secureTextEntry={true}
+              right={true}
+              onChangeText={(pass) =>
+                setLoginForm({
+                  ...loginForm,
+                  password: pass,
+                })
+              }
+            />
+            <Checkbox.Item
+              label="Keep Sign in"
+              position="leading"
+              style={{ width: 160 }}
+              status={"checked"}
+              color={theme.colors.linkColor}
+              onPress={() => handleStaySignIn()}
+            />
+          </View>
           <View style={{ alignItems: "center" }}>
             <ButtonComp btnText="Sign in" onPress={() => handleLogin()} />
             <TouchableOpacity style={{ marginTop: 20, marginBottom: 20 }}>
@@ -181,7 +167,7 @@ function Login({ theme, navigation }) {
             </Button>
           </View>
         </View>
-        </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
     </LinearGradient>
   );
 }

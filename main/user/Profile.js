@@ -141,7 +141,7 @@ function Profile({ theme, navigation }) {
             <Text>{auth.currentUser.phoneNumber ? auth.currentUser.phoneNumber : "+11111111111"}</Text>
           </View>
 
-          <ButtonComp btnText={"Edit"} />
+          <ButtonComp btnText={"Edit"} onPress={() => navigation.navigate("Edit Profile")} />
         </View>
       </View>
     </LinearGradient>
