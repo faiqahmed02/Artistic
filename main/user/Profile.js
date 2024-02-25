@@ -122,7 +122,7 @@ function Profile({ theme, navigation }) {
           }}
         >
           <View style={style.imgg} >
-            <Image style={style.imgg} source={url ? url : require('../../assets/avatart.png')} width={100} height={100} />
+            <Image style={style.imgg} source={url ? {uri:url} : require('../../assets/avatart.png')} width={100} height={100} />
           </View>
           <View style={{ alignItems: "center", marginVertical: 10 }}>
             <Text style={{ color: theme.colors.linkColor }}>Full Name</Text>

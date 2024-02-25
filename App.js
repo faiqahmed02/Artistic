@@ -46,6 +46,7 @@ import ChatScreen from "./main/user/ChatScreen";
 import EventSubmissionForm from "./main/events/AddEvent";
 import { useEffect } from "react";
 import AddClasses from "./main/classes/AddClasses";
+import EditProfile from "./main/user/EditProfile";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -122,6 +123,7 @@ export default function App() {
                 <Drawer.Screen name="Select Account" component={AccountType} />
                 <Drawer.Screen name="Signup" component={SignUp} />
                 <Drawer.Screen name="Profile" component={Profile} />
+                <Drawer.Screen name="Edit Profile" component={EditProfile} />
                 <Drawer.Screen name="Chat" component={ChatScreen} />
                 <Drawer.Screen name="ArView" component={Arimageviwer} />
                 <Drawer.Screen

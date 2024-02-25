@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { Dimensions, ScrollView, StyleSheet, Text } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, Text } from "react-native";
 import { View } from "react-native";
 import { withTheme } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
@@ -84,75 +84,16 @@ function SignUp({ theme, navigation }) {
             .then(async (userCredential) => {
               // Signed up
               const user = userCredential.user;
-              console.log(user);
-              const data = {
-                name: formData.fullName,
-                role: state.user_role,
-                emailAddress: formData.emailAddress,
-                pNumber: formData.pNumber,
-                username: formData.username,
-                dateCreated: new Date(),
-              };
 
-              await signInWithEmailAndPassword(
-                auth,
-                formData.emailAddress,
-                formData.password
-              ).then(async (res) => {
-                // auth.currentUser({
-                //   email: formData.emailAddress,
-                //   emailVerified: false,
-                //   phoneNumber: formData.pNumber,
-                //   password: formData.password,
-                //   displayName: formData.fullName,
-                //   photoURL: image,
-                //   disabled: false,
-                // })
-
-                dispatch(logIn(auth.currentUser));
-                await updateProfile(auth.currentUser, {
-                  email: formData.emailAddress,
-                  emailVerified: false,
-                  phoneNumber: formData.pNumber,
-                  password: formData.password,
-                  displayName: formData.fullName,
-                  photoURL: image,
-                  disabled: false,
-                })
-                  .then(async () => {
-                    // Profile updated!
-                    addUser(user.uid, data).then((res) => {
-                      getUser(auth.currentUser.uid).then((res) => {
-                        dispatch(userTypeReducer(res));
-                      });
-                    });
-                    await sendEmailVerification(auth.currentUser)
-                      .then((res) => {
-                        alert("An email verification email has been sent");
-                      })
-                      .catch((err) => {
-                        alert("Error in sending email");
-                      });
-                    // See the UserRecord reference doc for the contents of userRecord.
-                    console.log(
-                      "Successfully created new user:",
-                      userRecord.uid
-                    );
-                    console.log("updated");
-                    // ..
-                  })
-                  .catch((error) => {
-                    // An error occurred
-                    // ...
-                    console.log(error);
-                  })
-                  .then((userRecord) => {})
-                  .catch((error) => {
-                    console.log("Error creating new user:", error);
-                  });
+              await updateProfile(auth.currentUser, {
+                displayName: formData.fullName,
+                photoURL: image,
+              }).then((res) => {
+                console.log(user);
+               
               });
-
-              console.log("User created successfully:", user);
+              dispatch(logIn(auth.currentUser))
+              setVisible(true);
               // ...
             })
             .catch((error) => {
@@ -163,9 +104,8 @@ function SignUp({ theme, navigation }) {
           // Add user data to Firestore
         } catch (error) {
           console.error("Error creating user:", error.message);
+          alert("Error creating user:", error.message);
         }
-        console.log(state);
-        setVisible(true);
       }
     } else {
       alert("Data not there");
@@ -197,16 +137,14 @@ function SignUp({ theme, navigation }) {
   const hideModal = () => {
     setVisible(false);
     // async () => {
-    dispatch(logIn(formData));
     navigation.navigate("Home");
-    console.log(userstate);
     // };
   };
 
   return (
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
       <KeyboardAwareScrollView>
-        <View style={{padding:10, paddingTop:40}}>
+        <View style={{ padding: 10, paddingTop: 40 }}>
           <Text style={styles.textD}>Create Account as a</Text>
           <Text style={styles.accT}>
             {state.user_role ? state.user_role : ""}
@@ -231,7 +169,17 @@ function SignUp({ theme, navigation }) {
                 marginBottom: 20,
               }}
             >
-              <FontAwesomeIcon icon={faCamera} color="white" size={50} />
+              {image && (
+                <Image
+                  source={{ uri: image }}
+                  width={100}
+                  height={100}
+                  style={{ borderRadius: 50 }}
+                />
+              )}
+              {!image && (
+                <FontAwesomeIcon icon={faCamera} color="white" size={50} />
+              )}
             </TouchableOpacity>
           </View>
 
@@ -319,7 +267,7 @@ function SignUp({ theme, navigation }) {
           />
         </View>
       </KeyboardAwareScrollView>
-    </LinearGradient>
+    </LinearGradient> 
   );
 }
 

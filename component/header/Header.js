@@ -32,7 +32,7 @@ function Header({ theme, navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const user_type = useSelector((state) => state.userType);
-  console.log(user_type);
+  console.log(user);
   const businessNav = [
     {
       icon: require("../../assets/box.png"),
@@ -84,11 +84,11 @@ function Header({ theme, navigation }) {
     },
     {
       icon: require("../../assets/box.png"),
-      name: "Privacy policies",
+      name: "ZicoArt Policies & Requirements",
     },
     {
       icon: require("../../assets/box.png"),
-      name: "Terms & Conditions",
+      name: "ZicoArt Terms & Conditions",
     },
     {
       icon: require("../../assets/box.png"),
@@ -128,11 +128,11 @@ function Header({ theme, navigation }) {
       },
       {
         icon: require("../../assets/box.png"),
-        name: "Privacy policies",
+        name: "ZicoArt Policies & Requirements",
       },
       {
         icon: require("../../assets/box.png"),
-        name: "Terms & Conditions",
+        name: "ZicoArt Terms & Conditions",
       },
       {
         icon: require("../../assets/box.png"),
@@ -203,10 +203,10 @@ function Header({ theme, navigation }) {
               marginBottom: 20,
             }}
           />}
-          <Text style={styles.d_text}>Discover the Art Of Possinility</Text>
+          <Text style={styles.d_text}>Discover the Art Of Possibility</Text>
           <Avatar.Image
             size={93}
-            source={require("../../assets/profile_picture.png")}
+            source={auth.currentUser ? {uri:auth.currentUser.photoURL} :require("../../assets/profile_picture.png")}
             style={{
               marginTop: 10,
               marginLeft: 10,
