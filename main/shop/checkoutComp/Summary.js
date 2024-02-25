@@ -209,7 +209,7 @@ function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCanc
           </TouchableOpacity>
         </View>
         {/* <ButtonComp btnText="Pay" onPress={onSubmit} /> */}
-        <CheckoutScreen amount={totalAmount*1000} cus_email={auth.currentUser.email} cus_name={auth.currentUser.displayName} />
+        <CheckoutScreen amount={totalAmount*100} cus_email={auth.currentUser.email} cus_name={auth.currentUser.displayName} />
         <TouchableOpacity onPress={handleCancel}>
           <Text
             style={{
