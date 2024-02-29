@@ -14,7 +14,7 @@ import ButtonComp from "../../component/mainscreen/ButtonComp";
 import { useState } from "react";
 import { logIn, signUpReducer, userTypeReducer } from "../../store/rootSlice";
 import Popup from "../../component/mainscreen/Popup";
-import { auth, db } from "../../firebaseConfig";
+import { auth, db, storage } from "../../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -23,6 +23,8 @@ import {
 import { addUser, getUser } from "../../firestoreFunctions/User";
 import { updateProfile } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { serverTimestamp } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 function SignUp({ theme, navigation }) {
   const [visible, setVisible] = React.useState(false);
@@ -38,6 +40,8 @@ function SignUp({ theme, navigation }) {
     password: "",
     confirmP: "",
     username: "",
+    userRole: state.user_role,
+    dateCreated: serverTimestamp(),
   });
   const [emailValidate, setEmailValidate] = useState(false);
   const [pwdValidation, setPwdValidation] = useState(true);
@@ -50,7 +54,7 @@ function SignUp({ theme, navigation }) {
       quality: 1,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -84,21 +88,69 @@ function SignUp({ theme, navigation }) {
             .then(async (userCredential) => {
               // Signed up
               const user = userCredential.user;
+              await signInWithEmailAndPassword(
+                auth,
+                formData.emailAddress,
+                formData.password
+              )
+                .then(async (res) => {
+                  await updateProfile(auth.currentUser, {
+                    displayName: formData.fullName,
+                    photoURL: image,
+                  })
+                    .then(async (res) => {
+                      console.log(user);
+                      //
+                      try {
+                        const response = await fetch(image);
+                        const blob = await response.blob();
+                        const storageRef = ref(
+                          storage,
+                          `profilePictures/${
+                            auth.currentUser.uid
+                          }/${new Date().toISOString()}`
+                        );
+                        await uploadBytes(storageRef, blob);
+                        const downloadURL = await getDownloadURL(storageRef);
+                        const data = {
+                          dateCreated: serverTimestamp(),
+                          email: formData.emailAddress,
+                          fullName: formData.fullName,
+                          pNumber: formData.pNumber,
+                          userRole: formData.userRole,
+                          username: formData.username,
+                          photoURL: downloadURL,
+                        };
+                        addUser(auth.currentUser.uid, data)
+                          .then(() => {
+                            console.log("User Added");
+                          })
+                          .catch(() => {
+                            console.log("Something Went Wrong");
+                          });
+                        return downloadURL;
+                      } catch (error) {
+                        console.error("Error uploading image: ", error);
+                        throw error;
+                      }
+                    })
+                    .catch((err) => {
+                      console.log("Update Profile Error: " + err.message);
+                    });
+                })
+                .catch((err) => {
+                  console.log("Sign IN: " + err.message);
+                });
 
-              await updateProfile(auth.currentUser, {
-                displayName: formData.fullName,
-                photoURL: image,
-              }).then((res) => {
-                console.log(user);
-               
-              });
-              dispatch(logIn(auth.currentUser))
+              dispatch(logIn(auth.currentUser));
+
               setVisible(true);
               // ...
             })
             .catch((error) => {
               const errorCode = error.code;
               const errorMessage = error.message;
+              alert(errorMessage);
               // ..
             });
           // Add user data to Firestore
@@ -134,11 +186,17 @@ function SignUp({ theme, navigation }) {
   // Modal
 
   const showModal = () => setVisible(true);
-  const hideModal = () => {
-    setVisible(false);
-    // async () => {
-    navigation.navigate("Home");
-    // };
+  const hideModal = async () => {
+    await addUser(auth.currentUser.uid, formData)
+      .then(() => {
+        setVisible(false);
+        // async () => {
+        navigation.navigate("Home");
+        // };
+      })
+      .catch(() => {
+        alert("Some Thing Went Wrong");
+      });
   };
 
   return (
@@ -267,7 +325,7 @@ function SignUp({ theme, navigation }) {
           />
         </View>
       </KeyboardAwareScrollView>
-    </LinearGradient> 
+    </LinearGradient>
   );
 }
 

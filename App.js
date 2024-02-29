@@ -1,3 +1,5 @@
+window.navigator.userAgent = "ReactNative";
+
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
 import { persistStore } from "redux-persist";
@@ -47,6 +49,8 @@ import EventSubmissionForm from "./main/events/AddEvent";
 import { useEffect } from "react";
 import AddClasses from "./main/classes/AddClasses";
 import EditProfile from "./main/user/EditProfile";
+import ListAllArtist from "./main/user/chat/ListAllArtist";
+import AllChat from "./main/user/chat/AllChat";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -112,6 +116,7 @@ export default function App() {
                 <Drawer.Screen name="Technical Support" component={Support} />
                 <Drawer.Screen name="Products" component={Products} />
                 <Drawer.Screen name="My Products" component={Products} />
+                <Drawer.Screen name="Showrooms" component={Products} />
                 <Drawer.Screen name="Cart" component={Cart} />
                 <Drawer.Screen name="Checkout" component={Checkout} />
                 <Drawer.Screen name="My Orders" component={MyOrders} />
@@ -124,7 +129,7 @@ export default function App() {
                 <Drawer.Screen name="Signup" component={SignUp} />
                 <Drawer.Screen name="Profile" component={Profile} />
                 <Drawer.Screen name="Edit Profile" component={EditProfile} />
-                <Drawer.Screen name="Chat" component={ChatScreen} />
+                <Drawer.Screen name="Chat" component={AllChat} />
                 <Drawer.Screen name="ArView" component={Arimageviwer} />
                 <Drawer.Screen
                   name="Checkout Screen"

@@ -110,7 +110,7 @@ function EditProfile({ theme, navigation }) {
 
           <View>
             <InputComp
-              placeholder={auth.currentUser.displayName ? auth.currentUser.displayName :"Full Name"}
+              placeholder={auth.currentUser ? auth.currentUser.displayName :"Full Name"}
               onChangeText={(name) =>
                 setFormData({
                   ...formData,
@@ -120,7 +120,7 @@ function EditProfile({ theme, navigation }) {
               inputMode="text"
             />
             <InputComp
-              placeholder={auth.currentUser.email ? auth.currentUser.email : "Email Address"}
+              placeholder={auth.currentUser ? auth.currentUser.email : "Email Address"}
               onChangeText={(email) =>
                 setFormData({
                   ...formData,
@@ -132,7 +132,7 @@ function EditProfile({ theme, navigation }) {
               onPressOut={validation}
             />
             <InputComp
-              placeholder={auth.currentUser.phoneNumber ? auth.currentUser.phoneNumber : "Phone Number"}
+              placeholder={auth.currentUser ? auth.currentUser.phoneNumber : "Phone Number"}
               onChangeText={(num) =>
                 setFormData({
                   ...formData,

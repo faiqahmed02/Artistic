@@ -10,7 +10,7 @@ import { ScrollView } from "react-native";
 import CheckoutScreen from "../CheckoutScreen";
 import { auth } from "../../../firebaseConfig";
 
-function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCancel }) {
+function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCancel, navigation }) {
   const handleNext = () => {
     setFormData({ ...formData, field1 });
     onSubmit();
@@ -209,7 +209,7 @@ function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCanc
           </TouchableOpacity>
         </View>
         {/* <ButtonComp btnText="Pay" onPress={onSubmit} /> */}
-        <CheckoutScreen amount={totalAmount*100} cus_email={auth.currentUser.email} cus_name={auth.currentUser.displayName} />
+        <CheckoutScreen amount={totalAmount*100} cus_email={auth.currentUser.email} cus_name={auth.currentUser.displayName} navigation={navigation} />
         <TouchableOpacity onPress={handleCancel}>
           <Text
             style={{

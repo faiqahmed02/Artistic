@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 function RightHeader({ navigation }) {
@@ -26,18 +26,21 @@ function RightHeader({ navigation }) {
         style={{
           // marginLeft: 20,
           backgroundColor: "#C1272D",
-          padding: 10,
+          // padding: 10,
           borderRadius: 5,
-          marginRight: 20,
-          marginTop:10
+          // marginRight: 20,
+          // marginTop:10,
+          overflow:"hidden"
           // width: 50,
         }}
       >
-        <FontAwesomeIcon icon={faCommentDots} size={25} color="#FFf" />
+        {/* <FontAwesomeIcon icon={ */}
+        <Image source={require("../../assets/topChat.png")} style={{width:45, height:45}} />
+        {/* // size={25} color="#FFf" /> */}
       </TouchableOpacity>
       {/* </View> */}
       {/* <View style={{ marginRight: 20 }}> */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => navigation.openDrawer()}
         style={{
           // marginLeft: 20,
@@ -45,12 +48,12 @@ function RightHeader({ navigation }) {
           padding: 10,
           borderRadius: 5,
           marginRight: 20,
-          marginTop:10
+          // marginTop:10
           // width: 50,
         }}
       >
         <FontAwesomeIcon icon={faSearch} size={25} color="#FFf" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {/* </View> */}
     </View>
   );

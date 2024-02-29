@@ -5,12 +5,15 @@ import { Image, TouchableOpacity, View } from "react-native";
 import InputComp from "../mainscreen/InputComp";
 
 function ChatInput() {
-    return <View>
-        <TouchableOpacity>
-            <Image source={require('../../assets/camer_chate.png')} />
-        </TouchableOpacity>
-        <InputComp placeholder="Enter Message" />
-        ChatInput</View>;
+  return (
+    <View>
+      <TouchableOpacity>
+        <Image source={require("../../assets/camer_chate.png")} />
+      </TouchableOpacity>
+      <InputComp placeholder="Enter Message" />
+      ChatInput
+    </View>
+  );
 }
 
 export default ChatInput;

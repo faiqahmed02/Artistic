@@ -95,51 +95,55 @@ function Header({ theme, navigation }) {
       name: auth.currentUser ? "Logout" : "Login",
     },
   ];
-  
-  
+
   const buyerNav = [
-      {
-        icon: require("../../assets/box.png"),
-        name: "Home",
-      },
-      {
-        icon: require("../../assets/box.png"),
-        name: "My Orders",
-      },
-      {
-        icon: require("../../assets/box.png"),
-        name: "Subscriptions",
-      },
-      {
-        icon: require("../../assets/box.png"),
-        name: "Events",
-      },
-      {
-        icon: require("../../assets/box.png"),
-        name: "Classes",
-      },
-      {
-        icon: require("../../assets/box.png"),
-        name: "About Us",
-      },
-      {
-        icon: require("../../assets/box.png"),
-        name: "Technical Support",
-      },
-      {
-        icon: require("../../assets/box.png"),
-        name: "ZicoArt Policies & Requirements",
-      },
-      {
-        icon: require("../../assets/box.png"),
-        name: "ZicoArt Terms & Conditions",
-      },
-      {
-        icon: require("../../assets/box.png"),
-        name: auth.currentUser ? "Logout" : "Login",
-      },
-    ];
-  const nav = user_type && user_type.role === "Business" ? businessNav : buyerNav;
+    {
+      icon: require("../../assets/box.png"),
+      name: "Home",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Showrooms",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "My Orders",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Subscriptions",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Events",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Classes",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "About Us",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Technical Support",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "ZicoArt Policies & Requirements",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "ZicoArt Terms & Conditions",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: auth.currentUser ? "Logout" : "Login",
+    },
+  ];
+  const nav =
+    user_type && user_type.role === "Business" ? businessNav : buyerNav;
   const headerAction = (d) => {
     // console.log(d);
     if (d === "Logout" && auth.currentUser) {
@@ -193,26 +197,34 @@ function Header({ theme, navigation }) {
           >
             <FontAwesomeIcon icon={faClose} size={25} color="#FFf" />
           </TouchableOpacity>
-         {auth.currentUser && <Image 
-            source={{uri:auth.currentUser.photoURL}}
-            style={{
-              // width:"40%",
-              // height:"auto"
-              marginLeft: 10,
-              marginTop: 20,
-              marginBottom: 20,
-            }}
-          />}
+          {auth.currentUser && (
+            <Image
+              source={{ uri: auth.currentUser.photoURL }}
+              style={{
+                // width:"40%",
+                // height:"auto"
+                marginLeft: 10,
+                marginTop: 20,
+                marginBottom: 20,
+              }}
+            />
+          )}
           <Text style={styles.d_text}>Discover the Art Of Possibility</Text>
           <Avatar.Image
             size={93}
-            source={auth.currentUser ? {uri:auth.currentUser.photoURL} :require("../../assets/profile_picture.png")}
+            source={
+              auth.currentUser
+                ? { uri: auth.currentUser.photoURL }
+                : require("../../assets/profile_picture.png")
+            }
             style={{
               marginTop: 10,
               marginLeft: 10,
             }}
           />
-          <Text style={styles.d_user}>{auth.currentUser ? auth.currentUser.displayName : ""}</Text>
+          <Text style={styles.d_user}>
+            {auth.currentUser ? auth.currentUser.displayName : ""}
+          </Text>
           {nav.map((d, i) => {
             return (
               <TouchableOpacity
@@ -260,7 +272,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 620,
     // left: 80,
-    right: -100,
+    right: -115,
     top: 100,
   },
   navcomp: {
@@ -282,6 +294,3 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 });
-
-
-

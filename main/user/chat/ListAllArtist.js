@@ -1,11 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
+import { getAllurers } from "../../../firestoreFunctions/User";
+import { LinearGradient } from "expo-linear-gradient";
+import { withTheme } from "react-native-paper";
 
-function ListAllArtist() {
-    const [artist, setArtist] = useState([]);
-    
+function ListAllArtist({ theme }) {
+  const [artist, setArtist] = useState([]);
+
+  useEffect(() => {
+    getAllurers().then((res) => {
+      const artistData = res.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setArtist(artistData);
+    });
+  }, []);
+
   return (
-    <div>ListAllArtist</div>
-  )
+    <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
+      <View>
+        {artist.map((d) => {
+          return <Text> {d.fullName}</Text>;
+        })}
+      </View>
+    </LinearGradient>
+  );
 }
 
-export default ListAllArtist
+export default withTheme(ListAllArtist) ;

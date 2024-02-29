@@ -1,38 +1,104 @@
 // ChatScreen.js
-import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
-import { View } from "react-native";
+
+import React, { useState, useEffect } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
-import { withTheme } from "react-native-paper";
+import { auth, db } from "../../firebaseConfig";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
+import { getUser } from "../../firestoreFunctions/User";
 
-const ChatScreen = ({ theme, navigation }) => {
-    const [messages, setMessages] = useState([
-        {
-            _id: 1,
-            text: "Hello!",
-            createdAt: new Date(),
-            user: {
-                _id: 2,
-                name: "React Native",
-                avatar: "https://placeimg.com/140/140/any",
-            },
-        },
-    ]);
+const ChatScreen = ({ route }) => {
+  const [messages, setMessages] = useState([]);
+  const [otherUser, setOtherUser] = useState({});
+  //   const { '3ojPhMKO7xOKjUcRGId4ztQ2Sl42' } = route.params;
 
-    const onSend = (newMessages = []) => {
-        setMessages((prevMessages) => GiftedChat.append(prevMessages, newMessages));
-    };
+  useEffect(() => {
+    const userId = auth.currentUser.uid;
 
-    return (
-        <LinearGradient
-            style={{ alignItems: "center", padding: 10 }}
-            colors={[theme.colors.myOwnColor, "transparent"]}
-        >
-            <View style={{height: "100%", width:"100%" }}>
-                <GiftedChat style={{}} messages={messages} onSend={onSend} user={{ _id: 1 }} />
-            </View>
-        </LinearGradient>
+    // Query to get messages from both the user and the artist
+    const q = query(
+      collection(
+        db,
+        "chats",
+        userId,
+        "conversations",
+        '3ojPhMKO7xOKjUcRGId4ztQ2Sl42',
+        "messages"
+      ),
+      orderBy("createdAt", "desc")
     );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newMessages = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          _id: doc.id,
+          text: data.text,
+          createdAt: data.createdAt.toDate(),
+          user: {
+            _id: data.user._id,
+            name: data.user.name,
+          },
+        };
+      });
+
+      setMessages(newMessages);
+    });
+
+    // Assuming you have a function to get artist details by ID
+    getUser("3ojPhMKO7xOKjUcRGId4ztQ2Sl42")
+      .then((res) => {
+        setOtherUser(res);
+      })
+      .catch((err) => {
+        alert("Artist not found");
+      });
+
+    return () => unsubscribe();
+  }, [route.params]);
+
+  const onSend = async (newMessages = []) => {
+    try {
+      const userId = auth.currentUser.uid;
+
+      const docRef = await addDoc(
+        collection(
+          db,
+          "chats",
+          userId,
+          "conversations",
+          '3ojPhMKO7xOKjUcRGId4ztQ2Sl42',
+          "messages"
+        ),
+        {
+          text: newMessages[0].text,
+          createdAt: serverTimestamp(),
+          user: newMessages[0].user,
+        }
+      );
+
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
+  return (
+    <GiftedChat
+      messages={messages}
+      onSend={(newMessages) => onSend(newMessages)}
+      user={{
+        _id: auth.currentUser.uid,
+        name: auth.currentUser.displayName,
+      }}
+    />
+  );
 };
 
-export default withTheme(ChatScreen);
+export default ChatScreen;

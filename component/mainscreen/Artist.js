@@ -7,7 +7,7 @@ import { View } from "react-native";
 import { ScrollView } from "react-native";
 import { withTheme } from "react-native-paper";
 
-function Artist({ theme }) {
+function Artist({ theme, title }) {
   return (
     <View style={styles.trendingArtist}>
       <View
@@ -15,10 +15,10 @@ function Artist({ theme }) {
           //   flex: 1,
           width: Dimensions.get("window").width,
           flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
         }}
       >
-        <Text style={styles.trendText}>Artists</Text>
+        <Text style={styles.trendText}>{title}</Text>
         <Text
           style={{
             marginRight: 20,
@@ -27,10 +27,11 @@ function Artist({ theme }) {
             lineHeight: 17.7,
             fontWeight: "600",
             marginTop: 15,
+            marginHorizontal:10,
             textDecorationLine: "underline",
           }}
         >
-          View All
+          <Image source={require('../../assets/forward.png')} style={{width:20, height:20}} />
         </Text>
       </View>
       <ScrollView horizontal style={{ maxHeight: 190 }}>
@@ -39,7 +40,7 @@ function Artist({ theme }) {
             display: "flex",
             justifyContent: "flex-start",
             flexDirection: "row",
-            height: 190,
+            // height: 190,
           }}
         >
           <View style={styles.productCard}>
@@ -90,12 +91,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     lineHeight: 40,
-    width: Dimensions.get("window").width / 2,
     // height:100,
   },
   //   Product
   productCard: {
-    padding: 10,
+    padding: 5,
     borderRadius: 5,
     margin: 5,
   },
@@ -103,6 +103,8 @@ const styles = StyleSheet.create({
     width: 100,
     height: 97,
     borderRadius: 50,
+    borderWidth:2,
+    borderColor:'white'
   },
   productTitle: {
     fontSize: 14,
