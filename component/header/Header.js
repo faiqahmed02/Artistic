@@ -36,7 +36,11 @@ function Header({ theme, navigation }) {
   const businessNav = [
     {
       icon: require("../../assets/box.png"),
-      name: "Home",
+      name: "Profile",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Edit Profile",
     },
     {
       icon: require("../../assets/box.png"),
@@ -99,7 +103,11 @@ function Header({ theme, navigation }) {
   const buyerNav = [
     {
       icon: require("../../assets/box.png"),
-      name: "Home",
+      name: "Profile",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Edit Profile",
     },
     {
       icon: require("../../assets/box.png"),

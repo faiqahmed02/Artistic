@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React from "react";
 import { Image, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { auth } from "../../firebaseConfig";
 
 function RightHeader({ navigation }) {
   return (
@@ -22,7 +23,7 @@ function RightHeader({ navigation }) {
     >
       {/* <View style={{ marginRight: 20 }}> */}
       <TouchableOpacity
-        onPress={() => navigation.navigate("Chat")}
+        onPress={() => navigation.navigate(auth.currentUser ? "Chat" : "Login")}
         style={{
           // marginLeft: 20,
           backgroundColor: "#C1272D",
@@ -30,12 +31,15 @@ function RightHeader({ navigation }) {
           borderRadius: 5,
           // marginRight: 20,
           // marginTop:10,
-          overflow:"hidden"
+          overflow: "hidden",
           // width: 50,
         }}
       >
         {/* <FontAwesomeIcon icon={ */}
-        <Image source={require("../../assets/topChat.png")} style={{width:45, height:45}} />
+        <Image
+          source={require("../../assets/topChat.png")}
+          style={{ width: 45, height: 45 }}
+        />
         {/* // size={25} color="#FFf" /> */}
       </TouchableOpacity>
       {/* </View> */}

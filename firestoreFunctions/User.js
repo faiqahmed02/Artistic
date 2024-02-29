@@ -46,18 +46,31 @@ export const getAllurers = async () => {
 
 export const getAllChats = async () => {
   const chatsCollection = collection(db, "chats");
-  const querySnapshot = await getDocs(chatsCollection);
+  const q = query(chatsCollection);
 
-  const chats = querySnapshot.docs.map((doc) => {
+  const querySnapshot = await getDocs(q);
+
+  const chats = querySnapshot.docs.map(async (doc) => {
+    const conversationsCollection = collection(doc.ref, "conversations");
+    const conversationsSnapshot = await getDocs(conversationsCollection);
+
+    const messages = [];
+
+    conversationsSnapshot.forEach((conversationDoc) => {
+      const messagesCollection = collection(conversationDoc.ref, "messages");
+      messagesCollection.forEach((messageDoc) => {
+        messages.push(messageDoc.data());
+      });
+    });
+
     return {
       chatId: doc.id,
-      data: doc.data(),
+      messages,
     };
   });
 
-  return chats;
+  return Promise.all(chats);
 };
-
 // // Usage example
 // const artistId = "yourArtistId"; // Replace with the actual artist ID
 

@@ -50,7 +50,9 @@ import { useEffect } from "react";
 import AddClasses from "./main/classes/AddClasses";
 import EditProfile from "./main/user/EditProfile";
 import ListAllArtist from "./main/user/chat/ListAllArtist";
-import AllChat from "./main/user/chat/AllChat";
+// import AllChat from "./main/user/chat/AllChat";
+import ChatListScreen from "./main/user/chat/AllChat";
+import ChatRoom from "./main/user/chat/ChatRoom";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -129,7 +131,10 @@ export default function App() {
                 <Drawer.Screen name="Signup" component={SignUp} />
                 <Drawer.Screen name="Profile" component={Profile} />
                 <Drawer.Screen name="Edit Profile" component={EditProfile} />
-                <Drawer.Screen name="Chat" component={AllChat} />
+                <Drawer.Screen name="Chat" component={ChatListScreen} />
+                <Drawer.Screen name="Chat Screen" component={ChatScreen} />
+                <Drawer.Screen name="Chat Room" component={ChatRoom} />
+                <Drawer.Screen name="New Chat" component={ListAllArtist} />
                 <Drawer.Screen name="ArView" component={Arimageviwer} />
                 <Drawer.Screen
                   name="Checkout Screen"
