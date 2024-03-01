@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, FlatList, Image, Text, View } from "react-native";
 import { getAllurers } from "../../../firestoreFunctions/User";
 import { LinearGradient } from "expo-linear-gradient";
-import { withTheme } from "react-native-paper";
+import { Avatar, withTheme } from "react-native-paper";
 import ButtonComp from "../../../component/mainscreen/ButtonComp";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { auth } from "../../../firebaseConfig";
@@ -26,7 +26,7 @@ function ListAllArtist({ theme, navigation }) {
     navigation.navigate("Chat Screen", { artistId, userId, artistName });
   };
   return (
-    <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]} style={{flex:1}}>
+    <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]} style={{flex:1, padding:10}}>
       <View>
         <FlatList
           data={artist}
@@ -34,17 +34,16 @@ function ListAllArtist({ theme, navigation }) {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() => handleChatPress(item.id, item.fullName)}
+              style={{ flexDirection: "row", marginVertical: 10 }}
             >
-              <View style={{ flexDirection: "row", margin: "auto" }}>
-                <Image
-                  source={require("../../../assets/avatart.png")}
-                  style={{ width: 50, height: 57, borderRadius: 59 }}
-                />
-                <Text style={{ margin: "auto" }}>{item.id}</Text>
-                {/* <ButtonComp
-                btnText="Start Chat"
-
-              /> */}
+             <Avatar.Image
+                size={50}
+                source={{uri:auth.currentUser.photoURL}}
+              />
+              <View style={{ margin: "auto", paddingLeft: 20 }}>
+                <Text style={{ fontSize: 20, fontWeight: "500" }}>
+                  {item.fullName}
+                </Text>
               </View>
             </TouchableOpacity>
           )}
