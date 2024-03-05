@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Dimensions, Image, ScrollView, StyleSheet, Text } from "react-native";
 import { View } from "react-native";
-import { withTheme } from "react-native-paper";
+import { Checkbox, withTheme } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import InputComp from "../../component/mainscreen/InputComp";
 import * as ImagePicker from "expo-image-picker";
@@ -54,7 +54,7 @@ function SignUp({ theme, navigation }) {
       quality: 1,
     });
 
-    // console.log(result);
+    // // console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -70,7 +70,7 @@ function SignUp({ theme, navigation }) {
       formData.confirmP
     ) {
       if (emailValidate === true) {
-        console.log(formData);
+        // console.log(formData);
         dispatch(
           signUpReducer({
             ...state,
@@ -99,7 +99,7 @@ function SignUp({ theme, navigation }) {
                     photoURL: image,
                   })
                     .then(async (res) => {
-                      console.log(user);
+                      // console.log(user);
                       //
                       try {
                         const response = await fetch(image);
@@ -123,10 +123,10 @@ function SignUp({ theme, navigation }) {
                         };
                         addUser(auth.currentUser.uid, data)
                           .then(() => {
-                            console.log("User Added");
+                            // console.log("User Added");
                           })
                           .catch(() => {
-                            console.log("Something Went Wrong");
+                            // console.log("Something Went Wrong");
                           });
                         return downloadURL;
                       } catch (error) {
@@ -135,11 +135,11 @@ function SignUp({ theme, navigation }) {
                       }
                     })
                     .catch((err) => {
-                      console.log("Update Profile Error: " + err.message);
+                      // console.log("Update Profile Error: " + err.message);
                     });
                 })
                 .catch((err) => {
-                  console.log("Sign IN: " + err.message);
+                  // console.log("Sign IN: " + err.message);
                 });
 
               dispatch(logIn(auth.currentUser));
@@ -172,7 +172,7 @@ function SignUp({ theme, navigation }) {
       alert("email not Correct!");
     }
   };
-  console.log(state);
+  // console.log(state);
   const checkPwd = () => {
     if (formData.password !== formData.confirmP) {
       setPwdValidation(false);
@@ -181,7 +181,7 @@ function SignUp({ theme, navigation }) {
       setPwdValidation(true);
     }
   };
-  // console.log(formData);
+  // // console.log(formData);
 
   // Modal
 
@@ -311,6 +311,11 @@ function SignUp({ theme, navigation }) {
               placeholder="Security Code"
               onChangeText={(seq) => console.log(seq)}
             />
+            {state.user_role === "Artist" ? (
+              <Checkbox.Item label="Special Needs" status="checked" />
+            ) : (
+              ""
+            )}
             <ButtonComp
               btnText="Create Account"
               onPress={() => createAccount()}

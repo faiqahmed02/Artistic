@@ -19,7 +19,7 @@ function Cart({ theme, navigation }) {
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [cart, setCart] = useState([]);
-  // console.log(user);
+  // // console.log(user);
   const minusCount = () => {
     if (count !== 1) {
       setCount(count - 1);
@@ -36,7 +36,7 @@ function Cart({ theme, navigation }) {
     if (state) {
       setCart(state);
     }
-    // console.log(cart);
+    // // console.log(cart);
   };
   const handleDelete = (itemId) => {
     const items = cart.filter((item) => item.id !== itemId);
@@ -59,9 +59,9 @@ function Cart({ theme, navigation }) {
       navigation.navigate("Login");
     }
     {
-      // console.log("clicked");
+      // // console.log("clicked");
     }
-    // console.log("clicked");
+    // // console.log("clicked");
   };
   return (
     <LinearGradient
@@ -94,7 +94,7 @@ function Cart({ theme, navigation }) {
                 >
                   <View>
                     <Image
-                      source={require("../../assets/product_img_1.png")}
+                      source={{uri:d.imageUrl}}
                       style={{ width: 79, height: 82 }}
                     />
                   </View>
@@ -110,7 +110,7 @@ function Cart({ theme, navigation }) {
                         color: "#29ABE2",
                       }}
                     >
-                      $ {d.price} x 4
+                      $ {d.price} x {d.cartQty}
                     </Text>
                     <Text
                       style={{

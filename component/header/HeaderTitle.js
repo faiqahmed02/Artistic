@@ -9,7 +9,7 @@ import { auth } from "../../firebaseConfig";
 import { getUser } from "../../firestoreFunctions/User";
 
 function HeaderTitle({ navigation }) {
-  // console.log(Dimensions.get("window").width);
+  // // console.log(Dimensions.get("window").width);
   const user = useSelector((state) => state.user);
   useEffect(() => {}, [auth.currentUser]);
   return (

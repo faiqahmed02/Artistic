@@ -22,7 +22,7 @@ function Banner() {
         autoFillData
         mode="parallax"
         scrollAnimationDuration={1000}
-        // onSnapToItem={(index) => console.log("current index:", index)}
+        // onSnapToItem={(index) => // console.log("current index:", index)}
         // pagingEnabled
         renderItem={({ item }) => (
           <View

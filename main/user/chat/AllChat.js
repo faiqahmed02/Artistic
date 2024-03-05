@@ -29,7 +29,7 @@ const ChatListScreen = ({ theme }) => {
   useEffect(() => {
     // Get the user ID (replace '123' with your actual user ID retrieval logic)
     getUser(auth.currentUser.uid).then((res) => {
-      console.log(res);
+      // console.log(res);
     });
     const userId = auth.currentUser.uid;
 
@@ -54,10 +54,10 @@ const ChatListScreen = ({ theme }) => {
   const navigateToChat = (chatRoomId) => {
     // Navigate to the ChatScreen with the selected chat room ID
     const ids = chatRoomId.split("-");
-    console.log(ids);
+    // console.log(ids);
     const userId = ids[0];
     const artistId = ids[1];
-    console.log(userId + " " + artistId);
+    // console.log(userId + " " + artistId);
     navigation.navigate("Chat Room", { chatRoomId });
   };
 

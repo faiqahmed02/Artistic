@@ -20,7 +20,7 @@ function AccountType({ theme, navigation }) {
   const typeSelected = (t) => {
     setRole({ ...role, user_role: t });
     setClicked(true);
-    // console.log(role);
+    // // console.log(role);
   };
 
   const signUpScreen = () => {

@@ -17,7 +17,7 @@ export default function CheckoutScreen({ amount, cus_email, cus_name }) {
   const navigation = useNavigation();
   const getCustomerIdFrom = () => {
     getUser(auth.currentUser.uid).then((res) => {
-      console.log(res.stripeId);
+      // console.log(res.stripeId);
       setStripeCusId(res.stripeId);
     });
   };
@@ -38,7 +38,7 @@ export default function CheckoutScreen({ amount, cus_email, cus_name }) {
     });
 
     const { paymentIntent, ephemeralKey, customer } = await response.json();
-    console.log(customer);
+    // console.log(customer);
     return {
       paymentIntent,
       ephemeralKey,
@@ -51,7 +51,7 @@ export default function CheckoutScreen({ amount, cus_email, cus_name }) {
     try {
       const { paymentIntent, ephemeralKey, customer, publishableKey } =
         await fetchPaymentSheetParams();
-      console.log(customer);
+      // console.log(customer);
       const { error } = await initPaymentSheet({
         merchantDisplayName: "ZicoArt, Inc.",
         customerId: stripCusId,

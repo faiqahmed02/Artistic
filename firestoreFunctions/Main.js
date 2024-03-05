@@ -8,7 +8,20 @@ export async function getEvents() {
   return querySnapshot
   // querySnapshot.forEach((doc) => {
   //   // doc.data() is never undefined for query doc snapshots
-  //   console.log(doc.id, " => ", doc.data());
+  //   // console.log(doc.id, " => ", doc.data());
+    
+
+  // });
+}
+
+export async function getProducts() {
+  const q = query(collection(db, "paintings"));
+
+  const querySnapshot = await getDocs(q);
+  return querySnapshot
+  // querySnapshot.forEach((doc) => {
+  //   // doc.data() is never undefined for query doc snapshots
+  //   // console.log(doc.id, " => ", doc.data());
     
 
   // });

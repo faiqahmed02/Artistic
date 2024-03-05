@@ -16,13 +16,14 @@ function Summary({ formData, setFormData, onPrevious, onSubmit, theme,handleCanc
     onSubmit();
   };
   const state = useSelector((state) => state.cartState);
-  console.log(state);
+  // console.log(state);
 
   const totalAmount = state.reduce((acc, product) => {
     return acc + (product.price * product.quantity);
   }, 0);
 
-  console.log(totalAmount);
+  console.log(state);
+  
 
   return (
     <ScrollView>

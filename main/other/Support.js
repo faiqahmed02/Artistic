@@ -6,7 +6,7 @@ import InputComp from "../../component/mainscreen/InputComp";
 import ButtonComp from "../../component/mainscreen/ButtonComp";
 
 function Support({ theme, navigation }) {
-    console.log(Platform.OS);
+    // console.log(Platform.OS);
   return (
     <View>
       <LinearGradient

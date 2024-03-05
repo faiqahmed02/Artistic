@@ -15,7 +15,7 @@ import { db } from "../firebaseConfig";
 
 export async function addUser(userId, formData) {
   await setDoc(doc(db, "users", userId), formData, { merge: true });
-  // console.log("Document written with ID: ", docRef.id);
+  // // console.log("Document written with ID: ", docRef.id);
 }
 
 export async function getUser(userID) {
@@ -23,12 +23,12 @@ export async function getUser(userID) {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    // console.log("Document data:", docSnap.data());
+    // // console.log("Document data:", docSnap.data());
     const userData = docSnap.data();
     return userData;
   } else {
     // docSnap.data() will be undefined in this case
-    console.log("No such document!");
+    // console.log("No such document!");
   }
 }
 
@@ -40,7 +40,7 @@ export const getAllurers = async () => {
 
   // querySnapshot.forEach((doc) => {
   //   // doc.data() is never undefined for query doc snapshots
-  //   console.log(doc.id, " => ", doc.data());
+  //   // console.log(doc.id, " => ", doc.data());
   // });
 };
 

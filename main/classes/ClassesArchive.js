@@ -34,7 +34,7 @@ function ClassesArchive({ theme, navigation }) {
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, [currentTime]);
-  console.log(classes);
+  // console.log(classes);
   return (
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
       <ScrollView>

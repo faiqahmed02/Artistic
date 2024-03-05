@@ -20,7 +20,7 @@ function ListAllArtist({ theme, navigation }) {
       setArtist(artistData);
     });
   }, []);
-  // console.log(artist[0]?.id);
+  // // console.log(artist[0]?.id);
   const handleChatPress = (artistId, artistName) => {
     userId = auth.currentUser.uid;
     navigation.navigate("Chat Screen", { artistId, userId, artistName });

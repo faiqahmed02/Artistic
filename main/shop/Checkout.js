@@ -29,7 +29,7 @@ const Checkout = ({ theme, navigation }) => {
     setTimeout(() => {
       navigation.navigate("Thank You")
     }, 1000);
-    // console.log("Form submitted:", formData);
+    // // console.log("Form submitted:", formData);
   };
   const steps = [
     { title: "Address" },
@@ -42,7 +42,7 @@ const Checkout = ({ theme, navigation }) => {
     setTimeout(() => {
       navigation.navigate("Cart");
     }, 1000);
-    // console.log(formData);
+    // // console.log(formData);
   };
   return (
     <LinearGradient

@@ -30,7 +30,7 @@ function SingleProduct({ theme, navigation }) {
   const [count, setCount] = useState(1);
   const route = useRoute();
   const { productId } = route.params;
-  // console.log(productId);
+  console.log(typeof(productId.quantity));
   const [productCart, setProductCart] = useState([]);
   const cartState = useSelector((state) => state.cartState);
   const dispatch = useDispatch();
@@ -42,16 +42,16 @@ function SingleProduct({ theme, navigation }) {
     }
   };
   const addCount = () => {
-    if (count !== productId.quantity) {
+    if (parseInt(productId.quantity) !== count) {
       setCount(count + 1);
     }
   };
   const cartData = {
-    artistName: productId.artistName,
-    artworkName: productId.artworkName,
+    artistName: productId.artist,
+    artworkName: productId.artWorkName,
     artworkSize: productId.artworkSize,
-    artworkType: productId.artworkType,
-    artworkWeight: productId.artworkWeight,
+    artworkType: productId.artWorkType,
+    artworkWeight: productId.artWorkWeight,
     description: productId.description,
     id: productId.id,
     price: productId.price,
@@ -69,11 +69,11 @@ function SingleProduct({ theme, navigation }) {
       // dispatch();
       setProductCart([...cartState, cartData]);
       // dispatch(cartReducer(productCart));
-      // console.log("Product added to productCart:", cartData);
+      // // console.log("Product added to productCart:", cartData);
       navigation.navigate('Cart')
-      console.log(cartData);
+      // console.log(cartData);
     } else {
-      // console.log("Product already in the productCart:", cartData);
+      // // console.log("Product already in the productCart:", cartData);
       // dispatch(cartReducer(productCart));
     }
   };
@@ -81,7 +81,7 @@ function SingleProduct({ theme, navigation }) {
   useEffect(() => {
     dispatch(cartReducer(productCart));
   }, [productCart]);
-  // console.log(JSON.stringify(cartState) + " " + "Haan Han My hi hu");
+  // // console.log(JSON.stringify(cartState) + " " + "Haan Han My hi hu");
   return (
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
       <ScrollView>
@@ -95,7 +95,7 @@ function SingleProduct({ theme, navigation }) {
           }}
         >
           <Image
-            source={require("../../assets/single_product.png")}
+            source={{uri:productId.imageUrl}}
             style={{
               width: 343,
               height: 197,
@@ -122,13 +122,13 @@ function SingleProduct({ theme, navigation }) {
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Artist Name:</Text>
                   <Text style={[styles.text, { fontWeight: "600" }]}>
-                    {productId.artistName}
+                    {productId.artist}
                   </Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Artwork Name:</Text>
                   <Text style={[styles.text, { fontWeight: "600" }]}>
-                    {productId.artworkName}
+                    {productId.artWorkName}
                   </Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
@@ -140,25 +140,25 @@ function SingleProduct({ theme, navigation }) {
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Type:</Text>
                   <Text style={[styles.text, { fontWeight: "600" }]}>
-                    {productId.artworkType}
+                    {productId.artWorkType}
                   </Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Size:</Text>
                   <Text style={[styles.text, { fontWeight: "600" }]}>
-                    {productId.artworkSize}
+                    {productId.artWorkSize}
                   </Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Weight:</Text>
                   <Text style={[styles.text, { fontWeight: "600" }]}>
-                    {productId.artworkWeight}
+                    {productId.artWorkWeight}
                   </Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Art Story:</Text>
                   <Text style={[styles.text, { fontWeight: "600" }]}>
-                    {productId.description}
+                    {productId.quote}
                   </Text>
                 </View>
               </View>
@@ -224,9 +224,7 @@ function SingleProduct({ theme, navigation }) {
                 textAlign: "left",
               }}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-              ornare ornare pulvinar. Etiam pellentesque neque et lorem aliquam
-              maximus. Fusce finibus Read More.
+              {productId.description}
             </Text>
           </View>
           <View

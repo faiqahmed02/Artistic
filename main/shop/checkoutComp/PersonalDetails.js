@@ -36,9 +36,9 @@ const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
       Email_Address: text,
       Phone_Number: text,
     });
-    // console.log(field1);
+    // // console.log(field1);
   };
-  // console.log(field1);
+  // // console.log(field1);
   const inputs = [
     "Full Name",
     "Street Address",

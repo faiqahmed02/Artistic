@@ -49,10 +49,10 @@ function Profile({ theme, navigation }) {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
+      // console.log("Document data:", docSnap.data());
     } else {
       // docSnap.data() will be undefined in this case
-      console.log("No such document!");
+      // console.log("No such document!");
     }
 
 
@@ -77,7 +77,7 @@ function Profile({ theme, navigation }) {
       const { error, paymentIntent } = await presentPaymentSheet();
 
       if (error) {
-        console.log('Payment failed:', error.message);
+        // console.log('Payment failed:', error.message);
         // Handle payment failure
       } else if (paymentIntent.status === 'succeeded') {
         // Update the user's subscription status in Firestore
@@ -89,9 +89,9 @@ function Profile({ theme, navigation }) {
           isSubscribed: true
         });
         setIsSubscribed(true);
-        console.log('Subscription successful!');
+        // console.log('Subscription successful!');
       } else {
-        console.log('Payment incomplete:', paymentIntent.status);
+        // console.log('Payment incomplete:', paymentIntent.status);
         // Handle incomplete payment (optional)
       }
     } catch (error) {
@@ -101,7 +101,7 @@ function Profile({ theme, navigation }) {
   };
 
 
-  // console.log(url);
+  // // console.log(url);
   return (auth.currentUser ?
     <LinearGradient
       style={{ alignItems: "center" }}

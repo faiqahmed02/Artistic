@@ -8,7 +8,7 @@ import { withTheme } from "react-native-paper";
 import ProductCard from "./ProductCard";
 
 function TrendingArtist({ theme, catname, navigation }, props) {
-  // console.log(Dimensions.get("window").width);
+  // // console.log(Dimensions.get("window").width);
   return (
     <View style={styles.trendingArtist}>
       <View

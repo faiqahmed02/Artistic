@@ -12,7 +12,7 @@ import { View } from "react-native";
 
 function MenuBar({ navigation }, props) {
   const route = useRoute();
-  // console.log(route.name);
+  // // console.log(route.name);
   return route.name !== "Home" ? (
     <TouchableOpacity
       onPress={() => navigation.goBack()}

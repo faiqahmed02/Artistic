@@ -1,11 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native";
+import { db } from "../../firebaseConfig";
 
 const artworks = [
   {
@@ -50,18 +52,52 @@ const artworks = [
   // Add more artworks as needed
 ];
 
-function ProductCard() {
-  const navigation = useNavigation()
+function ProductCard({horizontal}) {
+  const navigation = useNavigation();
+
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const paintingsCollection = collection(db, "paintings");
+        const paintingsSnapshot = await getDocs(paintingsCollection);
+        const paintingsData = paintingsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProducts(paintingsData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching paintings:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+
+    // Update current time every second
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 5000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // console.log(products);
   const goToProductPage = (data) => {
     navigation.navigate("Product Page", { productId: data });
   };
   return (
-    <ScrollView horizontal style={{ maxHeight: 190 }}>
-      {artworks.map((d, i) => {
+    <ScrollView horizontal={horizontal ? horizontal : true} style={{ maxHeight: 190 }}>
+      {products.map((d, i) => {
         return (
           <View style={styles.productCard} key={i}>
-            <Image style={styles.productImg} source={d.artWorkImage} />
-            <Text style={styles.productTitle}>{d.artworkName}</Text>
+            <Image style={styles.productImg} source={{uri:d.imageUrl}} />
+            <Text style={styles.productTitle}>{d.artWorkName}</Text>
             <Text style={styles.productPrice}>${d.price}</Text>
             <TouchableOpacity onPress={() => goToProductPage(d)}>
               <Text style={styles.productBtn}>View Product</Text>

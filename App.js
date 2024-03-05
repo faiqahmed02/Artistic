@@ -53,6 +53,8 @@ import ListAllArtist from "./main/user/chat/ListAllArtist";
 // import AllChat from "./main/user/chat/AllChat";
 import ChatListScreen from "./main/user/chat/AllChat";
 import ChatRoom from "./main/user/chat/ChatRoom";
+import AddProduct from "./main/shop/product/AddProduct";
+import MyProducts from "./main/shop/product/MyProducts";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -70,7 +72,11 @@ export default function App() {
   };
 
   return (
-    <StripeProvider publishableKey="pk_test_51IzlXYEHdax3d8oTDo9zwCBLNA7tqvVToG60ijHDZVTlkZf3j4cXGNZlOCrWrZeXwxRyWy8ovfFvLBk4dZHvM4lK00mg1kJn6V">
+    <StripeProvider
+      publishableKey="pk_test_51IzlXYEHdax3d8oTDo9zwCBLNA7tqvVToG60ijHDZVTlkZf3j4cXGNZlOCrWrZeXwxRyWy8ovfFvLBk4dZHvM4lK00mg1kJn6V"
+      merchantIdentifier="merchant.com.faiqahmed.zicoart"
+      urlScheme=""
+    >
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <PaperProvider theme={theme}>
@@ -117,7 +123,8 @@ export default function App() {
                 />
                 <Drawer.Screen name="Technical Support" component={Support} />
                 <Drawer.Screen name="Products" component={Products} />
-                <Drawer.Screen name="My Products" component={Products} />
+                <Drawer.Screen name="My Products" component={MyProducts} />
+                <Drawer.Screen name="Add Product" component={AddProduct} />
                 <Drawer.Screen name="Showrooms" component={Products} />
                 <Drawer.Screen name="Cart" component={Cart} />
                 <Drawer.Screen name="Checkout" component={Checkout} />

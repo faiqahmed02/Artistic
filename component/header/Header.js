@@ -32,7 +32,7 @@ function Header({ theme, navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const user_type = useSelector((state) => state.userType);
-  console.log(user);
+  // console.log(user);
   const businessNav = [
     {
       icon: require("../../assets/box.png"),
@@ -45,6 +45,10 @@ function Header({ theme, navigation }) {
     {
       icon: require("../../assets/box.png"),
       name: "My Products",
+    },
+    {
+      icon: require("../../assets/box.png"),
+      name: "Add Product",
     },
     {
       icon: require("../../assets/box.png"),
@@ -151,9 +155,9 @@ function Header({ theme, navigation }) {
     },
   ];
   const nav =
-    user_type && user_type.role === "Business" ? businessNav : buyerNav;
+    user_type && user_type.role === "Business" || "Artist" ? businessNav :  buyerNav;
   const headerAction = (d) => {
-    // console.log(d);
+    // // console.log(d);
     if (d === "Logout" && auth.currentUser) {
       signOut(auth)
         .then((res) => {
@@ -168,7 +172,7 @@ function Header({ theme, navigation }) {
     }
     navigation.closeDrawer();
   };
-  console.log(user);
+  // console.log(user);
   return (
     <LinearGradient
       style={{ alignItems: "left" }}
