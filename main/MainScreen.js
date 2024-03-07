@@ -15,6 +15,8 @@ import { auth } from "../firebaseConfig";
 import ManNav from "../component/mainscreen/ManNav";
 import { useSelector } from "react-redux";
 import Stats from "../component/mainscreen/Stats";
+import ClassesCard from "../component/mainscreen/ClassesCard";
+import EventsCard from "../component/mainscreen/EventsCard";
 
 function MainScreen({ theme, navigation }) {
   const nav = [
@@ -39,22 +41,20 @@ function MainScreen({ theme, navigation }) {
     state ? state.userRole : "";
   };
   useEffect(() => {
-    return () => {
-      
-    };
+    return () => {};
   }, [currentUser]);
   setInterval(() => {
     if (state) {
       setCurrentUser(state.userRole);
-    }else{
-      setCurrentUser("")
+    } else {
+      setCurrentUser("");
     }
   }, 1000);
   return (
     <LinearGradient
       // Background Linear Gradient
       colors={[theme.colors.myOwnColor, "transparent"]}
-      // style={styles.background}
+      style={{flex:1}}
     >
       <ScrollView>
         <View
@@ -75,11 +75,30 @@ function MainScreen({ theme, navigation }) {
             homeNav={homeNav}
           />
           <Banner />
+          {homeNav === "Artist" ? (
+            <>
+              <Artist title={"Trending Artist"} />
+              <Artist title={"Top 100 Best Selling"} />
+              <Artist title={"Artist"} />
+              <Artist title={"Gallery"} />
+            </>
+          ) : homeNav === "Gallery" ? (
+            <TrendingArtist
+              navigation={() => navigation.navigate("Products")}
+              navigation2={navigation}
+            />
+          ) : homeNav === "Online Classes" ? (
+            <View style={{ alignItems: "center" }}>
+              <ClassesCard />
+            </View>
+          ) : homeNav === "Events & News" ? (
+            <View style={{ alignItems: "center" }}>
+              <EventsCard theme={theme} />
+            </View>
+          ) : (
+            ""
+          )}
           {/* <TrendingArtist navigation={() => navigation.navigate("Products")} navigation2={navigation}/> */}
-          <Artist title={"Trending Artist"} />
-          <Artist title={"Top 100 Best Selling"} />
-          <Artist title={"Artist"} />
-          <Artist title={"Gallery"} />
         </View>
       </ScrollView>
       <Footer navigation={navigation} />

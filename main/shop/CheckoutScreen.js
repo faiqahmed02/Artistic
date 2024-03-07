@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { Alert, Button, View } from "react-native";
-import { useStripe } from "@stripe/stripe-react-native";
+
 import ButtonComp from "../../component/mainscreen/ButtonComp";
+import { useStripe } from "@stripe/stripe-react-native";
 import { auth } from "../../firebaseConfig";
 import { getUser } from "../../firestoreFunctions/User";
 import { useNavigation } from "@react-navigation/native";

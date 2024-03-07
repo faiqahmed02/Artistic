@@ -20,7 +20,7 @@ function TrendingArtist({ theme, catname, navigation }, props) {
         }}
       >
         <Text style={styles.trendText}>
-          {catname ? catname : "Trending Artists"}
+          {catname ? catname : "Trending Galleries"}
         </Text>
         <TouchableOpacity onPress={navigation}>
         <Text

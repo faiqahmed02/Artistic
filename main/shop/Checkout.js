@@ -9,6 +9,7 @@ import { faDotCircle } from "@fortawesome/free-solid-svg-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import Payment from "./checkoutComp/Payment";
 import Summary from "./checkoutComp/Summary";
+import Thankyou from "./Thankyou";
 
 const Step2 = ({ formData, setFormData, onPrevious, onSubmit }) => {};
 
@@ -27,7 +28,7 @@ const Checkout = ({ theme, navigation }) => {
   const onSubmit = () => {
     // Submit form data or perform necessary actions
     setTimeout(() => {
-      navigation.navigate("Thank You")
+      navigation.navigate("Thank You");
     }, 1000);
     // // console.log("Form submitted:", formData);
   };
@@ -100,18 +101,19 @@ const Checkout = ({ theme, navigation }) => {
           />
         )}
         {step === 2 && (
-           <Summary
-           formData={formData}
-           setFormData={setFormData}
-           onPrevious={onPrevious}
-           onSubmit={onSubmit}
-           theme={theme}
-           handleCancel={handleCancel}
-         />
+          <Summary
+            formData={formData}
+            setFormData={setFormData}
+            onNext={onNext}
+            onPrevious={onPrevious}
+            onSubmit={onSubmit}
+            theme={theme}
+            handleCancel={handleCancel}
+          />
         )}
-        {/* {step === 3 && (
-       
-        )} */}
+        {step === 3 && (
+          <Thankyou formData={formData} onNext={onNext} theme={theme} />
+        )}
       </View>
     </LinearGradient>
   );

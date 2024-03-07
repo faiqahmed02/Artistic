@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useEffect } from "react";
 import { Dimensions, Image, ScrollView, StyleSheet, Text } from "react-native";
 import { View } from "react-native";
 import { Checkbox, withTheme } from "react-native-paper";
@@ -19,6 +19,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { addUser, getUser } from "../../firestoreFunctions/User";
 import { updateProfile } from "firebase/auth";
@@ -32,6 +33,7 @@ function SignUp({ theme, navigation }) {
   const userstate = useSelector((state) => state.user);
   const [image, setImage] = React.useState(null);
   const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: "",
@@ -45,13 +47,23 @@ function SignUp({ theme, navigation }) {
   });
   const [emailValidate, setEmailValidate] = useState(false);
   const [pwdValidation, setPwdValidation] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
+      }
+    })();
+  }, []);
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.5,
     });
 
     // // console.log(result);
@@ -60,23 +72,31 @@ function SignUp({ theme, navigation }) {
       setImage(result.assets[0].uri);
     }
   };
+  const upaloadImagge = async () => {
+    const response = await fetch(image);
+    const blob = await response.blob();
+    const storageRef = ref(
+      storage,
+      `profilePictures/${auth.currentUser.uid}/${new Date().toISOString()}`
+    );
+    await uploadBytes(storageRef, blob);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
+  };
   const updateUserData = () => {};
   const createAccount = async () => {
+    setLoading(true);
     if (
       formData.fullName &&
       formData.emailAddress &&
       formData.pNumber &&
       formData.password &&
-      formData.confirmP
+      formData.confirmP &&
+      image
     ) {
       if (emailValidate === true) {
         // console.log(formData);
-        dispatch(
-          signUpReducer({
-            ...state,
-            user_data: formData,
-          })
-        );
+
         try {
           // Create user with email and password
           // const { user } = await auth.createUserWithEmailAndPassword(formData.emailAdress, formData.password);
@@ -94,52 +114,54 @@ function SignUp({ theme, navigation }) {
                 formData.password
               )
                 .then(async (res) => {
-                  await updateProfile(auth.currentUser, {
-                    displayName: formData.fullName,
-                    photoURL: image,
-                  })
-                    .then(async (res) => {
-                      // console.log(user);
-                      //
-                      try {
-                        const response = await fetch(image);
-                        const blob = await response.blob();
-                        const storageRef = ref(
-                          storage,
-                          `profilePictures/${
-                            auth.currentUser.uid
-                          }/${new Date().toISOString()}`
-                        );
-                        await uploadBytes(storageRef, blob);
-                        const downloadURL = await getDownloadURL(storageRef);
-                        const data = {
-                          dateCreated: serverTimestamp(),
-                          email: formData.emailAddress,
-                          fullName: formData.fullName,
-                          pNumber: formData.pNumber,
-                          userRole: formData.userRole,
-                          username: formData.username,
-                          photoURL: downloadURL,
-                        };
-                        addUser(auth.currentUser.uid, data)
-                          .then(() => {
-                            // console.log("User Added");
-                          })
-                          .catch(() => {
-                            // console.log("Something Went Wrong");
-                          });
-                        return downloadURL;
-                      } catch (error) {
-                        console.error("Error uploading image: ", error);
-                        throw error;
-                      }
+                  // console.log(user);
+                  //
+                  dispatch(
+                    signUpReducer({
+                      ...state,
+                      user_data: formData,
                     })
-                    .catch((err) => {
-                      // console.log("Update Profile Error: " + err.message);
-                    });
+                  );
+                  try {
+                    let imageUrl = "";
+                    if (image) {
+                      imageUrl = await upaloadImagge();
+                    }
+                    const data = {
+                      dateCreated: serverTimestamp(),
+                      email: formData.emailAddress,
+                      fullName: formData.fullName,
+                      pNumber: formData.pNumber,
+                      userRole: formData.userRole,
+                      username: formData.username,
+                      photoURL: imageUrl,
+                    };
+                    addUser(auth.currentUser.uid, data)
+                      .then(async () => {
+                        // console.log("User Added");
+                        await updateProfile(auth.currentUser, {
+                          displayName: formData.fullName,
+                          photoURL: imageUrl,
+                        })
+                          .then(async (res) => {
+                            console.log("Profile Updated");
+                          })
+                          .catch((err) => {
+                            console.log("Update Profile Error: " + err.message);
+                          });
+                      })
+                      .catch(() => {
+                        console.log("Something Went Wrong");
+                      });
+                    // return downloadURL;
+                  } catch (error) {
+                    console.error("Error uploading image: ", error);
+                    //
+                    throw error;
+                  }
                 })
                 .catch((err) => {
-                  // console.log("Sign IN: " + err.message);
+                  console.log("Sign IN: " + err.message);
                 });
 
               dispatch(logIn(auth.currentUser));
@@ -154,9 +176,11 @@ function SignUp({ theme, navigation }) {
               // ..
             });
           // Add user data to Firestore
+          setLoading(false);
         } catch (error) {
           console.error("Error creating user:", error.message);
           alert("Error creating user:", error.message);
+          setLoading(false);
         }
       }
     } else {
@@ -191,7 +215,9 @@ function SignUp({ theme, navigation }) {
       .then(() => {
         setVisible(false);
         // async () => {
+        // signOut(auth);
         navigation.navigate("Home");
+
         // };
       })
       .catch(() => {
@@ -320,6 +346,7 @@ function SignUp({ theme, navigation }) {
               btnText="Create Account"
               onPress={() => createAccount()}
               width={"100%"}
+              disabled={loading ? true : false}
             />
           </View>
 

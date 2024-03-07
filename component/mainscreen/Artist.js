@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
@@ -6,8 +6,21 @@ import { Image } from "react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native";
 import { withTheme } from "react-native-paper";
+import { getAllurers } from "../../firestoreFunctions/User";
 
 function Artist({ theme, title }) {
+  const [artist, setArtist] = useState([]);
+  useEffect(() => {
+    getAllurers().then((res) => {
+      const artistData = res.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setArtist(artistData);
+    });
+  }, []);
+  // console.log(artist);
   return (
     <View style={styles.trendingArtist}>
       <View
@@ -27,11 +40,14 @@ function Artist({ theme, title }) {
             lineHeight: 17.7,
             fontWeight: "600",
             marginTop: 15,
-            marginHorizontal:10,
+            marginHorizontal: 10,
             textDecorationLine: "underline",
           }}
         >
-          <Image source={require('../../assets/forward.png')} style={{width:20, height:20}} />
+          <Image
+            source={require("../../assets/forward.png")}
+            style={{ width: 20, height: 20 }}
+          />
         </Text>
       </View>
       <ScrollView horizontal style={{ maxHeight: 190 }}>
@@ -43,13 +59,17 @@ function Artist({ theme, title }) {
             // height: 190,
           }}
         >
-          <View style={styles.productCard}>
-            <Image
-              style={styles.productImg}
-              source={require("../../assets/product_img_1.png")}
-            />
-            <Text style={styles.productTitle}>Product Title</Text>
-          </View>
+          {artist.map((d, i) => {
+            return (
+              <View style={styles.productCard} key={i}>
+                <Image
+                  style={styles.productImg}
+                  source={d.photoURL ? {uri:d.photoURL}:require("../../assets/product_img_1.png")}
+                />
+                <Text style={styles.productTitle}>{d.fullName}</Text>
+              </View>
+            );
+          })}
           <View style={styles.productCard}>
             <Image
               style={styles.productImg}
@@ -103,8 +123,8 @@ const styles = StyleSheet.create({
     width: 100,
     height: 97,
     borderRadius: 50,
-    borderWidth:2,
-    borderColor:'white'
+    borderWidth: 2,
+    borderColor: "white",
   },
   productTitle: {
     fontSize: 14,

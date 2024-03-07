@@ -18,7 +18,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 
 function Profile({ theme, navigation }) {
-  const url = auth.currentUser.photoURL
+  const url = auth.currentUser ? auth.currentUser.photoURL : ""
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [user, setUser] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);

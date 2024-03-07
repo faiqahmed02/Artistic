@@ -7,11 +7,11 @@ import ButtonComp from "../../component/mainscreen/ButtonComp";
 
 function Thankyou({ theme, navigation }) {
   return (
-    <LinearGradient
-      style={{ alignItems: "center", justifyContent: "center", height: "100%" }}
-      colors={[theme.colors.myOwnColor, "transparent"]}
-    >
-      <View>
+    // <LinearGradient
+    //   style={{ alignItems: "center", justifyContent: "center", height: "100%" }}
+    //   colors={[theme.colors.myOwnColor, "transparent"]}
+    // >
+      <View style={{justifyContent:"center", flex:1,alignContent:"center", alignItems:"center"}}>
         <Image source={require("../../assets/ty.png")} />
         <Text
           style={{
@@ -34,7 +34,7 @@ function Thankyou({ theme, navigation }) {
           />
         </View>
       </View>
-    </LinearGradient>
+    // {/* </LinearGradient> */}
   );
 }
 

@@ -154,8 +154,11 @@ function Header({ theme, navigation }) {
       name: auth.currentUser ? "Logout" : "Login",
     },
   ];
-  const nav =
-    user_type && user_type.role === "Business" || "Artist" ? businessNav :  buyerNav;
+  const nav = auth.currentUser
+    ? (user_type && user_type.role === "Business") || "Artist"
+      ? businessNav
+      : buyerNav
+    : buyerNav;
   const headerAction = (d) => {
     // // console.log(d);
     if (d === "Logout" && auth.currentUser) {

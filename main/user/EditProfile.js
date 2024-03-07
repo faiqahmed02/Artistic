@@ -76,7 +76,7 @@ function EditProfile({ theme, navigation }) {
     }
    
   };
-  return (
+  return (auth.currentUser ? 
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
       <KeyboardAwareScrollView>
         <View style={{ padding: 10, paddingTop: 40 }}>
@@ -158,7 +158,7 @@ function EditProfile({ theme, navigation }) {
           />
         </View>
       </KeyboardAwareScrollView>
-    </LinearGradient>
+    </LinearGradient> : navigation.navigate("Login")
   );
 }
 
