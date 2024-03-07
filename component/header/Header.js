@@ -62,10 +62,10 @@ function Header({ theme, navigation }) {
       icon: require("../../assets/box.png"),
       name: "Events",
     },
-    {
-      icon: require("../../assets/box.png"),
-      name: "Create Event",
-    },
+    // {
+    //   icon: require("../../assets/box.png"),
+    //   name: "Create Event",
+    // },
     {
       icon: require("../../assets/box.png"),
       name: "Shipments",
@@ -74,10 +74,10 @@ function Header({ theme, navigation }) {
       icon: require("../../assets/box.png"),
       name: "Classes",
     },
-    {
-      icon: require("../../assets/box.png"),
-      name: "Create Classes",
-    },
+    // {
+    //   icon: require("../../assets/box.png"),
+    //   name: "Create Classes",
+    // },
     {
       icon: require("../../assets/box.png"),
       name: "Order Selling",
