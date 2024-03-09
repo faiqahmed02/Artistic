@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Image } from "react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native";
-import { withTheme } from "react-native-paper";
+import { Avatar, withTheme } from "react-native-paper";
 import { getAllurers } from "../../firestoreFunctions/User";
+import { useNavigation } from "@react-navigation/native";
+import ArtistCard from "./ArtistCard";
 
-function Artist({ theme, title }) {
+function Artist({ theme, title, aritistSelected }) {
   const [artist, setArtist] = useState([]);
+  const navigation = useNavigation();
   useEffect(() => {
     getAllurers().then((res) => {
       const artistData = res.docs.map((doc) => ({
@@ -21,6 +24,14 @@ function Artist({ theme, title }) {
     });
   }, []);
   // console.log(artist);
+
+  const viewArtist = (d) => {
+    // console.log(d);
+    navigation.navigate("View Artist", {
+      artistId: d,
+    });
+  };
+
   return (
     <View style={styles.trendingArtist}>
       <View
@@ -44,10 +55,12 @@ function Artist({ theme, title }) {
             textDecorationLine: "underline",
           }}
         >
-          <Image
-            source={require("../../assets/forward.png")}
-            style={{ width: 20, height: 20 }}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate("All Artist")}>
+            <Image
+              source={require("../../assets/forward.png")}
+              style={{ width: 20, height: 20 }}
+            />
+          </TouchableOpacity>
         </Text>
       </View>
       <ScrollView horizontal style={{ maxHeight: 190 }}>
@@ -59,38 +72,9 @@ function Artist({ theme, title }) {
             // height: 190,
           }}
         >
-          {artist.map((d, i) => {
-            return (
-              <View style={styles.productCard} key={i}>
-                <Image
-                  style={styles.productImg}
-                  source={d.photoURL ? {uri:d.photoURL}:require("../../assets/product_img_1.png")}
-                />
-                <Text style={styles.productTitle}>{d.fullName}</Text>
-              </View>
-            );
-          })}
-          <View style={styles.productCard}>
-            <Image
-              style={styles.productImg}
-              source={require("../../assets/product_img_1.png")}
-            />
-            <Text style={styles.productTitle}>Product Title</Text>
-          </View>
-          <View style={styles.productCard}>
-            <Image
-              style={styles.productImg}
-              source={require("../../assets/product_img_1.png")}
-            />
-            <Text style={styles.productTitle}>Product Title</Text>
-          </View>
-          <View style={styles.productCard}>
-            <Image
-              style={styles.productImg}
-              source={require("../../assets/product_img_1.png")}
-            />
-            <Text style={styles.productTitle}>Product Title</Text>
-          </View>
+          <ScrollView horizontal style={{ maxHeight: 190 }}>
+            <ArtistCard />
+          </ScrollView>
         </View>
       </ScrollView>
     </View>

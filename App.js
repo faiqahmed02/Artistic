@@ -1,7 +1,7 @@
 window.navigator.userAgent = "ReactNative";
 
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { store } from "./store";
@@ -55,6 +55,8 @@ import ChatListScreen from "./main/user/chat/AllChat";
 import ChatRoom from "./main/user/chat/ChatRoom";
 import AddProduct from "./main/shop/product/AddProduct";
 import MyProducts from "./main/shop/product/MyProducts";
+import ViewArtist from "./main/artist/ViewArtist";
+import AllArtst from "./main/artist/AllArtst";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -167,6 +169,10 @@ export default function App() {
                 {/* Shippments */}
 
                 <Drawer.Screen name="Shipments" component={SubNow} />
+
+                {/* Artist */}
+                <Drawer.Screen name="All Artist" component={AllArtst} />
+                <Drawer.Screen name="View Artist" component={ViewArtist} />
               </Drawer.Navigator>
             </NavigationContainer>
           </PaperProvider>

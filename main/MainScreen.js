@@ -54,7 +54,7 @@ function MainScreen({ theme, navigation }) {
     <LinearGradient
       // Background Linear Gradient
       colors={[theme.colors.myOwnColor, "transparent"]}
-      style={{flex:1}}
+      style={{ flex: 1 }}
     >
       <ScrollView>
         <View

@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { collection, getDocs } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import { Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native";
-import { db } from "../../firebaseConfig";
+import { auth, db } from "../../firebaseConfig";
 
 const artworks = [
   {
@@ -52,7 +52,7 @@ const artworks = [
   // Add more artworks as needed
 ];
 
-function ProductCard({horizontal}) {
+function ProductCard({ horizontal, _style, _id }) {
   const navigation = useNavigation();
 
   const [products, setProducts] = useState([]);
@@ -70,6 +70,7 @@ function ProductCard({horizontal}) {
         }));
         setProducts(paintingsData);
         setLoading(false);
+        // console.log(products);
       } catch (error) {
         console.error("Error fetching paintings:", error);
         setLoading(false);
@@ -85,18 +86,33 @@ function ProductCard({horizontal}) {
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
-  }, []);
-
+  }, [currentTime]);
+  // console.log(auth.currentUser.uid);
   // console.log(products);
   const goToProductPage = (data) => {
     navigation.navigate("Product Page", { productId: data });
   };
-  return (
-    <ScrollView horizontal={horizontal ? horizontal : true} style={{ maxHeight: 190 }}>
-      {products.map((d, i) => {
+  
+  return _id
+    ? products
+        .filter((d) => d.createdBy === _id)
+        .map((d, i) => {
+          return (
+            <View style={styles.productCard} key={i}>
+              <Image style={styles.productImg} source={{ uri: d.imageUrl }} />
+              <Text style={styles.productTitle}>{d.artWorkName}</Text>
+              <Text style={styles.productPrice}>${d.price}</Text>
+              <TouchableOpacity onPress={() => goToProductPage(d)}>
+                <Text style={styles.productBtn}>View Product</Text>
+              </TouchableOpacity>
+            </View>
+          );
+        })
+    : products.map((d, i) => {
+        // console.log(d.id);
         return (
           <View style={styles.productCard} key={i}>
-            <Image style={styles.productImg} source={{uri:d.imageUrl}} />
+            <Image style={styles.productImg} source={{ uri: d.imageUrl }} />
             <Text style={styles.productTitle}>{d.artWorkName}</Text>
             <Text style={styles.productPrice}>${d.price}</Text>
             <TouchableOpacity onPress={() => goToProductPage(d)}>
@@ -104,9 +120,7 @@ function ProductCard({horizontal}) {
             </TouchableOpacity>
           </View>
         );
-      })}
-    </ScrollView>
-  );
+      });
 }
 
 export default ProductCard;

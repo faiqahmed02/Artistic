@@ -23,22 +23,27 @@ function TrendingArtist({ theme, catname, navigation }, props) {
           {catname ? catname : "Trending Galleries"}
         </Text>
         <TouchableOpacity onPress={navigation}>
-        <Text
-          style={{
-            marginRight: 20,
-            color: theme.colors.linkColor,
-            fontSize: 13,
-            lineHeight: 17.7,
-            fontWeight: "600",
-            marginTop: 15,
-            textDecorationLine: "underline",
-          }}
-        >
-          View All
-        </Text>
+          <Text
+            style={{
+              marginRight: 20,
+              color: theme.colors.linkColor,
+              fontSize: 13,
+              lineHeight: 17.7,
+              fontWeight: "600",
+              marginTop: 15,
+              textDecorationLine: "underline",
+            }}
+          >
+            View All
+          </Text>
         </TouchableOpacity>
       </View>
-      <ProductCard navigation={props.navigation2} />
+      <ScrollView
+        horizontal
+        style={{ maxHeight: 190 }}
+      >
+        <ProductCard navigation={props.navigation2} />
+      </ScrollView>
     </View>
   );
 }
