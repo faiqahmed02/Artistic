@@ -23,7 +23,11 @@ import {
   faWindowClose,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut, removeUserTypeReducer } from "../../store/rootSlice";
+import {
+  cartReducerEmpty,
+  logOut,
+  removeUserTypeReducer,
+} from "../../store/rootSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 // import { businessNav, buyerNav } from "./nav";
@@ -166,6 +170,7 @@ function Header({ theme, navigation }) {
         .then((res) => {
           dispatch(logOut());
           dispatch(removeUserTypeReducer());
+          dispatch(cartReducerEmpty());
         })
         .catch((err) => {
           alert("no one is logged in");

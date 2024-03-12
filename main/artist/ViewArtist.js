@@ -1,6 +1,6 @@
 import { DrawerActions } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Avatar, withTheme } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
@@ -79,11 +79,14 @@ function ViewArtist({ theme, navigation, route }) {
             alignItems: "center",
           }}
         >
+          
           {/* {artistId.photoUrl ? <UserAvatar image={artistId.photoUrl} /> : <UserAvatar  text="AL" />} */}
           {artistId.photoURL ? (
-            <Avatar.Image source={{ uri: artistId.photoURL }} size={100} />
+            // <Avatar.Image source={{ uri: artistId.photoURL }} size={100} />
+            <Image source={{uri:artistId.photoURL}} style={{width:343, height:242, borderRadius:5}} />
           ) : (
-            <Avatar.Text label={initials} size={100} />
+            // <Avatar.Text label={initials} size={100} />
+            <Image source={require('../../assets/artistprofle.png')} style={{width:343, height:242, borderRadius:5}} />
           )}
           <View style={styles.product_flex}>
             <ProductCard

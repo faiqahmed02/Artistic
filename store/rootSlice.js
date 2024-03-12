@@ -6,7 +6,7 @@ const rootSlice = createSlice({
 
   initialState: {
     user: null,
-    cartState: [],
+    cartState: null,
     credentials: {},
     signupState: [],
     userType: null,
@@ -28,6 +28,9 @@ const rootSlice = createSlice({
     cartReducer: (state, action) => {
       state.cartState = action.payload;
     },
+    cartReducerEmpty: (state) => {
+      state.cartState = null;
+    },
     userTypeReducer: (state, action) => {
       state.userType = action.payload;
     },
@@ -38,6 +41,14 @@ const rootSlice = createSlice({
 });
 
 // Actions
-export const { logIn, logOut, cartReducer, userCredentialse, signUpReducer, userTypeReducer, removeUserTypeReducer} =
-  rootSlice.actions;
+export const {
+  logIn,
+  logOut,
+  cartReducer,
+  userCredentialse,
+  signUpReducer,
+  userTypeReducer,
+  removeUserTypeReducer,
+  cartReducerEmpty,
+} = rootSlice.actions;
 export const reducer = rootSlice.reducer;

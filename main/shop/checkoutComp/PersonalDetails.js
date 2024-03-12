@@ -15,7 +15,7 @@ const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
       if (res.shipping) {
         // console.log(res.shipping);
         setShipData(res.shipping);
-        // console.log(shipData.Street_Address);
+        console.log(shipData);
       }
     });
   }, []);

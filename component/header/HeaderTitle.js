@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMugHot } from "@fortawesome/free-solid-svg-icons";
@@ -11,11 +11,18 @@ import { getUser } from "../../firestoreFunctions/User";
 function HeaderTitle({ navigation }) {
   // // console.log(Dimensions.get("window").width);
   const user = useSelector((state) => state.user);
-  useEffect(() => {}, [auth.currentUser]);
+  const [curUser, setCurUser] = useState(null);
+  useEffect(() => {
+    const userCheck = async () => {
+      if (auth.currentUser) {
+        setCurUser(auth.currentUser);
+      }
+    };
+    userCheck;
+  }, [curUser]);
   return (
     <View>
       <Text style={styles.nameTitle}>
-        {" "}
         {auth.currentUser ? (
           "Hi " + auth.currentUser ? (
             auth.currentUser.displayName

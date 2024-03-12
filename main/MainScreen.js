@@ -1,6 +1,6 @@
 import { DrawerActions } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { withTheme } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
@@ -17,6 +17,8 @@ import { useSelector } from "react-redux";
 import Stats from "../component/mainscreen/Stats";
 import ClassesCard from "../component/mainscreen/ClassesCard";
 import EventsCard from "../component/mainscreen/EventsCard";
+import ButtonComp from "../component/mainscreen/ButtonComp";
+import { addOrder } from "../firestoreFunctions/Main";
 
 function MainScreen({ theme, navigation }) {
   const nav = [
@@ -41,8 +43,28 @@ function MainScreen({ theme, navigation }) {
     state ? state.userRole : "";
   };
   useEffect(() => {
-    return () => {};
+    // checkUser();
   }, [currentUser]);
+  // const checkUser = async () => {
+  //   const user = await auth.currentUser;
+  //   if (user.emailVerified) {
+  //     alert("your Email is verified");
+  //   } else {
+  //     // alert("Please Verify your Account")
+  //     Alert.alert("Account Verification", "Please Verify Your account", [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => console.log("Cancel Pressed"),
+  //         style: "cancel",
+  //       },
+  //       {
+  //         text: "Send Verification Email",
+  //         onPress: () => console.log("OK Pressed"),
+  //       },
+  //     ]);
+  //   }
+  // };
+
   setInterval(() => {
     if (state) {
       setCurrentUser(state.userRole);
@@ -50,6 +72,8 @@ function MainScreen({ theme, navigation }) {
       setCurrentUser("");
     }
   }, 1000);
+
+
   return (
     <LinearGradient
       // Background Linear Gradient
@@ -67,7 +91,7 @@ function MainScreen({ theme, navigation }) {
           }}
         >
           {currentUser === "Artist" ? <Stats /> : ""}
-
+          {/* <ButtonComp btnText="Add order" onPress={() => add()} /> */}
           <ManNav
             theme={theme}
             nav={nav}

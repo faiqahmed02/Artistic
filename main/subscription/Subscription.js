@@ -98,7 +98,7 @@ function Subscription({ theme, navigation }) {
                         <Text style={{ marginTop: 30 }}>Lorem Ipsum Subscription Details Here</Text>
 
                     </View>
-                    <ButtonComp btnText="Subscribe" onPress={() => navigation.navigate("Pay Now")} width={341} />
+                    <ButtonComp btnText="Subscribe" onPress={() => navigation.navigate("Home")} width={341} />
                 </View>
             </View>
             </ScrollView>

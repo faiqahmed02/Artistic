@@ -45,7 +45,7 @@ function Popup({ visible, hideModal, textforpopup }) {
             textAlign:"center"
           }}
         >
-          {textforpopup ? textforpopup : "Your Account is successfully created."}
+          {textforpopup ? textforpopup : "Your Account is successfully created. Please Check your email Address"}
         </Text>
         <ButtonComp width={137} btnText={"OK"} onPress={hideModal} />
       </Modal>

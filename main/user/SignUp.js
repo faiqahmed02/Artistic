@@ -145,6 +145,14 @@ function SignUp({ theme, navigation }) {
                         })
                           .then(async (res) => {
                             console.log("Profile Updated");
+                            if (!auth.currentUser.emailVerified) {
+                              await sendEmailVerification(
+                                auth.currentUser
+                              ).then((res) => {
+                                console.log("Email has been sent");
+                                dispatch(logIn(auth.currentUser));
+                              });
+                            }
                           })
                           .catch((err) => {
                             console.log("Update Profile Error: " + err.message);
@@ -163,8 +171,6 @@ function SignUp({ theme, navigation }) {
                 .catch((err) => {
                   console.log("Sign IN: " + err.message);
                 });
-
-              dispatch(logIn(auth.currentUser));
 
               setVisible(true);
               // ...

@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
 import { withTheme } from "react-native-paper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ButtonComp from "../../../component/mainscreen/ButtonComp";
 import { ScrollView } from "react-native";
 import CheckoutScreen from "../CheckoutScreen";
@@ -14,6 +14,7 @@ import { auth } from "../../../firebaseConfig";
 import { getUser } from "../../../firestoreFunctions/User";
 import { useNavigation } from "@react-navigation/native";
 import { useStripe } from "@stripe/stripe-react-native";
+import { cartReducerEmpty } from "../../../store/rootSlice";
 
 const API_URL = "https://us-central1-zicoart-173b5.cloudfunctions.net"; // Replace with your Firebase Cloud Function URL
 
@@ -28,17 +29,22 @@ function Summary({
   // navigation,
 }) {
   const state = useSelector((state) => state.cartState);
-  console.log(formData);
+  const dispatch = useDispatch();
+  // console.log(formData);
 
-  const totalAmount = state.reduce((acc, product) => {
-    return acc + product.price * product.cartQty;
-  }, 0);
+  const totalAmount = state
+    ? state.reduce((acc, product) => {
+        return acc + product.price * product.cartQty;
+      }, 0)
+    : 0;
 
   console.log(state);
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [loading, setLoading] = useState(false);
   const [stripCusId, setStripeCusId] = useState("");
   const navigation = useNavigation();
+  const [artId, setArtId] = useState([]);
+  const [artistId, setArtistId] = useState([]);
   const getCustomerIdFrom = () => {
     getUser(auth.currentUser.uid).then((res) => {
       // console.log(res.stripeId);
@@ -54,10 +60,18 @@ function Summary({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        amount: totalAmount *100,
+        amount: totalAmount * 100,
         // cus_email,
         // cus_name,
         customerId: stripCusId,
+        shippingMethod: {
+          streetAddress: formData.field1.Street_Address,
+          city: formData.field1.City,
+          state: formData.field1.State,
+          postalCode: formData.field1.Postal_Code,
+          country: formData.field1.Country,
+          name: formData.field1.Full_Name,
+        },
       }),
     });
 
@@ -104,18 +118,37 @@ function Summary({
     } else {
       // Alert.alert("Success", "Your order is confirmed!");
       setTimeout(() => {
-        onNext()
+        dispatch(cartReducerEmpty());
+        // onNext();
+        navigation.navigate("Thank You", {
+          buyerId: auth.currentUser.uid,
+          artid: artId,
+          artistid: artistId,
+        });
+        dispatch(cartReducerEmpty());
       }, 2000);
     }
+  };
+
+  const mergeData = () => {
+    const allArtIds = state.map((item) => item.id);
+    const allArtistIds = state.map((item) => item.createdBy);
+    setArtId(allArtIds);
+    setArtistId(allArtistIds);
+    console.log(artistId);
   };
 
   useEffect(() => {
     // getCustomerIdFrom()
     // if (stripCusId) {
 
-    initializePaymentSheet();
+    if (totalAmount > 0) {
+      mergeData();
+      initializePaymentSheet();
+    }
+
     // }
-  }, [stripCusId, totalAmount]);
+  }, [stripCusId, totalAmount, formData.field1.City]);
   const handleNext = () => {
     setFormData({ ...formData, field1 });
     onSubmit();
@@ -253,7 +286,19 @@ function Summary({
               color: "#868889",
             }}
           >
-            {formData.field1.Street_Address + "," + formData.field1.Apartment+ "," + formData.field1.City+ "," + formData.field1.State+ "," + formData.field1.Country+ "," + formData.field1.Postal_Code}
+            {formData.field1
+              ? formData.field1.Street_Address +
+                "," +
+                formData.field1.Apartment +
+                "," +
+                formData.field1.City +
+                "," +
+                formData.field1.State +
+                "," +
+                formData.field1.Country +
+                "," +
+                formData.field1.Postal_Code
+              : ""}
           </Text>
         </View>
         <View
@@ -318,7 +363,7 @@ function Summary({
           cus_name={auth.currentUser.displayName}
           navigation={navigation}
         /> */}
-        <TouchableOpacity onPress={handleCancel}>
+        <TouchableOpacity onPress={onPrevious}>
           <Text
             style={{
               fontSize: 15,
@@ -330,7 +375,7 @@ function Summary({
               marginTop: 10,
             }}
           >
-            Cancel
+            Update Shipping Details
           </Text>
         </TouchableOpacity>
       </View>

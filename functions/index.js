@@ -8,7 +8,7 @@ const stripe = require("stripe")("sk_test_51IzlXYEHdax3d8oTs8GSzm7fM2zr8tHcLSfuf
 admin.initializeApp();
 
 exports.createPaymentIntent = functions.https.onRequest(async (req, res) => {
-  const {amount, customerId} = req.body;
+  const {amount, customerId, shippingMethod} = req.body;
   try {
     // eslint-disable-next-line max-len
     // const customer = customerId ? await stripe.customers.retrieve(customerId) : await stripe.customers.create();
@@ -23,6 +23,16 @@ exports.createPaymentIntent = functions.https.onRequest(async (req, res) => {
       customer: customerId,
       automatic_payment_methods: {
         enabled: true,
+      },
+      shipping: {
+        address: {
+          line1: shippingMethod.streetAddress,
+          city: shippingMethod.city,
+          state: shippingMethod.state,
+          postal_code: shippingMethod.postalCode,
+          country: shippingMethod.country,
+        },
+        name: shippingMethod.name,
       },
     });
 

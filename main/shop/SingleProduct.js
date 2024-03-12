@@ -30,7 +30,7 @@ function SingleProduct({ theme, navigation }) {
   const [count, setCount] = useState(1);
   const route = useRoute();
   const { productId } = route.params;
-  console.log(typeof(productId.quantity));
+  console.log(productId);
   const [productCart, setProductCart] = useState([]);
   const cartState = useSelector((state) => state.cartState);
   const dispatch = useDispatch();
@@ -57,10 +57,10 @@ function SingleProduct({ theme, navigation }) {
     price: productId.price,
     quantity: productId.quantity,
     cartQty: count,
+    createdBy: productId.createdBy,
   };
 
   const addToCart = () => {
-   
     // Check if the product is already in the productCart
     const isProductInCart = cartState.some((item) => item.id === productId.id);
 
@@ -70,7 +70,7 @@ function SingleProduct({ theme, navigation }) {
       setProductCart([...cartState, cartData]);
       // dispatch(cartReducer(productCart));
       // // console.log("Product added to productCart:", cartData);
-      navigation.navigate('Cart')
+      navigation.navigate("Cart");
       // console.log(cartData);
     } else {
       // // console.log("Product already in the productCart:", cartData);
@@ -95,12 +95,12 @@ function SingleProduct({ theme, navigation }) {
           }}
         >
           <Image
-            source={{uri:productId.imageUrl}}
+            source={{ uri: productId.imageUrl }}
             style={{
               width: 343,
               height: 197,
               borderRadius: 5,
-              maxWidth:"100%"
+              maxWidth: "100%",
             }}
           />
           <View
@@ -115,8 +115,15 @@ function SingleProduct({ theme, navigation }) {
                 width: "65%",
               }}
             >
-
-          <Button  onPress={() => navigation.navigate("ArView")}>View in AR</Button>
+              <Button
+                onPress={() =>
+                  navigation.navigate("ArView", {
+                    productUrl: productId.imageUrl,
+                  })
+                }
+              >
+                View in AR
+              </Button>
               <Text style={styles.productTitle}>Artwork Details</Text>
               <View style={styles.productmeta}>
                 <View style={{ flexDirection: "row" }}>
