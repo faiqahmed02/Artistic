@@ -9,23 +9,25 @@ import { addOrder } from "../../firestoreFunctions/Main";
 import { auth } from "../../firebaseConfig";
 
 function Thankyou({ theme, route }) {
-  const navigation = useNavigation();
-  const { buyerId, artid, artistid } = route.params;
+  // const navigation = useNavigation();
+  // const { buyerId, artid, artistid } = route.params;
   // console.log(buyerId + " " + artid + " " + artistid);
   const add = async () => {
-    if ((!buyerId, !artid, !artistid)) {
-      return null;
-    }
-    await addOrder(auth.currentUser.uid, artid, artistid).then(() => {
-      navigation.navigate("Home");
-    });
+    // if ((!buyerId, !artid, !artistid)) {
+    //   return null;
+    // }
+    // await addOrder(auth.currentUser.uid, artid, artistid, "Pending").then(
+    //   () => {
+    //     return navigation.navigate("Home");
+    //   }
+    // );
   };
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      add();
-    }, 2000);
-  }, [artid]);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     add();
+  //   }, 2000);
+  // }, []);
 
   return (
     // <LinearGradient

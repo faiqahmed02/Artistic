@@ -15,6 +15,7 @@ import { getUser } from "../../../firestoreFunctions/User";
 import { useNavigation } from "@react-navigation/native";
 import { useStripe } from "@stripe/stripe-react-native";
 import { cartReducerEmpty } from "../../../store/rootSlice";
+import { addOrder } from "../../../firestoreFunctions/Main";
 
 const API_URL = "https://us-central1-zicoart-173b5.cloudfunctions.net"; // Replace with your Firebase Cloud Function URL
 
@@ -109,33 +110,97 @@ function Summary({
       console.error(error);
     }
   };
+  const generateOrderNumber = () => {
+    // Get the current timestamp
+    const timestamp = Date.now();
 
+    // Generate a random number between 100000 and 999999
+    const randomPart = Math.floor(Math.random() * 900000) + 100000;
+
+    // Combine the timestamp and random number
+    const orderNumber = `${timestamp}${randomPart}`;
+
+    // Take the last six digits to ensure a six-digit number
+    return orderNumber.slice(-6);
+  };
   const openPaymentSheet = async () => {
     const { error } = await presentPaymentSheet();
 
     if (error) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
+      const orderNumber = generateOrderNumber();
+      const address = formData.field1
+        ? formData.field1.Street_Address +
+          "," +
+          formData.field1.Apartment +
+          "," +
+          formData.field1.City +
+          "," +
+          formData.field1.State +
+          "," +
+          formData.field1.Country +
+          "," +
+          formData.field1.Postal_Code
+        : "";
       // Alert.alert("Success", "Your order is confirmed!");
-      setTimeout(() => {
+      setTimeout(async () => {
         dispatch(cartReducerEmpty());
+        await addOrder(
+          auth.currentUser.uid,
+          artId,
+          artistId,
+          "Pending",
+          totalAmount,
+          orderNumber,
+          address
+        )
+          .then(() => {
+            navigation.navigate("Thank You");
+            dispatch(cartReducerEmpty());
+          })
+          .catch((error) => {
+            alert(error);
+          });
         // onNext();
-        navigation.navigate("Thank You", {
-          buyerId: auth.currentUser.uid,
-          artid: artId,
-          artistid: artistId,
-        });
-        dispatch(cartReducerEmpty());
       }, 2000);
     }
   };
 
   const mergeData = () => {
-    const allArtIds = state.map((item) => item.id);
-    const allArtistIds = state.map((item) => item.createdBy);
-    setArtId(allArtIds);
-    setArtistId(allArtistIds);
-    console.log(artistId);
+    // Art
+    // Use a Set to store unique IDs
+    const allArtIds = new Set();
+
+    // Extract unique IDs into the set
+    state.forEach((item) => {
+      allArtIds.add(item.id);
+    });
+
+    // Convert the set back to an array
+    const uniqueArtIdsArray = Array.from(allArtIds);
+
+    console.log(uniqueArtIdsArray);
+    // const allArtIds = state.map((item) => item.id);
+
+    setArtId(uniqueArtIdsArray);
+
+    // Artist
+    // Use a Set to store unique IDs
+    const allArtistIds = new Set();
+
+    // Extract unique IDs into the set
+    state.forEach((item) => {
+      allArtistIds.add(item.createdBy);
+    });
+
+    // Convert the set back to an array
+    const uniqueArtistIdsArray = Array.from(allArtistIds);
+
+    console.log(uniqueArtIdsArray);
+    // const allArtistIds = state.map((item) => item.createdBy);
+    setArtistId(uniqueArtistIdsArray);
+    console.log(uniqueArtistIdsArray);
   };
 
   useEffect(() => {

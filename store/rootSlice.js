@@ -6,7 +6,7 @@ const rootSlice = createSlice({
 
   initialState: {
     user: null,
-    cartState: null,
+    cartState: [],
     credentials: {},
     signupState: [],
     userType: null,
@@ -29,7 +29,7 @@ const rootSlice = createSlice({
       state.cartState = action.payload;
     },
     cartReducerEmpty: (state) => {
-      state.cartState = null;
+      state.cartState = [];
     },
     userTypeReducer: (state, action) => {
       state.userType = action.payload;

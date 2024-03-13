@@ -47,6 +47,7 @@ function SingleProduct({ theme, navigation }) {
     }
   };
   const cartData = {
+    artImage:productId.imageUrl,
     artistName: productId.artist,
     artworkName: productId.artWorkName,
     artworkSize: productId.artworkSize,

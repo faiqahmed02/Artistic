@@ -57,6 +57,7 @@ import AddProduct from "./main/shop/product/AddProduct";
 import MyProducts from "./main/shop/product/MyProducts";
 import ViewArtist from "./main/artist/ViewArtist";
 import AllArtst from "./main/artist/AllArtst";
+import ForgetPassward from "./main/user/ForgetPassward";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -136,6 +137,10 @@ export default function App() {
                 <Drawer.Screen name="Thank You" component={Thankyou} />
                 <Drawer.Screen name="Notification" component={Login} />
                 <Drawer.Screen name="Login" component={Login} />
+                <Drawer.Screen
+                  name="Forget Password"
+                  component={ForgetPassward}
+                />
                 <Drawer.Screen name="Select Account" component={AccountType} />
                 <Drawer.Screen name="Signup" component={SignUp} />
                 <Drawer.Screen name="Profile" component={Profile} />

@@ -1,4 +1,12 @@
-import { addDoc, collection, doc, getDocs, query, serverTimestamp, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  serverTimestamp,
+  where,
+} from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 export async function getEvents() {
@@ -26,18 +34,44 @@ export async function getProducts() {
 }
 
 // Function to add an order
-export const addOrder = async (buyerId, artId, artistId) => {
+export const addOrder = async (
+  buyerId,
+  artId,
+  artistId,
+  status,
+  price,
+  orderNumber,
+  orderAddress
+) => {
   try {
     // Create a new order document
     const orderRef = await addDoc(collection(db, "orders"), {
       buyerId: buyerId,
       artId: artId,
       artistId: artistId,
-      orderDate: serverTimestamp(),
+      orderDate: new Date(),
+      orderStatus: status,
+      price: price,
+      orderNumber: orderNumber,
+      orderAddress: orderAddress,
     });
 
     console.log("Order added with ID: ", orderRef.id);
   } catch (error) {
     console.error("Error adding order: ", error);
   }
+};
+
+// Get All Orders by users
+
+export const getAllOrders = async (userId) => {
+  const q = query(collection(db, "orders"), where("buyerId", "==", userId));
+
+  const querySnapshot = await getDocs(q);
+  return querySnapshot;
+
+  // querySnapshot.forEach((doc) => {
+  //   // doc.data() is never undefined for query doc snapshots
+  //   // console.log(doc.id, " => ", doc.data());
+  // });
 };

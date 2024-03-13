@@ -54,7 +54,7 @@ function Cart({ theme, navigation }) {
         navigation.navigate("Checkout");
       }
     } else if (!cart.length) {
-      alert("Add Some Product First");
+      navigation.navigate("Products");
     } else {
       navigation.navigate("Login");
     }
@@ -65,7 +65,7 @@ function Cart({ theme, navigation }) {
   };
   return (
     <LinearGradient
-      style={{ alignItems: "center" }}
+      style={{ alignItems: "center", paddingTop: 50, flex: 1 }}
       colors={[theme.colors.myOwnColor, "transparent"]}
     >
       <ScrollView>
@@ -73,7 +73,11 @@ function Cart({ theme, navigation }) {
           cart.map((d, i) => {
             return (
               <View
-                style={{ justifyContent: "center", alignItems: "center" }}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingVertical: 5,
+                }}
                 key={i}
               >
                 <View
@@ -85,17 +89,20 @@ function Cart({ theme, navigation }) {
                     // alignItems: "center",
                     height: "auto",
                     width: "90%",
-                    height: 100,
                     padding: 10,
                     // paddingTop:100,
                     margin: 10,
-                    marginTop: 50,
                   }}
                 >
                   <View>
                     <Image
-                      source={{uri:d.imageUrl}}
-                      style={{ width: 79, height: 82 }}
+                      source={{ uri: d.artImage }}
+                      style={{
+                        width: 79,
+                        height: 82,
+                        borderRadius: 5,
+                        marginRight: 5,
+                      }}
                     />
                   </View>
                   <View style={{ width: "62%", paddingTop: 10 }}>
@@ -219,22 +226,22 @@ function Cart({ theme, navigation }) {
             style={{
               height: 700,
               width: 200,
-              maxWidth:"100%",
+              maxWidth: "100%",
               backgroundColor: theme.colors.linkColor,
             }}
           >
             <Text>Hello</Text>
           </View>
         )}
+        {cart ? (
+          <ButtonComp
+            onPress={() => checkOutBtn()}
+            btnText={!cart.length ? "Add Product" : "CHECKOUT"}
+          />
+        ) : (
+          ""
+        )}
       </ScrollView>
-      {cart ? (
-        <ButtonComp
-          onPress={() => checkOutBtn()}
-          btnText={!cart.length ? "Add Product" : "CHECKOUT"}
-        />
-      ) : (
-        ""
-      )}
     </LinearGradient>
   );
 }

@@ -30,13 +30,13 @@ function Login({ theme, navigation }) {
 
   return (
     <LinearGradient
-      style={{ alignItems: "center", padding: 10 }}
+      style={{ alignItems: "center", padding: 10, flex:1, justifyContent:"center" }}
       colors={[theme.colors.myOwnColor, "transparent"]}
     >
       <KeyboardAwareScrollView>
-        <View>
+        <View style={{alignItems: "center", marginVertical:50}}>
           <Image source={require("../../assets/logo.png")} />
-          <Text
+          {/* <Text
             style={{
               textAlign: "center",
               fontSize: 13.5,
@@ -45,7 +45,7 @@ function Login({ theme, navigation }) {
             }}
           >
             Forget Password?
-          </Text>
+          </Text> */}
         </View>
         <View style={{ width: "100%" }}>
           <Text
@@ -73,16 +73,15 @@ function Login({ theme, navigation }) {
               }
             />
           </View>
-          <View style={{ alignItems: "center" }}>
+          <View style={{ alignItems: "center", marginBottom:20 }}>
             <ButtonComp
               btnText="Send Password Reset Link"
               onPress={() => handlePwdReset()}
             />
-            <TouchableOpacity style={{ marginTop: 20, marginBottom: 20 }}>
-              <Text>Don't have an account?</Text>
-            </TouchableOpacity>
+         
             <Button
               style={{
+                marginTop:20,
                 backgroundColor: "transparent",
                 borderWidth: 1,
                 borderColor: "#29ABE2",
