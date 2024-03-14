@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { collection, getDocs } from "firebase/firestore";
 import React, { Children, useEffect, useState } from "react";
-import { Text } from "react-native";
+import { ImageBackground, Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
@@ -92,14 +92,59 @@ function ProductCard({ horizontal, _style, _id }) {
   const goToProductPage = (data) => {
     navigation.navigate("Product Page", { productId: data });
   };
-  
+
   return _id
     ? products
         .filter((d) => d.createdBy === _id)
         .map((d, i) => {
           return (
             <View style={styles.productCard} key={i}>
-              <Image style={styles.productImg} source={{ uri: d.imageUrl }} />
+              <View
+                style={{
+                  width: 150,
+                  height: "auto",
+                  // margin: 3,
+                  borderRadius: 5,
+                  overflow: "hidden",
+                }}
+              >
+                <ImageBackground
+                  style={styles.relatedProduct}
+                  source={{ uri: d.imageUrl }}
+                />
+
+                <View
+                  style={{
+                    justifyContent: "space-between",
+                    flexDirection: "row-reverse",
+                  }}
+                >
+                  {/* <View></View> */}
+                  <View>
+                    <TouchableOpacity>
+                      <Image
+                        source={require("../../assets/favourite_icon.png")}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => goToProductPage(d)}>
+                      <Image source={require("../../assets/cart_icon.png")} />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                      <Image source={require("../../assets/like_icon.png")} />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                      <Image source={require("../../assets/vr_icon.png")} />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View>
+                  <TouchableOpacity
+                  // style={{ bottom: 10, left: 10, position: "absolute" }}
+                  >
+                    <Image source={require("../../assets/share.png")} />
+                  </TouchableOpacity>
+                </View>
+              </View>
               <Text style={styles.productTitle}>{d.artWorkName}</Text>
               <Text style={styles.productPrice}>${d.price}</Text>
               <TouchableOpacity onPress={() => goToProductPage(d)}>
@@ -159,5 +204,12 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     letterSpacing: 0,
     textAlign: "center",
+  },
+  relatedProduct: {
+    // margin: 3,
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    borderRadius: 5,
   },
 });

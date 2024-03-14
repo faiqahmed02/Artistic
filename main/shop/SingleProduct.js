@@ -2,7 +2,7 @@ import { faMinimize, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, ImageBackground } from "react-native";
 import { Image, View } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native";
@@ -30,7 +30,7 @@ function SingleProduct({ theme, navigation }) {
   const [count, setCount] = useState(1);
   const route = useRoute();
   const { productId } = route.params;
-  console.log(productId);
+  console.log(productId.artWorkType);
   const [productCart, setProductCart] = useState([]);
   const cartState = useSelector((state) => state.cartState);
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ function SingleProduct({ theme, navigation }) {
     }
   };
   const cartData = {
-    artImage:productId.imageUrl,
+    artImage: productId.imageUrl,
     artistName: productId.artist,
     artworkName: productId.artWorkName,
     artworkSize: productId.artworkSize,
@@ -95,7 +95,7 @@ function SingleProduct({ theme, navigation }) {
             // paddingTop:320
           }}
         >
-          <Image
+          {/* <Image
             source={{ uri: productId.imageUrl }}
             style={{
               width: 343,
@@ -103,7 +103,60 @@ function SingleProduct({ theme, navigation }) {
               borderRadius: 5,
               maxWidth: "100%",
             }}
-          />
+          /> */}
+          {/* <RelatedProduct width={343} height={197} /> */}
+          <View
+            style={{
+              width: 343,
+              height: 197,
+              margin: 3,
+              borderRadius: 5,
+              overflow: "hidden",
+            }}
+          >
+            <ImageBackground
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                borderRadius: 5,
+              }}
+              source={{ uri: productId.imageUrl }}
+            />
+
+            <View
+              style={{
+                justifyContent: "space-between",
+                flexDirection: "row-reverse",
+              }}
+            >
+              {/* <View></View> */}
+              <View style={{ height: 160 }}>
+                <TouchableOpacity>
+                  <Image source={require("../../assets/favourite_icon.png")} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Image source={require("../../assets/like_icon.png")} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("ArView", {
+                      productUrl: productId.imageUrl,
+                    })
+                  }
+                >
+                  <Image source={require("../../assets/vr_icon.png")} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity
+              // style={{ bottom: -50, left: 10}}
+              >
+                <Image source={require("../../assets/share.png")} />
+              </TouchableOpacity>
+            </View>
+          </View>
           <View
             style={{
               // flex:2
@@ -147,9 +200,17 @@ function SingleProduct({ theme, navigation }) {
                 </View>
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Type:</Text>
-                  <Text style={[styles.text, { fontWeight: "600" }]}>
-                    {productId.artWorkType}
-                  </Text>
+
+                  {productId.artWorkType.map((d, i, arr) => {
+                    return (
+                      <View key={i}>
+                        <Text style={[styles.text, { fontWeight: "600" }]}>
+                          {d}
+                          {i !== arr.length - 1 ? ", " : ""}
+                        </Text>
+                      </View>
+                    );
+                  })}
                 </View>
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Size:</Text>
@@ -307,7 +368,9 @@ function SingleProduct({ theme, navigation }) {
             >
               Similar Artworks
             </Text>
-            <RelatedProduct />
+            <ScrollView horizontal>
+              <RelatedProduct id={productId.id} />
+            </ScrollView>
           </View>
           <View
             style={{
@@ -375,6 +438,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     letterSpacing: 0,
     textAlign: "left",
+    paddingRight: 2,
   },
   btn: {
     backgroundColor: "white",

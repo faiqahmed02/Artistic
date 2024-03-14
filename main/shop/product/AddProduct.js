@@ -16,17 +16,32 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { LinearGradient } from "expo-linear-gradient";
 import { withTheme } from "react-native-paper";
 import { useSelector } from "react-redux";
+import SelectDropdown from "react-native-select-dropdown";
 
 // Internal components
 import ButtonComp from "../../../component/mainscreen/ButtonComp";
 import InputComp from "../../../component/mainscreen/InputComp";
+import Filter from "../../../component/mainscreen/Filter";
+import {
+  artMediumData,
+  digitalPanting,
+  material,
+  schoolsOfArt,
+  subject,
+  type,
+} from "./ProductData";
 
 const AddProduct = ({ theme, navigation }) => {
   // State declarations
   const [artist, setArtist] = useState("");
   const [artWorkName, setArtWorkName] = useState("");
   const [price, setPrice] = useState("");
-  const [artWorkType, setArtWorkType] = useState("");
+  const [artWorkType, setArtWorkType] = useState([]);
+  const [artMedium, setArtMedium] = useState([]);
+  const [artSchool, setArtSchool] = useState([]);
+  const [artSubject, setArtSubject] = useState([]);
+  const [artMaterial, setArtMaterial] = useState([]);
+  const [artPaintingType, setArtPaintingType] = useState([]);
   const [artWorkSize, setArtWorkSize] = useState("");
   const [artWorkWeight, setartWorkWeight] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -35,6 +50,7 @@ const AddProduct = ({ theme, navigation }) => {
   const [image, setImage] = useState(null);
   const user_type = useSelector((state) => state.userType);
   const [loading, setLoading] = useState(false);
+  const countries = ["Egypt", "Canada", "Australia", "Ireland"];
 
   useEffect(() => {
     (async () => {
@@ -52,7 +68,7 @@ const AddProduct = ({ theme, navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: .5,
+      quality: 0.5,
     });
 
     if (!result.canceled) {
@@ -84,7 +100,7 @@ const AddProduct = ({ theme, navigation }) => {
   // Form submission function
   const handleSubmit = async () => {
     console.log("Start Handle Submit");
-    setLoading(true)
+    setLoading(true);
     if (!artist || !artWorkName || !price || !artWorkType || !quantity) {
       alert("Please fill all the fields.");
       return;
@@ -111,6 +127,11 @@ const AddProduct = ({ theme, navigation }) => {
         artWorkName,
         price,
         artWorkType,
+        artMedium,
+        artSchool,
+        artSubject,
+        artMaterial,
+        artPaintingType,
         artWorkSize,
         artWorkWeight,
         quantity,
@@ -138,7 +159,7 @@ const AddProduct = ({ theme, navigation }) => {
       setImage(null);
 
       navigation.navigate("My Products");
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred. Check the console for details.");
@@ -174,22 +195,60 @@ const AddProduct = ({ theme, navigation }) => {
             onChangeText={setQuantity}
             // inputMode="numeric"
           />
-          <InputComp
+          {/* <InputComp
             placeholder="Art Work Type"
             text={artWorkType}
             onChangeText={setArtWorkType}
-          />
+          /> */}
+
           <InputComp
             placeholder="Art Work Size"
             text={artWorkSize}
             onChangeText={setArtWorkSize}
-            multiline
+            // multiline
           />
+
           <InputComp
             placeholder="Art Work Weight"
             text={artWorkWeight}
             onChangeText={setartWorkWeight}
-            multiline
+            // multiline
+          />
+          <Filter
+            items={artMediumData}
+            setSelectedItems={setArtMedium}
+            selectedItems={artMedium}
+            selectText={"Art Medium"}
+          />
+          <Filter
+            items={schoolsOfArt}
+            setSelectedItems={setArtSchool}
+            selectedItems={artSchool}
+            selectText={"Schools of Art"}
+          />
+          <Filter
+            items={subject}
+            setSelectedItems={setArtSubject}
+            selectedItems={artSubject}
+            selectText={"Art Subject"}
+          />
+          <Filter
+            items={material}
+            setSelectedItems={setArtMaterial}
+            selectedItems={artMaterial}
+            selectText={"Art Material"}
+          />
+          <Filter
+            items={type}
+            setSelectedItems={setArtWorkType}
+            selectedItems={artWorkType}
+            selectText={"Art Work Type"}
+          />
+          <Filter
+            items={digitalPanting}
+            setSelectedItems={setArtPaintingType}
+            selectedItems={artPaintingType}
+            selectText={"Digital Painting/Drawing"}
           />
           <InputComp
             placeholder="Art Story"
