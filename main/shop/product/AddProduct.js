@@ -16,7 +16,6 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { LinearGradient } from "expo-linear-gradient";
 import { withTheme } from "react-native-paper";
 import { useSelector } from "react-redux";
-import SelectDropdown from "react-native-select-dropdown";
 
 // Internal components
 import ButtonComp from "../../../component/mainscreen/ButtonComp";
