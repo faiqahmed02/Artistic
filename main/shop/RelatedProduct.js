@@ -61,6 +61,8 @@ function RelatedProduct({ width, height, id }) {
             key={i}
             style={{
               width: width ? width : 170,
+              maxHeight:'100%',
+              maxWidth:"100%",
               height: height ? height : "auto",
               margin: 3,
               borderRadius: 5,
@@ -70,6 +72,7 @@ function RelatedProduct({ width, height, id }) {
             <ImageBackground
               style={styles.relatedProduct}
               source={{ uri: d.imageUrl }}
+              resizeMode="cover"
             />
 
             <View

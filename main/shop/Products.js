@@ -27,36 +27,48 @@ function Products({ theme, navigation }) {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-around",
-            marginVertical:20
+            marginVertical: 20,
           }}
         >
           <ScrollView horizontal>
-          <Chip
-            icon="check"
-            // rippleColor={'#C1272D'}
-            showSelectedCheck={true}
-            onPress={() => console.log("Pressed")}
-            style={{ backgroundColor: "#29ABE2", color: "white", marginHorizontal:5 }}
-            textStyle={{ color: "white" }}
-          >
-            Trending Artist
-          </Chip>
-          <Chip
-            icon="close"
-            onPress={() => console.log("Pressed")}
-            style={{ backgroundColor: "#29ABE2", color: "white", marginHorizontal:5 }}
-            textStyle={{ color: "white" }}
-          >
-            Trending Art
-          </Chip>
-          <Chip
-            icon="close"
-            onPress={() => console.log("Pressed")}
-            style={{ backgroundColor: "#29ABE2", color: "white", marginHorizontal:5 }}
-            textStyle={{ color: "white" }}
-          >
-            Top 1000
-          </Chip>
+            <Chip
+              icon="check"
+              // rippleColor={'#C1272D'}
+              showSelectedCheck={true}
+              onPress={() => console.log("Pressed")}
+              style={{
+                backgroundColor: "#29ABE2",
+                color: "white",
+                marginHorizontal: 5,
+              }}
+              textStyle={{ color: "white" }}
+            >
+              Trending Artist
+            </Chip>
+            <Chip
+              icon="close"
+              onPress={() => console.log("Pressed")}
+              style={{
+                backgroundColor: "#29ABE2",
+                color: "white",
+                marginHorizontal: 5,
+              }}
+              textStyle={{ color: "white" }}
+            >
+              Trending Art
+            </Chip>
+            <Chip
+              icon="close"
+              onPress={() => console.log("Pressed")}
+              style={{
+                backgroundColor: "#29ABE2",
+                color: "white",
+                marginHorizontal: 5,
+              }}
+              textStyle={{ color: "white" }}
+            >
+              Top 1000
+            </Chip>
           </ScrollView>
         </View>
         <TrendingArtist

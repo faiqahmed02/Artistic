@@ -30,7 +30,7 @@ function SingleProduct({ theme, navigation }) {
   const [count, setCount] = useState(1);
   const route = useRoute();
   const { productId } = route.params;
-  console.log(productId.artWorkType);
+  console.log(productId);
   const [productCart, setProductCart] = useState([]);
   const cartState = useSelector((state) => state.cartState);
   const dispatch = useDispatch();
@@ -121,6 +121,7 @@ function SingleProduct({ theme, navigation }) {
                 position: "absolute",
                 borderRadius: 5,
               }}
+              resizeMode="cover"
               source={{ uri: productId.imageUrl }}
             />
 

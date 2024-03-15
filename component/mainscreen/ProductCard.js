@@ -157,7 +157,52 @@ function ProductCard({ horizontal, _style, _id }) {
         // console.log(d.id);
         return (
           <View style={styles.productCard} key={i}>
-            <Image style={styles.productImg} source={{ uri: d.imageUrl }} />
+            <View
+              style={{
+                width: 150,
+                height: "auto",
+                // margin: 3,
+                borderRadius: 5,
+                overflow: "hidden",
+              }}
+            >
+              <ImageBackground
+                style={styles.relatedProduct}
+                source={{ uri: d.imageUrl }}
+              />
+
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  flexDirection: "row-reverse",
+                }}
+              >
+                {/* <View></View> */}
+                <View>
+                  <TouchableOpacity>
+                    <Image
+                      source={require("../../assets/favourite_icon.png")}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => goToProductPage(d)}>
+                    <Image source={require("../../assets/cart_icon.png")} />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Image source={require("../../assets/like_icon.png")} />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Image source={require("../../assets/vr_icon.png")} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View>
+                <TouchableOpacity
+                // style={{ bottom: 10, left: 10, position: "absolute" }}
+                >
+                  <Image source={require("../../assets/share.png")} />
+                </TouchableOpacity>
+              </View>
+            </View>
             <Text style={styles.productTitle}>{d.artWorkName}</Text>
             <Text style={styles.productPrice}>${d.price}</Text>
             <TouchableOpacity onPress={() => goToProductPage(d)}>
