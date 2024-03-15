@@ -127,9 +127,9 @@ export default function App() {
                 />
                 <Drawer.Screen name="Technical Support" component={Support} />
                 <Drawer.Screen name="Products" component={Products} />
-                <Drawer.Screen name="My Products" component={Showroom} />
+                <Drawer.Screen name="My Products" component={MyProducts} />
                 <Drawer.Screen name="Add Product" component={AddProduct} />
-                <Drawer.Screen name="Showrooms" component={Products} />
+                <Drawer.Screen name="Showrooms" component={Showroom} />
                 <Drawer.Screen name="Cart" component={Cart} />
                 <Drawer.Screen name="Checkout" component={Checkout} />
                 <Drawer.Screen name="My Orders" component={MyOrders} />
