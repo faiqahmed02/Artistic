@@ -138,6 +138,7 @@ export default function App() {
                 <Drawer.Screen name="Thank You" component={Thankyou} />
                 <Drawer.Screen name="Notification" component={Login} />
                 <Drawer.Screen name="Login" component={Login} />
+                
                 <Drawer.Screen
                   name="Forget Password"
                   component={ForgetPassward}
