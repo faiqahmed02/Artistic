@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMugHot } from "@fortawesome/free-solid-svg-icons";
@@ -9,15 +9,26 @@ import { auth } from "../../firebaseConfig";
 import { getUser } from "../../firestoreFunctions/User";
 
 function HeaderTitle({ navigation }) {
-  // console.log(Dimensions.get("window").width);
+  // // console.log(Dimensions.get("window").width);
   const user = useSelector((state) => state.user);
-
+  const [curUser, setCurUser] = useState(null);
+  useEffect(() => {
+    const userCheck = async () => {
+      if (auth.currentUser) {
+        setCurUser(auth.currentUser);
+      }
+    };
+    userCheck;
+  }, [curUser]);
   return (
     <View>
       <Text style={styles.nameTitle}>
-        {" "}
-        {user ? (
-          "Hi " + auth.currentUser ?  user.displayName : ""
+        {auth.currentUser ? (
+          "Hi " + auth.currentUser ? (
+            auth.currentUser.displayName
+          ) : (
+            ""
+          )
         ) : (
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text style={styles.nameTitle}>Login</Text>

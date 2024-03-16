@@ -5,8 +5,8 @@ import { withTheme } from "react-native-paper";
 import InputComp from "../../component/mainscreen/InputComp";
 import ButtonComp from "../../component/mainscreen/ButtonComp";
 
-function Support({ theme }) {
-    console.log(Platform.OS);
+function Support({ theme, navigation }) {
+    // console.log(Platform.OS);
   return (
     <View>
       <LinearGradient
@@ -16,7 +16,7 @@ function Support({ theme }) {
         <View style={styles.container}>
           <InputComp placeholder={"Subject"} />
           <InputComp placeholder={"Message"} multiline={true} height={169} maxLength={150}/>
-          <ButtonComp btnText={"Submit"} />
+          <ButtonComp btnText={"Submit"} onPress={() => navigation.navigate("Home")} width={"100%"} />
         </View>
       </LinearGradient>
     </View>

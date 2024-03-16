@@ -1,5 +1,7 @@
+window.navigator.userAgent = "ReactNative";
+
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { store } from "./store";
@@ -47,6 +49,16 @@ import EventSubmissionForm from "./main/events/AddEvent";
 import { useEffect } from "react";
 import AddClasses from "./main/classes/AddClasses";
 import EditProfile from "./main/user/EditProfile";
+import ListAllArtist from "./main/user/chat/ListAllArtist";
+// import AllChat from "./main/user/chat/AllChat";
+import ChatListScreen from "./main/user/chat/AllChat";
+import ChatRoom from "./main/user/chat/ChatRoom";
+import AddProduct from "./main/shop/product/AddProduct";
+import MyProducts from "./main/shop/product/MyProducts";
+import ViewArtist from "./main/artist/ViewArtist";
+import AllArtst from "./main/artist/AllArtst";
+import ForgetPassward from "./main/user/ForgetPassward";
+import Showroom from "./main/shop/product/Showroom";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -64,7 +76,11 @@ export default function App() {
   };
 
   return (
-    <StripeProvider publishableKey="pk_test_51IzlXYEHdax3d8oTDo9zwCBLNA7tqvVToG60ijHDZVTlkZf3j4cXGNZlOCrWrZeXwxRyWy8ovfFvLBk4dZHvM4lK00mg1kJn6V">
+    <StripeProvider
+      publishableKey="pk_test_51IzlXYEHdax3d8oTDo9zwCBLNA7tqvVToG60ijHDZVTlkZf3j4cXGNZlOCrWrZeXwxRyWy8ovfFvLBk4dZHvM4lK00mg1kJn6V"
+      merchantIdentifier="merchant.com.faiqahmed.zicoart"
+      urlScheme=""
+    >
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <PaperProvider theme={theme}>
@@ -111,7 +127,9 @@ export default function App() {
                 />
                 <Drawer.Screen name="Technical Support" component={Support} />
                 <Drawer.Screen name="Products" component={Products} />
-                <Drawer.Screen name="My Products" component={Products} />
+                <Drawer.Screen name="My Products" component={MyProducts} />
+                <Drawer.Screen name="Add Product" component={AddProduct} />
+                <Drawer.Screen name="Showrooms" component={Showroom} />
                 <Drawer.Screen name="Cart" component={Cart} />
                 <Drawer.Screen name="Checkout" component={Checkout} />
                 <Drawer.Screen name="My Orders" component={MyOrders} />
@@ -120,12 +138,20 @@ export default function App() {
                 <Drawer.Screen name="Thank You" component={Thankyou} />
                 <Drawer.Screen name="Notification" component={Login} />
                 <Drawer.Screen name="Login" component={Login} />
+                
+                <Drawer.Screen
+                  name="Forget Password"
+                  component={ForgetPassward}
+                />
                 <Drawer.Screen name="Select Account" component={AccountType} />
                 <Drawer.Screen name="Signup" component={SignUp} />
                 <Drawer.Screen name="Profile" component={Profile} />
                 <Drawer.Screen name="Edit Profile" component={EditProfile} />
-                <Drawer.Screen name="Chat" component={ChatScreen} />
-                <Drawer.Screen name="ArView" component={Arimageviwer} headerShown={false} />
+                <Drawer.Screen name="Chat" component={ChatListScreen} />
+                <Drawer.Screen name="Chat Screen" component={ChatScreen} />
+                <Drawer.Screen name="Chat Room" component={ChatRoom} />
+                <Drawer.Screen name="New Chat" component={ListAllArtist} />
+                <Drawer.Screen name="ArView" component={Arimageviwer} />
                 <Drawer.Screen
                   name="Checkout Screen"
                   component={CheckoutScreen}
@@ -150,6 +176,10 @@ export default function App() {
                 {/* Shippments */}
 
                 <Drawer.Screen name="Shipments" component={SubNow} />
+
+                {/* Artist */}
+                <Drawer.Screen name="All Artist" component={AllArtst} />
+                <Drawer.Screen name="View Artist" component={ViewArtist} />
               </Drawer.Navigator>
             </NavigationContainer>
           </PaperProvider>

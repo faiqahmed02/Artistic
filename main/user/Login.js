@@ -43,17 +43,19 @@ function Login({ theme, navigation }) {
       signInWithEmailAndPassword(auth, loginForm.email, loginForm.password)
         .then((res) => {
           dispatch(logIn(auth.currentUser));
-  
           if (auth.currentUser) {
             getUser(auth.currentUser.uid)
               .then((userData) => {
                 dispatch(userTypeReducer(userData));
               })
               .catch((getUserError) => {
-                console.error("Error fetching user data:", getUserError.message);
+                console.error(
+                  "Error fetching user data:",
+                  getUserError.message
+                );
               });
           }
-  
+
           const user = auth.currentUser;
           const data = {
             email: user.email,
@@ -61,9 +63,9 @@ function Login({ theme, navigation }) {
             phoneNumber: user.phoneNumber,
             displayName: user.displayName,
           };
-  
+
           // addUser(auth.currentUser.uid, data); // Uncomment if needed
-  
+
           navigation.navigate("Home");
         })
         .catch((error) => {
@@ -142,9 +144,14 @@ function Login({ theme, navigation }) {
           </View>
           <View style={{ alignItems: "center" }}>
             <ButtonComp btnText="Sign in" onPress={() => handleLogin()} />
-            <TouchableOpacity style={{ marginTop: 20, marginBottom: 20 }}>
-              <Text>Don't have an account?</Text>
-            </TouchableOpacity>
+            <View style={{justifyContent:"space-between", flexDirection:"row"}}>
+              <TouchableOpacity style={{ marginTop: 5, marginBottom: 20 }} onPress={() => navigation.navigate("Forget Password")}>
+                <Text>Forget Password?</Text>
+              </TouchableOpacity>
+              {/* <TouchableOpacity style={{ marginTop: 5, marginBottom: 20 }}>
+                <Text>Don't have an account?</Text>
+              </TouchableOpacity> */}
+            </View>
             <Button
               style={{
                 backgroundColor: "transparent",

@@ -37,7 +37,7 @@ function EditProfile({ theme, navigation }) {
       quality: 1,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -76,7 +76,7 @@ function EditProfile({ theme, navigation }) {
     }
    
   };
-  return (
+  return (auth.currentUser ? 
     <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
       <KeyboardAwareScrollView>
         <View style={{ padding: 10, paddingTop: 40 }}>
@@ -110,7 +110,7 @@ function EditProfile({ theme, navigation }) {
 
           <View>
             <InputComp
-              placeholder={auth.currentUser.displayName ? auth.currentUser.displayName :"Full Name"}
+              placeholder={auth.currentUser ? auth.currentUser.displayName :"Full Name"}
               onChangeText={(name) =>
                 setFormData({
                   ...formData,
@@ -120,7 +120,7 @@ function EditProfile({ theme, navigation }) {
               inputMode="text"
             />
             <InputComp
-              placeholder={auth.currentUser.email ? auth.currentUser.email : "Email Address"}
+              placeholder={auth.currentUser ? auth.currentUser.email : "Email Address"}
               onChangeText={(email) =>
                 setFormData({
                   ...formData,
@@ -132,7 +132,7 @@ function EditProfile({ theme, navigation }) {
               onPressOut={validation}
             />
             <InputComp
-              placeholder={auth.currentUser.phoneNumber ? auth.currentUser.phoneNumber : "Phone Number"}
+              placeholder={auth.currentUser ? auth.currentUser.phoneNumber : "Phone Number"}
               onChangeText={(num) =>
                 setFormData({
                   ...formData,
@@ -158,7 +158,7 @@ function EditProfile({ theme, navigation }) {
           />
         </View>
       </KeyboardAwareScrollView>
-    </LinearGradient>
+    </LinearGradient> : navigation.navigate("Login")
   );
 }
 

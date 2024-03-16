@@ -20,7 +20,7 @@ const AddClasses = ({ theme, navigation }) => {
 
   const handleSubmit = async () => {
     // Handle form submission logic here
-    console.log("Start Handle Submit");
+    // console.log("Start Handle Submit");
     if (
       !details ||
       !heldBy||
@@ -51,7 +51,7 @@ const AddClasses = ({ theme, navigation }) => {
         createdBy: auth.currentUser.uid,
       });
 
-      console.log("Event uploaded successfully!");
+      // console.log("Event uploaded successfully!");
       alert("Event submitted successfully!");
       // Clear form
       setDetails("");
@@ -68,7 +68,7 @@ const AddClasses = ({ theme, navigation }) => {
       alert("An error occurred. Check the console for details.");
     }
 
-    console.log("End of handleSubmit");
+    // console.log("End of handleSubmit");
   };
 
   return (

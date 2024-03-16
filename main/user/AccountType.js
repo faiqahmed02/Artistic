@@ -20,7 +20,7 @@ function AccountType({ theme, navigation }) {
   const typeSelected = (t) => {
     setRole({ ...role, user_role: t });
     setClicked(true);
-    // console.log(role);
+    // // console.log(role);
   };
 
   const signUpScreen = () => {
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
   text: {
     color: "#1B1B1B",
     fontSize: 24,
-    amily: "Roboto",
     fontWeight: "900",
   },
   link: {

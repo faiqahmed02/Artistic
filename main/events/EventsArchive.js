@@ -5,7 +5,7 @@ import { withTheme } from "react-native-paper";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 function Loader() {
@@ -59,8 +59,16 @@ function EventsArchive({ theme, navigation }) {
       return "Invalid Date";
     }
 
-    const options = { year: "numeric", month: "long", day: "numeric", weekday: "long" };
-    const formattedDate = new Date(dateString).toLocaleDateString("en-US", options);
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long",
+    };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "en-US",
+      options
+    );
     return formattedDate;
   };
 
@@ -70,83 +78,134 @@ function EventsArchive({ theme, navigation }) {
 
   return (
     <LinearGradient
-      style={{ alignItems: "center" }}
+      style={{ alignItems: "center", flex: 1 }}
       colors={[theme.colors.myOwnColor, "transparent"]}
     >
-      <ScrollView>
+      <View>
         <View style={styles.container}>
-          <Text style={styles.title}>Events and News</Text>
-          {events.map((d, i) => {
-            return (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: 345,
-                  maxWidth: "100%",
-                  height: 194,
-                  backgroundColor: "white",
-                  borderRadius: 10,
-                  marginTop: 10,
-                }}
-                key={i}
-              >
+          <ScrollView>
+            <Text style={styles.title}>Events and News</Text>
+            {events.map((d, i) => {
+              return (
                 <View
                   style={{
-                    width: "50%",
-                    flex: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
+                    display: "flex",
+                    flexDirection: "row",
+                    width: 345,
+                    maxWidth: "100%",
+                    height: 194,
+                    backgroundColor: "white",
+                    borderRadius: 10,
+                    marginTop: 10,
                   }}
+                  key={i}
                 >
-                  <Text style={{ color: "#2E2E2E", fontSize: 18, fontWeight: "400", lineHeight: 40 }}>
-                    {formatDate(d.date).split(" ")[1]}
-                  </Text>
-                  <Text style={{ color: "#C1272D", fontSize: 44, fontWeight: "600" }}>
-                    {new Date(d.date).getDate()}
-                  </Text>
-                  <Text style={{ color: "#1E1E1E", fontSize: 12, fontWeight: "600", lineHeight: 28 }}>
-                    {formatDate(d.date).split(" ")[0]}
-                  </Text>
-                  <Text style={{ color: "#1E1E1E", fontSize: 12, fontWeight: "600", lineHeight: 28 }}>
-                    <FontAwesomeIcon icon={faClock} color={theme.colors.linkColor} />{" "}
-                    {formatTimeIn24Hours(d.time)} PM
-                  </Text>
-                  {/* <Text style={{ color: "#1E1E1E", fontSize: 12, fontWeight: "600", lineHeight: 28 }}>
+                  <View
+                    style={{
+                      width: "50%",
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#2E2E2E",
+                        fontSize: 18,
+                        fontWeight: "400",
+                        lineHeight: 40,
+                      }}
+                    >
+                      {formatDate(d.date).split(" ")[1]}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "#C1272D",
+                        fontSize: 44,
+                        fontWeight: "600",
+                      }}
+                    >
+                      {new Date(d.date).getDate()}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "#1E1E1E",
+                        fontSize: 12,
+                        fontWeight: "600",
+                        lineHeight: 28,
+                      }}
+                    >
+                      {formatDate(d.date).split(" ")[0]}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "#1E1E1E",
+                        fontSize: 12,
+                        fontWeight: "600",
+                        lineHeight: 28,
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faClock}
+                        color={theme.colors.linkColor}
+                      />{" "}
+                      {formatTimeIn24Hours(d.time)} PM
+                    </Text>
+                    {/* <Text style={{ color: "#1E1E1E", fontSize: 12, fontWeight: "600", lineHeight: 28 }}>
                     Current Time: {currentTime.toLocaleTimeString()}
                   </Text> */}
-                  <TouchableOpacity onPress={() => navigation.navigate("Events Details")}>
-                    <Text style={{ color: "#1E1E1E", fontSize: 12, fontWeight: "600", lineHeight: 28 }}>
-                      View
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    width: "50%",
-                    flex: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    position: "relative",
-                    overflow: "hidden",
-                  }}
-                >
-                  {/* Use d.imageUrl here if you have an imageUrl property in your event data */}
-                  <ImageBackground
-                    source={require("../../assets/event_img.png")}
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate("Events Details")}
+                    >
+                      <Text
+                        style={{
+                          color: "#1E1E1E",
+                          fontSize: 12,
+                          fontWeight: "600",
+                          lineHeight: 28,
+                        }}
+                      >
+                        View
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View
                     style={{
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: 10,
+                      width: "50%",
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      position: "relative",
+                      overflow: "hidden",
                     }}
-                  />
+                  >
+                    {/* Use d.imageUrl here if you have an imageUrl property in your event data */}
+                    <ImageBackground
+                      source={require("../../assets/event_img.png")}
+                      style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: 10,
+                      }}
+                    />
+                  </View>
                 </View>
-              </View>
-            );
-          })}
+              );
+            })}
+          </ScrollView>
+          <TouchableOpacity
+            style={{ bottom: 10, left: "86%" }}
+            onPress={() => navigation.navigate("Create Event")}
+          >
+            <FontAwesomeIcon
+              icon={faPlusCircle}
+              size={60}
+              color={theme.colors.linkColor}
+            />
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
     </LinearGradient>
   );
 }
@@ -155,7 +214,7 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     width: "100%",
-    alignItems: "left",
+    // alignItems: "left",
     padding: 20,
   },
   title: {

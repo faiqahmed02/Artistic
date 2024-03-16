@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, Image } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { View } from "react-native";
 import { withTheme } from "react-native-paper";
@@ -28,30 +28,40 @@ function Footer({ theme, navigation }) {
         flexDirection: "row",
       }}
     >
-      <TouchableOpacity onPress={() => navigation.navigate("Products")}>
-        <FontAwesomeIcon
-          icon={faThLarge}
-          color={theme.colors.linkColor}
-          size={25}
+
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate(!auth.currentUser ? "Login" : "Profile")
+        }
+      >
+        <Image
+          source={require("../../assets/profile.png")}
+          style={{ width: 40, height: 40 }}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon={faBagShopping}
           color={theme.colors.linkColor}
           size={25}
+        /> */}
+        <Image
+          source={require("../../assets/cart.png")}
+          style={{ width: 40, height: 40 }}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-        <FontAwesomeIcon
-          icon={faHome}
-          color={theme.colors.linkColor}
-          size={25}
+        <Image
+          source={require("../../assets/home.png")}
+          style={{ width: 40, height: 40 }}
         />
       </TouchableOpacity>
-      <FontAwesomeIcon icon={faBell} color={theme.colors.linkColor} size={25} />
-      <TouchableOpacity onPress={() => navigation.navigate(!auth.currentUser ? "Login" : "Profile")}>
-      <FontAwesomeIcon icon={faUser} color={theme.colors.linkColor} size={25} />
+      <Image source={require("../../assets/notification.png")}  style={{width:40, height:40}} />
+      <TouchableOpacity onPress={() => navigation.navigate("Chat")}>
+        <Image
+          source={require("../../assets/chat.png")}
+          style={{ width: 40, height: 40 }}
+        />
       </TouchableOpacity>
     </View>
   );

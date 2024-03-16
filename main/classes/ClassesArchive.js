@@ -1,10 +1,19 @@
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { withTheme } from "react-native-paper";
 import { db } from "../../firebaseConfig";
 import { LinearGradient } from "expo-linear-gradient";
 import ButtonComp from "../../component/mainscreen/ButtonComp";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 function ClassesArchive({ theme, navigation }) {
   const [classes, setClasses] = useState([]);
@@ -34,9 +43,12 @@ function ClassesArchive({ theme, navigation }) {
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, [currentTime]);
-  console.log(classes);
+  // console.log(classes);
   return (
-    <LinearGradient colors={[theme.colors.myOwnColor, "transparent"]}>
+    <LinearGradient
+      colors={[theme.colors.myOwnColor, "transparent"]}
+      style={{ flex: 1 }}
+    >
       <ScrollView>
         <View style={styles.container}>
           {classes.map((d, i) => {
@@ -82,11 +94,11 @@ function ClassesArchive({ theme, navigation }) {
                       </View>
                     </View>
                   </View>
-                  <View style={{paddingTop:10}}>
-                    <View style={{paddingBottom:5}}>
+                  <View style={{ paddingTop: 10 }}>
+                    <View style={{ paddingBottom: 5 }}>
                       <Text>Classes Curriculum and Theme</Text>
                     </View>
-                    <View style={{paddingBottom:5}}>
+                    <View style={{ paddingBottom: 5 }}>
                       <Text>ClassesArt Medium:</Text>
                       <Text
                         style={{
@@ -104,7 +116,7 @@ function ClassesArchive({ theme, navigation }) {
                         fontSize: 12,
                         fontWeight: 300,
                         color: "#868889",
-                        paddingBottom:5
+                        paddingBottom: 5,
                       }}
                     >
                       {d.material}
@@ -115,7 +127,7 @@ function ClassesArchive({ theme, navigation }) {
                         fontSize: 12,
                         fontWeight: 300,
                         color: "#868889",
-                        paddingBottom:5
+                        paddingBottom: 5,
                       }}
                     >
                       {d.skillLevel}
@@ -126,7 +138,7 @@ function ClassesArchive({ theme, navigation }) {
                         fontSize: 12,
                         fontWeight: 300,
                         color: "#868889",
-                        paddingBottom:5
+                        paddingBottom: 5,
                       }}
                     >
                       {d.numSessions}
@@ -137,7 +149,7 @@ function ClassesArchive({ theme, navigation }) {
                         fontSize: 12,
                         fontWeight: 300,
                         color: "#868889",
-                        paddingBottom:5
+                        paddingBottom: 5,
                       }}
                     >
                       {d.durationPerSession} hr.
@@ -148,7 +160,7 @@ function ClassesArchive({ theme, navigation }) {
                         fontSize: 12,
                         fontWeight: 300,
                         color: "#868889",
-                        paddingBottom:5
+                        paddingBottom: 5,
                       }}
                     >
                       {d.price} hr.
@@ -156,13 +168,27 @@ function ClassesArchive({ theme, navigation }) {
                   </View>
                 </View>
                 <View>
-                  <ButtonComp width={"100%"} btnText="Register" onPress={() => navigation.navigate("Subscriptions")} />
+                  <ButtonComp
+                    width={"100%"}
+                    btnText="Register"
+                    onPress={() => navigation.navigate("Subscriptions")}
+                  />
                 </View>
               </View>
             );
           })}
         </View>
       </ScrollView>
+      <TouchableOpacity
+        style={{ bottom: 10, left: "80%" }}
+        onPress={() => navigation.navigate("Create Classes")}
+      >
+        <FontAwesomeIcon
+          icon={faPlusCircle}
+          size={60}
+          color={theme.colors.linkColor}
+        />
+      </TouchableOpacity>
     </LinearGradient>
   );
 }

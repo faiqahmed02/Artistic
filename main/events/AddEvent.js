@@ -52,12 +52,12 @@ const EventSubmissionForm = ({ theme, navigation }) => {
     });
 
     if (!result.canceled) {
-      console.log(result.assets[0].uri);
+      // console.log(result.assets[0].uri);
       setImage(result.assets[0].uri);
-      console.log(image);
+      // console.log(image);
     }
   };
-  console.log(image);
+  // console.log(image);
   // Image upload function
   const uploadImageAsync = async (uri) => {
     try {
@@ -79,7 +79,7 @@ const EventSubmissionForm = ({ theme, navigation }) => {
 
   // Form submission function
   const handleSubmit = async () => {
-    console.log("Start Handle Submit");
+    // console.log("Start Handle Submit");
     if (!title || !organizerName || !date || !time || !details) {
       alert("Please fill all the fields.");
       return;
@@ -95,7 +95,7 @@ const EventSubmissionForm = ({ theme, navigation }) => {
     let imageUrl = "";
     // if (image) {
     //   imageUrl = await uploadImageAsync(image);
-    //   console.log(image);
+    //   // console.log(image);
     // }
 
     try {
@@ -113,7 +113,7 @@ const EventSubmissionForm = ({ theme, navigation }) => {
         createdBy: auth.currentUser.uid,
       });
 
-      console.log("Event uploaded successfully!");
+      // console.log("Event uploaded successfully!");
       alert("Event submitted successfully!");
 
       setLoading(false);
@@ -131,7 +131,7 @@ const EventSubmissionForm = ({ theme, navigation }) => {
       alert("An error occurred. Check the console for details.");
     }
 
-    console.log("End of handleSubmit");
+    // console.log("End of handleSubmit");
   };
 
   return (

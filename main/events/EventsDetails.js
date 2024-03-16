@@ -31,9 +31,9 @@ function EventsDetails({ theme }) {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === "granted") {
-        console.log("Location permission granted");
+        // console.log("Location permission granted");
       } else {
-        console.log("Location permission denied");
+        // console.log("Location permission denied");
       }
     } catch (error) {
       console.error("Error requesting location permission:", error);
@@ -75,7 +75,7 @@ function EventsDetails({ theme }) {
   };
 
   const TabView = (t) => {
-    console.log(t);
+    // console.log(t);
     if (t === "Details") {
       setTab(true);
     } else {
