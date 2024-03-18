@@ -1,3 +1,8 @@
+/**
+ * @format
+ */
+
+import "react-native-url-polyfill/auto";
 window.navigator.userAgent = "ReactNative";
 
 import { StatusBar } from "expo-status-bar";
@@ -79,7 +84,6 @@ export default function App() {
     <StripeProvider
       publishableKey="pk_test_51IzlXYEHdax3d8oTDo9zwCBLNA7tqvVToG60ijHDZVTlkZf3j4cXGNZlOCrWrZeXwxRyWy8ovfFvLBk4dZHvM4lK00mg1kJn6V"
       merchantIdentifier="merchant.com.faiqahmed.zicoart"
-      urlScheme=""
     >
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -138,7 +142,7 @@ export default function App() {
                 <Drawer.Screen name="Thank You" component={Thankyou} />
                 <Drawer.Screen name="Notification" component={Login} />
                 <Drawer.Screen name="Login" component={Login} />
-                
+
                 <Drawer.Screen
                   name="Forget Password"
                   component={ForgetPassward}
