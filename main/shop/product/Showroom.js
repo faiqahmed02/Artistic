@@ -1,11 +1,18 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
-import { ImageBackground, ScrollView, View, Image,StyleSheet} from "react-native";
-import { Chip, Modal, Portal, withTheme } from "react-native-paper";
+import {
+  ImageBackground,
+  ScrollView,
+  View,
+  Image,
+  StyleSheet,
+} from "react-native";
+import { Chip, Modal, Portal, TextInput, withTheme } from "react-native-paper";
 import {
   artMediumData,
   digitalPanting,
   material,
+  materialData,
   schoolsOfArt,
   subject,
   type,
@@ -16,6 +23,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
+import ProductFilter from "./ProductFilter";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 function Showroom({ theme }) {
   const navigation = useNavigation();
@@ -24,20 +34,39 @@ function Showroom({ theme }) {
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [artWorkType, setArtWorkType] = useState("");
-  const [artMedium, setArtMedium] = useState([]);
-  const [artSchool, setArtSchool] = useState([]);
-  const [artSubject, setArtSubject] = useState([]);
-  const [artMaterial, setArtMaterial] = useState([]);
-  const [artPaintingType, setArtPaintingType] = useState([]);
+  const [artMedium, setArtMedium] = useState("");
+  const [artSchool, setArtSchool] = useState();
+  const [artSubject, setArtSubject] = useState();
+  const [searchText, setSearchText] = useState("");
+  const [artMaterial, setArtMaterial] = useState();
+  const [artPaintingType, setArtPaintingType] = useState();
   const [showPick, setShowPick] = useState(false);
+  const [data, setData] = useState([]);
+  const [value, setValue] = useState("");
 
-  const selectArtWork = (itemValue, itemIndex) => {
-    setArtWorkType(itemValue);
+  const selectArtMedium = (itemValue, itemIndex) => {
+    setArtMedium(itemValue);
+    setShowPick(false);
+  };
+
+  const selectArtSchool = (itemValue, itemIndex) => {
+    setArtSchool(itemValue);
+    setShowPick(false);
+  };
+  const selectArtSubject = (itemValue, itemIndex) => {
+    setArtSubject(itemValue);
     setShowPick(false);
   };
   const hideModal = () => setShowPick(false);
   const containerStyle = { backgroundColor: "white", padding: 20 };
-
+  const showModal = (data) => {
+    if (data === type) {
+      // setShowPick(true)
+      // setS
+    }
+    setShowPick(true);
+    setData(data);
+  };
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -71,80 +100,161 @@ function Showroom({ theme }) {
   const goToProductPage = (data) => {
     navigation.navigate("Product Page", { productId: data });
   };
+  console.log(artMedium);
+  const filteredData = products.filter((item) => {
+    if (
+      // artMaterial ||
+      artMedium ||
+      // artWorkType ||
+      artSchool ||
+      artSubject
+      // artPaintingType
+    ) {
+      return (
+        item.artMedium.includes(artMedium) ||
+        item.artSchool.includes(artSchool) ||
+        item.artSubject.includes(artSubject)
+      );
+    }
+    // Check if 'swimming' or 'English' exists in either hobbies or languages
+
+    return products;
+  });
+  // console.log(filteredData);
   return (
     <LinearGradient
       colors={[theme.colors.myOwnColor, "transparent"]}
       style={{ flex: 1, paddingTop: 20 }}
     >
       <View>
-        <Portal>
-          <Modal
-            visible={showPick}
-            onDismiss={hideModal}
-            contentContainerStyle={containerStyle}
-          >
-            <Picker
-              selectedValue={artWorkType}
-              onValueChange={(itemValue, itemIndex) =>
-                selectArtWork(itemValue, itemIndex)
-              }
-            >
-              {artMediumData.map((d) => {
-                return <Picker.Item key={d} label={d.name} value={d.name} />;
-              })}
-            </Picker>
-          </Modal>
-        </Portal>
+        <ProductFilter
+          showPick={data === artMediumData ? true : false}
+          hideModal={hideModal}
+          data={artMediumData}
+          value={artMedium}
+          selectedData={selectArtMedium}
+          containerStyle={containerStyle}
+          setData={setData}
+        />
+        <ProductFilter
+          showPick={data === schoolsOfArt ? true : false}
+          hideModal={hideModal}
+          data={schoolsOfArt}
+          value={artSchool}
+          selectedData={selectArtSchool}
+          containerStyle={containerStyle}
+          setData={setData}
+        />
+        <ProductFilter
+          showPick={data === subject ? true : false}
+          hideModal={hideModal}
+          data={subject}
+          value={artSubject}
+          selectedData={selectArtSubject}
+          containerStyle={containerStyle}
+          setData={setData}
+        />
         {/* <ScrollView horizontal> */}
         {/* <View style={{ marginRight:10, height:"100%"}}> */}
         {/* {showPick ? (
         
         ) : null} */}
-        <ScrollView horizontal>
-          <Chip
-            icon="check"
-            // rippleColor={'#C1272D'}
-            showSelectedCheck={true}
-            onPress={() => setShowPick(true)}
+        <View style={{ margin: 10 }}>
+          <ScrollView horizontal>
+            <Chip
+              // icon="check"
+              // rippleColor={'#C1272D'}
+              // showSelectedCheck={true}
+              onPress={() => showModal(artMediumData)}
+              style={{
+                backgroundColor: "#28ABE3",
+                color: "white",
+                marginHorizontal: 5,
+              }}
+              textStyle={{ color: "white" }}
+            >
+              {artMedium ? artMedium : "Select Art Medium"}
+            </Chip>
+            <Chip
+              // icon="check"
+              // rippleColor={'#C1272D'}
+              // showSelectedCheck={true}
+              onPress={() => showModal(schoolsOfArt)}
+              style={{
+                backgroundColor: "#28ABE3",
+                color: "white",
+                marginHorizontal: 5,
+              }}
+              textStyle={{ color: "white" }}
+            >
+              {artSchool ? artSchool : "Select School of Art"}
+            </Chip>
+            <Chip
+              // icon="check"
+              // rippleColor={'#C1272D'}
+              // showSelectedCheck={true}
+              onPress={() => showModal(subject)}
+              style={{
+                backgroundColor: "#28ABE3",
+                color: "white",
+                marginHorizontal: 5,
+              }}
+              textStyle={{ color: "white" }}
+            >
+              {artSubject ? artSubject : "Select Art Subject"}
+            </Chip>
+            {artMedium || artWorkType || artSchool || artSubject ? (
+              <Chip
+                // icon="close"
+                onPress={() => {
+                  setArtMedium("") ||
+                    setArtWorkType("") ||
+                    setArtSchool("") ||
+                    setArtSubject("");
+                }}
+                style={{
+                  backgroundColor: "#28ABE3",
+                  color: "white",
+                  marginHorizontal: 5,
+                }}
+                textStyle={{ color: "white" }}
+              >
+                Clear Filter
+              </Chip>
+            ) : (
+              ""
+            )}
+          </ScrollView>
+          <TextInput
+            label="Search By Art Work Name"
+            value={searchText}
+            onChangeText={(text) => setSearchText(text)}
+            outlineColor="#29ABE3"
             style={{
-              backgroundColor: "#29ABE2",
-              color: "white",
-              marginHorizontal: 5,
+              marginTop:10,
+              borderColor: "none", // if you need
+              //   borderWidth:1,
+              overflow: "hidden",
+              shadowColor: "black",
+              shadowRadius: 10,
+              shadowOpacity: 1,
+              marginBottom: 10,
+              backgroundColor: "white",
+              width: "100%",
             }}
-            textStyle={{ color: "white" }}
-          >
-            {artWorkType ? artWorkType : "Select Art Work Type"}
-          </Chip>
-          <Chip
-            icon="close"
-            onPress={() => console.log("Pressed")}
-            style={{
-              backgroundColor: "#29ABE2",
-              color: "white",
-              marginHorizontal: 5,
-            }}
-            textStyle={{ color: "white" }}
-          >
-            Trending Art
-          </Chip>
-          <Chip
-            icon="close"
-            onPress={() => console.log("Pressed")}
-            style={{
-              backgroundColor: "#29ABE2",
-              color: "white",
-              marginHorizontal: 5,
-            }}
-            textStyle={{ color: "white" }}
-          >
-            Top 1000
-          </Chip>
-        </ScrollView>
+          />
+        </View>
         {/* </ScrollView> */}
       </View>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <ScrollView>
-          {products.map((d, i) => {
+          {filteredData
+            .filter((d) =>
+              searchText
+                ? d.artWorkName.toLowerCase().includes(searchText.toLowerCase())
+                : d
+            )
+            .map((d, i) => {
               return (
                 // <TouchableOpacity>
                 <View
@@ -215,11 +325,11 @@ function Showroom({ theme }) {
 export default withTheme(Showroom);
 
 const styles = StyleSheet.create({
-    relatedProduct: {
-      // margin: 3,
-      width: "100%",
-      height: "100%",
-      position: "absolute",
-      borderRadius: 5,
-    },
-  });
+  relatedProduct: {
+    // margin: 3,
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    borderRadius: 5,
+  },
+});

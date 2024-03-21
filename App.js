@@ -1,7 +1,7 @@
 /**
  * @format
  */
-
+import './innoorWarning';
 import "react-native-url-polyfill/auto";
 window.navigator.userAgent = "ReactNative";
 

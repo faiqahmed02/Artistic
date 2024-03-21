@@ -6,32 +6,127 @@ import { Button } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { addUser, getUser } from "../../../firestoreFunctions/User";
 import { auth } from "../../../firebaseConfig";
-
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
-  const [shipData, setShipData] = useState({});
-  useEffect(() => {
-    getUser(auth.currentUser.uid).then((res) => {
-      // console.log(res);
-      if (res.shipping) {
-        // console.log(res.shipping);
-        setShipData(res.shipping);
-        console.log(shipData);
-      }
-    });
-  }, []);
-  console.log(shipData.Street_Address);
   const [field1, setField1] = useState({
     Full_Name: auth.currentUser.displayName ? auth.currentUser.displayName : "",
-    Street_Address: shipData.Street_Address ? shipData.Street_Address : "",
-    Apartment: shipData.Apartment ? shipData.Apartment : "",
-    City: shipData.City ? shipData.City : "",
-    State: shipData.State ? shipData.State : "",
-    Postal_Code: shipData.Postal_Code ? shipData.Postal_Code : "",
-    Country: shipData.Country ? shipData.Country : "",
+    Street_Address: "",
+    Apartment: "",
+    City: "",
+    State: "",
+    Postal_Code: "",
+    Country: "",
     Email_Address: auth.currentUser.email ? auth.currentUser.email : "",
-    Phone_Number: shipData.Phone_Number ? shipData.Phone_Number : "",
+    Phone_Number: "",
   });
-  const handleNext = () => {
+  const [shipData, setShipData] = useState({});
+  const [token, setToken] = useState(null);
+  const [resolved, setResolved] = useState(false);
+  const genrateFadexToken = async () => {
+    await axios
+      .post(
+        process.env.EXPO_PUBLIC_FADX_TOKEN_URL,
+        {
+          grant_type: "client_credentials",
+          client_id: process.env.EXPO_PUBLIC_FADX_API_KEY,
+          client_secret: process.env.EXPO_PUBLIC_FADX_SECRET_KEY,
+        },
+        { headers: { "content-type": "application/x-www-form-urlencoded" } }
+      )
+      .then(async function (response) {
+        // console.log(response)
+        // const storeData = async (value) => {
+        try {
+          await AsyncStorage.setItem("FadexAuth", response.data.access_token);
+          setToken(response.data.access_token);
+        } catch (e) {
+          // saving error
+          setToken(null);
+          alert(e);
+        }
+
+        // };
+      })
+      .catch(function (error) {
+        console.log(error);
+        // return error;
+      });
+    return token;
+  };
+
+  const addressValidationFadX = async () => {
+    const currentDate = new Date();
+
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Month is zero-based, so we add 1
+    const day = String(currentDate.getDate()).padStart(2, "0");
+
+    const justDate = `${year}-${month}-${day}`;
+
+    console.log(justDate); // Output will be in the format "YYYY-MM-DD"
+
+    const data = {
+      inEffectAsOfTimestamp: "2019-09-06",
+      validateAddressControlParameters: {
+        includeResolutionTokens: true,
+      },
+      addressesToValidate: [
+        {
+          address: {
+            streetLines: [field1.Street_Address],
+            city: field1.City,
+            stateOrProvinceCode: field1.State,
+            postalCode: field1.Postal_Code,
+            countryCode: field1.Country,
+          },
+          clientReferenceId: "None",
+        },
+      ],
+    };
+    // let resolved;
+    await axios
+      .post(process.env.EXPO_PUBLIC_FADX_ADDRESS_RESOLVE_URL, data, {
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        // console.log(res.data.output.resolvedAddresses);
+        const resolvedAddressAttributes = res.data.output.resolvedAddresses.map(
+          (address) => address.attributes
+        );
+
+        // console.log(resolvedAddressAttributes[0].Resolved);
+        setResolved(resolvedAddressAttributes[0].Resolved);
+        console.log(resolved);
+        // return ;
+        // return resolved;
+      })
+      .catch((err) => {
+        console.log(err);
+        setResolved(false);
+        console.log(resolved);
+        // return err;
+      });
+  };
+
+  useEffect(() => {
+    if (!shipData) {
+      getUser(auth.currentUser.uid).then((res) => {
+        // console.log(res);
+        if (res.shipping) {
+          // console.log(res.shipping);
+          setShipData(res.shipping);
+          console.log(shipData);
+        }
+      });
+    }
+  }, [auth.currentUser.uid]);
+  // console.log(shipData.Street_Address);
+
+  const handleNext = async () => {
     if (
       !field1.Full_Name ||
       !field1.Street_Address ||
@@ -43,6 +138,17 @@ const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
       alert("Please fill all the fields.");
       return;
     }
+    // console.log(token)
+    // if (token) {
+    await genrateFadexToken()
+      .then(async (res) => {
+        console.log(token);
+        await addressValidationFadX();
+      })
+      .catch((err) => {
+        alert(err);
+      });
+    // }
 
     addUser(auth.currentUser.uid, {
       shipping: field1,
@@ -66,18 +172,7 @@ const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
     });
     // // console.log(field1);
   };
-  // // console.log(field1);
-  const inputs = [
-    "Full Name",
-    "Street Address",
-    "Apartment",
-    "City",
-    "State",
-    "Postal Code",
-    "Country",
-    "Email Address",
-    "Phone Number",
-  ];
+  console.log(token);
 
   return (
     <KeyboardAwareScrollView>
@@ -125,6 +220,7 @@ const PersonalDetails = ({ formData, setFormData, onNext, theme }) => {
           onChangeText={(text) => setField1({ ...field1, Country: text })}
           text={field1.Country}
         />
+        {/* <DropDown /> */}
         <InputComp
           placeholder="Email Address"
           text={field1.Email_Address}

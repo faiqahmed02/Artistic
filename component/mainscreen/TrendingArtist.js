@@ -40,7 +40,7 @@ function TrendingArtist({ theme, catname, navigation }, props) {
       </View>
       <ScrollView
         horizontal
-        style={{ maxHeight: 190 }}
+        // style={{ maxHeight: 190 }}
       >
         <ProductCard navigation={props.navigation2} />
       </ScrollView>

@@ -75,3 +75,18 @@ export const getAllOrders = async (userId) => {
   //   // console.log(doc.id, " => ", doc.data());
   // });
 };
+
+export const fetchProducts = async () => {
+  try {
+    const paintingsCollection = collection(db, "paintings");
+    const paintingsSnapshot = await getDocs(paintingsCollection);
+    const paintingsData = paintingsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return paintingsData;
+    // console.log(products);
+  } catch (error) {
+    console.error("Error fetching paintings:", error);
+  }
+};

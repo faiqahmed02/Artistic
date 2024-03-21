@@ -24,7 +24,7 @@ import Filter from "../../../component/mainscreen/Filter";
 import {
   artMediumData,
   digitalPanting,
-  material,
+  materialData,
   schoolsOfArt,
   subject,
   type,
@@ -232,7 +232,7 @@ const AddProduct = ({ theme, navigation }) => {
             selectText={"Art Subject"}
           />
           <Filter
-            items={material}
+            items={materialData}
             setSelectedItems={setArtMaterial}
             selectedItems={artMaterial}
             selectText={"Art Material"}

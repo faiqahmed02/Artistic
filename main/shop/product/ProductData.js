@@ -29,7 +29,7 @@ export const subject = [
   { name: "All" },
 ];
 
-export const material = [
+export const materialData = [
   { name: "Stone" },
   { name: "Wood" },
   { name: "Clay" },
