@@ -5,6 +5,8 @@ import {
   getDocs,
   query,
   serverTimestamp,
+  setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../firebaseConfig";
@@ -90,3 +92,19 @@ export const fetchProducts = async () => {
     console.error("Error fetching paintings:", error);
   }
 };
+
+// update Order Status
+
+export const updateOrderStatus = async (orderId, status) => {
+  const order = doc(db, "orders", orderId);
+
+  // Set the "capital" field of the city 'DC'
+  await updateDoc(order, {
+    orderStatus: status,
+  });
+};
+
+export async function addTrackingId(orderId, formData) {
+  await setDoc(doc(db, "orders", orderId), formData, { merge: true });
+  // // console.log("Document written with ID: ", docRef.id);
+}

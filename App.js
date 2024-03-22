@@ -64,6 +64,7 @@ import ViewArtist from "./main/artist/ViewArtist";
 import AllArtst from "./main/artist/AllArtst";
 import ForgetPassward from "./main/user/ForgetPassward";
 import Showroom from "./main/shop/product/Showroom";
+import OrderDetails from './main/shop/orders/OrderDetails';
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -138,6 +139,7 @@ export default function App() {
                 <Drawer.Screen name="Checkout" component={Checkout} />
                 <Drawer.Screen name="My Orders" component={MyOrders} />
                 <Drawer.Screen name="Order Selling" component={MyOrders} />
+                <Drawer.Screen name="Order Details" component={OrderDetails} />
                 <Drawer.Screen name="Product Page" component={SingleProduct} />
                 <Drawer.Screen name="Thank You" component={Thankyou} />
                 <Drawer.Screen name="Notification" component={Login} />

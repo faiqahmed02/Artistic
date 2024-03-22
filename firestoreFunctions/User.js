@@ -28,7 +28,7 @@ export async function getUser(userID) {
     return userData;
   } else {
     // docSnap.data() will be undefined in this case
-    // console.log("No such document!");
+    console.log("No such document!");
   }
 }
 

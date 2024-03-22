@@ -157,7 +157,7 @@ function Summary({
         )
           .then(() => {
             navigation.navigate("Thank You");
-            dispatch(cartReducerEmpty());
+            dispatch(cartReducerEmpty())
           })
           .catch((error) => {
             alert(error);

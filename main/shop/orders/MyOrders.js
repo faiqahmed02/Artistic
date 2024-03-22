@@ -14,33 +14,35 @@ function MyOrders({ theme, navigation }) {
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
 
-
   useEffect(() => {
     // setInterval(() => {
+    if (auth.currentUser) {
       getAllOrders(auth.currentUser.uid).then((res) => {
         const ordersData = res.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
         setOrders(ordersData);
-        console.log(orders);
+        // console.log(orders);
+        if (loading) {
+          setLoading(false);
+        }
       });
-      if (loading) {
-        setLoading(false);
-      }
-      // setCurrentTime(new Date());
-      // setLoading(false)
-      // console.log(orders);
-    // }, 5000);
+    } else {
+      navigation.navigate("Login");
+    }
 
+    // setCurrentTime(new Date());
+    // setLoading(false)
+    // console.log(orders);
+    // }, 5000);
 
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
     }, 5000);
-     // Cleanup interval on component unmount
-     return () => clearInterval(intervalId);
-  }, [currentTime])
-  
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [currentTime]);
 
   const deleteOrder = async (id) => {
     setLoading(true);
@@ -53,7 +55,14 @@ function MyOrders({ theme, navigation }) {
         alert("Error");
         setLoading(false);
       });
-    console.log(id);
+    // console.log(id);
+  };
+
+  const orderDetals = (d) => {
+    // console.log(d);
+    navigation.navigate("Order Details", {
+      order: d,
+    });
   };
   return (
     <LinearGradient
@@ -67,113 +76,120 @@ function MyOrders({ theme, navigation }) {
         ) : (
           orders.map((d, i) => {
             return (
-              <View style={styles.card} key={i}>
-                <View style={styles.card_content}>
-                  <View>
-                    <Image
-                      source={require("../../../assets/ORDER_PIC.png")}
-                      style={{ width: 69, height: 72, borderRadius: 10 }}
-                    />
-                  </View>
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "500",
-                        paddingBottom: 10,
-                      }}
-                    >
-                      Walish Art
-                    </Text>
-                    <Text
-                      style={{
-                        color: "#8E8E93",
-                        fontSize: 16,
-                        fontWeight: "300",
-                      }}
-                    >
-                      Order Number
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "500",
-                        paddingBottom: 10,
-                      }}
-                    >
-                      {d.orderNumber}
-                    </Text>
-                    <Text
-                      style={{
-                        color: "#8E8E93",
-                        fontSize: 16,
-                        fontWeight: "300",
-                      }}
-                    >
-                      Price
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "500",
-                        paddingBottom: 10,
-                      }}
-                    >
-                      ${d.price}
-                    </Text>
-                  </View>
-                  <View>
-                    <Button
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "500",
-                        backgroundColor: "#FBB03B",
-                      }}
-                      loading={loading}
-                      disabled={loading}
-                      onPress={() => deleteOrder(d.id)}
-                    >
-                      {d.orderStatus}
-                    </Button>
-                    <Text
-                      style={{
-                        color: "#8E8E93",
-                        fontSize: 16,
-                        fontWeight: "300",
-                      }}
-                    >
-                      Order Date
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "500",
-                        paddingBottom: 10,
-                      }}
-                    >
-                      {d.orderDate.toDate().getDate()}
-                    </Text>
-                    <Text
-                      style={{
-                        color: "#8E8E93",
-                        fontSize: 16,
-                        fontWeight: "300",
-                      }}
-                    >
-                      Address
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "500",
-                        paddingBottom: 10,
-                      }}
-                    >
-                       {d.orderAddress.substring(0,12)}....
-                    </Text>
+              <TouchableOpacity onPress={() => orderDetals(d)} key={i}>
+                <View style={styles.card}>
+                  <View style={styles.card_content}>
+                    <View>
+                      <Image
+                        source={require("../../../assets/ORDER_PIC.png")}
+                        style={{ width: 69, height: 72, borderRadius: 10 }}
+                      />
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          fontWeight: "500",
+                          paddingBottom: 10,
+                        }}
+                      >
+                        Walish Art
+                      </Text>
+                      <Text
+                        style={{
+                          color: "#8E8E93",
+                          fontSize: 16,
+                          fontWeight: "300",
+                        }}
+                      >
+                        Order Number
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          fontWeight: "500",
+                          paddingBottom: 10,
+                        }}
+                      >
+                        {d.orderNumber}
+                      </Text>
+                      <Text
+                        style={{
+                          color: "#8E8E93",
+                          fontSize: 16,
+                          fontWeight: "300",
+                        }}
+                      >
+                        Price
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          fontWeight: "500",
+                          paddingBottom: 10,
+                        }}
+                      >
+                        ${d.price}
+                      </Text>
+                    </View>
+                    <View>
+                      <Button
+                        style={
+                          d.orderStatus === "Completed"
+                            ? styles.statusBtnComp
+                            : d.orderStatus === "Hold"
+                            ? styles.statueBtnHold
+                            : d.orderStatus === "Canceled"
+                            ? styles.statueBtnCancel
+                            : styles.statueBtnPen
+                        }
+                        loading={loading}
+                        disabled={loading}
+                        textColor="white"
+                        // onPress={() => deleteOrder(d.id)}
+                      >
+                        {d.orderStatus}
+                      </Button>
+                      <Text
+                        style={{
+                          color: "#8E8E93",
+                          fontSize: 16,
+                          fontWeight: "300",
+                        }}
+                      >
+                        Order Date
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          fontWeight: "500",
+                          paddingBottom: 10,
+                        }}
+                      >
+                        {d.orderDate.toDate().getDate()}
+                      </Text>
+                      <Text
+                        style={{
+                          color: "#8E8E93",
+                          fontSize: 16,
+                          fontWeight: "300",
+                        }}
+                      >
+                        Address
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          fontWeight: "500",
+                          paddingBottom: 10,
+                        }}
+                      >
+                        {d.orderAddress.substring(0, 12)}....
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             );
           })
         )}
@@ -204,5 +220,29 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
+  },
+  statusBtnComp: {
+    fontSize: 16,
+    fontWeight: "500",
+    backgroundColor: "#3B75FB",
+  },
+  statueBtnPen: {
+    fontSize: 16,
+    fontWeight: "500",
+    backgroundColor: "#FBB03B",
+  },
+  statueBtnHold: {
+    fontSize: 16,
+    fontWeight: "500",
+    backgroundColor: "#FF0095 FC352E",
+    fontWeight:"700"
+    
+  },
+  statueBtnCancel: {
+    fontSize: 16,
+    fontWeight: "500",
+    backgroundColor: "#FC352E",
+    fontWeight:"700"
+    
   },
 });

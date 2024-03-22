@@ -41,14 +41,14 @@ function Banner() {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchProducts().then((res) => {
       // console.log(res);
       const newImageArr = res.filter((d) => d.imageUrl);
-      console.log(newImageArr);
+      // console.log(newImageArr);
       setProducts(res);
-      setLoading(false)
+      setLoading(false);
       // console.log(products)
     });
 
@@ -64,7 +64,7 @@ function Banner() {
   const carouselRef = useRef(null);
 
   const goForward = () => {
-    carouselRef.current.snapToNext()
+    carouselRef.current.snapToNext();
   };
 
   useEffect(() => {
@@ -89,7 +89,7 @@ function Banner() {
       </TouchableOpacity>
     );
   };
-  return (!loading ?
+  return !loading ? (
     <View style={styles.container}>
       {/* <TouchableOpacity onPress={goForward}> */}
       {/* <Text>go to next slide</Text> */}
@@ -106,7 +106,9 @@ function Banner() {
         renderItem={renderItem}
         hasParallaxImages={true}
       />
-    </View>:""
+    </View>
+  ) : (
+    ""
   );
 }
 
