@@ -114,11 +114,15 @@ function OrderDetails({ theme, navigation }) {
           </View>
           <View style={{ alignItems: "center", marginVertical: 10 }}>
             <Text style={{ color: theme.colors.linkColor }}>Tracking ID</Text>
-            <Text>
-              {order.tNumber
-                ? order.tNumber
-                : "Not Assigned Yet"}
-            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Track Order", {
+                  trackId: order.tNumber ? order.tNumber : "",
+                })
+              }
+            >
+              <Text>{order.tNumber ? order.tNumber : "Not Assigned Yet"}</Text>
+            </TouchableOpacity>
           </View>
           <View
             style={{
