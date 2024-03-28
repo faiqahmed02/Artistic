@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Image } from "react-native";
 import { CardField, useStripe } from "@stripe/stripe-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { withTheme } from "react-native-paper";
 import { auth, functions } from "../../firebaseConfig";
-import {  httpsCallable } from "firebase/functions";
+import { httpsCallable } from "firebase/functions";
+import { useRoute } from "@react-navigation/native";
+import { addUser } from "../../firestoreFunctions/User";
 
 function SubNow({ theme, navigation }) {
+  const route = useRoute();
+  const { customerId, priceId } = route.params;
   const { confirmPayment, loading } = useStripe();
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [processing, setProcessing] = useState(false);
@@ -14,7 +18,7 @@ function SubNow({ theme, navigation }) {
   const [error, setError] = useState(null);
 
   const handleSubscription = async () => {
-    if (!paymentMethod) {
+    if (!paymentMethod || !customerId || !priceId ) {
       setError("Payment method not set.");
       return;
     }
@@ -27,12 +31,17 @@ function SubNow({ theme, navigation }) {
         "processSubscription"
       );
       const { data } = await processSubscription({
-        priceID: "price_1Oi3mnEHdax3d8oT40uyqpf6",
-        customerID: 'cus_Pe9YyYUoxSPh8R',
+        priceID: priceId,
+        customerID: customerId,
       });
 
       if (data.success) {
+        const subData = {
+          subscribe: true,
+        };
         setSubscriptionSuccess(true);
+        addUser(auth.currentUser.uid, subData);
+        navigation.navigate("Thank You");
       } else {
         setError(data.message);
       }
@@ -46,10 +55,18 @@ function SubNow({ theme, navigation }) {
 
   return (
     <LinearGradient
-      colors={["#FFD700", "#FFA500", "#FF6347"]}
+      colors={[theme.colors.myOwnColor, "transparent"]}
       style={{ flex: 1 }}
     >
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 10,
+        }}
+      >
+        <Image source={require("../../assets/logo.png")} />
         <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 20 }}>
           Subscribe to Premium
         </Text>

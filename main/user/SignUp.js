@@ -142,6 +142,7 @@ function SignUp({ theme, navigation }) {
                       businessName: formData.businessName,
                       statement: formData.statement,
                       photoURL: imageUrl,
+                      subscribe: false,
                     };
                     addUser(auth.currentUser.uid, data)
                       .then(async () => {

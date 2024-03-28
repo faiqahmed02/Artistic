@@ -8,115 +8,81 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { auth, db } from "../../firebaseConfig";
 import { useStripe } from "@stripe/stripe-react-native";
+import { getUser } from "../../firestoreFunctions/User";
 
 function Subscription({ theme, navigation }) {
-  const { initPaymentSheet, presentPaymentSheet } = useStripe();
-  const [product, setProduct] = useState(null);
+  const [user, setUser] = useState({});
+  const [subscribe, setSubscribe] = useState(false);
+  const [customerId, setCustomerId] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const productDoc = await db
-          .collection("products")
-          .doc("your_product_id")
-          .get();
-        if (productDoc.exists) {
-          setProduct(productDoc.data());
-        } else {
-          console.error("Product not found.");
+    if (auth.currentUser.uid) {
+      getUser(auth.currentUser.uid).then((res) => {
+        if (res) {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error("Error fetching product:", error);
-      }
-    };
-
-    fetchProduct();
-  }, []);
-
-  const initializePaymentSheet = async () => {
-    const { paymentSheet, error } = await initPaymentSheet({
-      paymentIntentClientSecret: "YOUR_STRIPE_PAYMENT_INTENT_SECRET",
-    });
-
-    if (error) {
-      console.error("Error initializing PaymentSheet:", error);
-    } else {
-      // Store the PaymentSheet instance for later use
-      // (e.g., when the user presses the subscribe button)
-      // paymentSheet.current = paymentSheet;
+        setUser(res);
+        console.log(res);
+        if (res.subscribe === true) {
+          setSubscribe(true);
+        } else {
+          setSubscribe(false);
+          setCustomerId(res.stripeId);
+        }
+        console.log(customerId);
+      });
     }
-  };
+  }, [loading]);
 
-  const handleSubscribe = async () => {
-    // Implement subscription logic here
-    // (e.g., create a user in Firestore, trigger Cloud Function to create Stripe customer and subscription)
-
-    const userRef = await firestore
-      .collection("users")
-      .add({ email: "user@example.com" });
-    const subscriptionRef = await firestore.collection("subscriptions").add({
-      userId: userRef.id,
-      priceId: "your_price_id", // Replace with the actual price ID
-    });
-
-    // Trigger Cloud Function to create Stripe customer and subscription
-    // await fetch(`https://us-central1-your-firebase-project-id.cloudfunctions.net/createStripeCustomer`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ userId: userRef.id }),
-    // });
-
-    await fetch(
-      `https://us-central1-your-firebase-project-id.cloudfunctions.net/createStripeSubscription`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId: userRef.id, priceId: "your_price_id" }),
-      }
-    );
-
-    // Present PaymentSheet after creating customer and subscription
-    await presentPaymentSheet({
-      clientSecret: "YOUR_STRIPE_PAYMENT_INTENT_SECRET",
-    });
-  };
   return (
     <LinearGradient
-      style={{ alignItems: "center" }}
+      style={{ alignItems: "center", flex: 1 }}
       colors={[theme.colors.myOwnColor, "transparent"]}
     >
-      <ScrollView style={{ padding: 10 }}>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <View style={styles.card}>
-            <View style={styles.card_content}>
-              <TouchableOpacity style={{ marginVertical: 10 }}>
-                <Text style={{ width: 30 }}>
-                  <FontAwesomeIcon icon={faCheck} />
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <ScrollView style={{ padding: 10 }}>
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <View style={styles.card}>
+              <View style={styles.card_content}>
+                <TouchableOpacity style={{ marginVertical: 10 }}>
+                  <Text style={{ width: 30 }}>
+                    <FontAwesomeIcon icon={faCheck} />
+                  </Text>
+                </TouchableOpacity>
+                <Text style={{ fontSize: 20, fontWeight: "700" }}>
+                  Buyer Monthly
                 </Text>
-              </TouchableOpacity>
-              <Text style={{ fontSize: 20, fontWeight: "700" }}>
-                Buyer Monthly
-              </Text>
-              <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-                <Text style={{ fontSize: 50, fontWeight: "700" }}>$7</Text>
-                <Text>/per month</Text>
+                <View style={{ flexDirection: "row", alignItems: "baseline" }}>
+                  <Text style={{ fontSize: 50, fontWeight: "700" }}>$7</Text>
+                  <Text>/per month</Text>
+                </View>
+                <Text style={{ marginTop: 30 }}>
+                  Lorem Ipsum Subscription Details Here
+                </Text>
               </View>
-              <Text style={{ marginTop: 30 }}>
-                Lorem Ipsum Subscription Details Here
-              </Text>
+              <ButtonComp
+                btnText="Subscribe"
+                onPress={() => {
+                  if (!customerId) {
+                    alert("Customer Id Not Exist");
+                  } else {
+                    navigation.navigate("Pay Now", {
+                      customerId: customerId,
+                      priceId: "price_1Oi3mnEHdax3d8oT40uyqpf6",
+                      plan: "Buyer",
+                    });
+                  }
+                }}
+                width={341}
+                disabled={subscribe}
+              />
             </View>
-            <ButtonComp
-              btnText="Subscribe"
-              onPress={() => navigation.navigate("Pay Now")}
-              width={341}
-            />
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
     </LinearGradient>
   );
 }
