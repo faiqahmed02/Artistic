@@ -47,3 +47,38 @@ exports.createPaymentIntent = functions.https.onRequest(async (req, res) => {
     res.status(500).send({error: "Internal Server Error"});
   }
 });
+
+exports.processSubscription = functions.https.onCall(async (data, context) => {
+  // Check if the user is authenticated
+  if (!context.auth) {
+    // eslint-disable-next-line max-len
+    throw new functions.https.HttpsError("unauthenticated", "User must be authenticated to process subscription.");
+  }
+
+  const {priceID, customerID} = data;
+
+  try {
+    // Create a new subscription with Stripe
+    const subscription = await stripe.subscriptions.create({
+      customer: customerID,
+      items: [{price: priceID}],
+      payment_behavior: "default_incomplete",
+      expand: ["latest_invoice.payment_intent"],
+    });
+
+    // Perform additional actions based on the subscription object
+    console.log("Subscription created:", subscription.id);
+
+    // Return success response
+    // eslint-disable-next-line max-len
+    return {success: true, message: "Subscription successful.", subscriptionId: subscription.id};
+  } catch (error) {
+    console.error("Error processing subscription:", error);
+    // Return failure response
+    return {success: false, message: "Subscription failed."};
+  }
+});
+
+// firebase deploy --only functions
+// npx eslint --fix .
+

@@ -9,7 +9,7 @@ import { addOrder } from "../../firestoreFunctions/Main";
 import { auth } from "../../firebaseConfig";
 
 function Thankyou({ theme, route }) {
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   // const { buyerId, artid, artistid } = route.params;
   // console.log(buyerId + " " + artid + " " + artistid);
   const add = async () => {
@@ -59,7 +59,7 @@ function Thankyou({ theme, route }) {
         sent shortly.
       </Text>
       <View style={{ marginTop: 20 }}>
-        {/* <ButtonComp btnText="GO BACK TO HOMEPAGE" onPress={() => navigation.navigate("Home")} /> */}
+        <ButtonComp btnText="GO BACK TO HOMEPAGE" onPress={() => navigation.navigate("Home")} />
       </View>
     </View>
     // {/* </LinearGradient> */}

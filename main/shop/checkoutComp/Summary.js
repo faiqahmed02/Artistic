@@ -97,10 +97,28 @@ function Summary({
         customerEphemeralKeySecret: ephemeralKey,
         paymentIntentClientSecret: paymentIntent,
         allowsDelayedPaymentMethods: true,
+        
         defaultBillingDetails: {
           name: auth.currentUser.displayName,
           email: auth.currentUser.email,
+          address: {
+            city: formData.field1.City,
+            country: formData.field1.Country,
+            line1: formData.field1.Street_Address,
+            line2: "",
+            postalCode: formData.field1.Postal_Code,
+          },
         },
+        defaultShippingDetails: {
+          address: {
+            city: formData.field1.City,
+            country: formData.field1.Country,
+            line1: formData.field1.Street_Address,
+            line2: "",
+            postalCode: formData.field1.Postal_Code,
+          },
+        },
+        returnURL: 'ZicoArt://stripe-redirect',
       });
 
       if (!error) {
@@ -157,7 +175,7 @@ function Summary({
         )
           .then(() => {
             navigation.navigate("Thank You");
-            dispatch(cartReducerEmpty())
+            dispatch(cartReducerEmpty());
           })
           .catch((error) => {
             alert(error);
@@ -209,7 +227,7 @@ function Summary({
 
     if (totalAmount > 0) {
       mergeData();
-      initializePaymentSheet();
+      initializePaymentSheet()
     }
 
     // }

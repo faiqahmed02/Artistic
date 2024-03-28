@@ -1,13 +1,13 @@
 /**
  * @format
  */
-import React from 'react';
-import './innoorWarning';
+import React, { useCallback } from "react";
+import "./innoorWarning";
 import "react-native-url-polyfill/auto";
 window.navigator.userAgent = "ReactNative";
 
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { Linking, StyleSheet, View } from "react-native";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { store } from "./store";
@@ -45,7 +45,7 @@ import Polices from "./main/other/Polices";
 import Terms from "./main/other/Terms";
 import Support from "./main/other/Support";
 import Profile from "./main/user/Profile";
-import { StripeProvider } from "@stripe/stripe-react-native";
+import { StripeProvider, useStripe } from "@stripe/stripe-react-native";
 import CheckoutScreen from "./main/shop/CheckoutScreen";
 import Subscription from "./main/subscription/Subscription";
 import SubNow from "./main/subscription/SubNow";
@@ -65,9 +65,9 @@ import ViewArtist from "./main/artist/ViewArtist";
 import AllArtst from "./main/artist/AllArtst";
 import ForgetPassward from "./main/user/ForgetPassward";
 import Showroom from "./main/shop/product/Showroom";
-import OrderDetails from './main/shop/orders/OrderDetails';
-import TrackOrder from './main/shop/orders/TrackOrder';
-import AllChat from './main/user/chat/AllChat';
+import OrderDetails from "./main/shop/orders/OrderDetails";
+import TrackOrder from "./main/shop/orders/TrackOrder";
+import AllChat from "./main/user/chat/AllChat";
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -83,14 +83,44 @@ export default function App() {
       linkColor: "#C1272D",
     },
   };
-React.useEffect(() => {
-  // first
+  React.useEffect(() => {
+    // first
+    // return () => {
+    //   second
+    // }
+    // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+  }, []);
 
-  // return () => {
-  //   second
-  // }
-  // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-}, [])
+  const { handleURLCallback } = useStripe();
+
+  const handleDeepLink = useCallback(
+    async (url) => {
+      if (url) {
+        const stripeHandled = await handleURLCallback(url);
+        if (stripeHandled) {
+          // This was a Stripe URL - you can return or add extra handling here as you see fit
+        } else {
+          // This was NOT a Stripe URL – handle as you normally would
+        }
+      }
+    },
+    [handleURLCallback]
+  );
+
+  useEffect(() => {
+    const getUrlAsync = async () => {
+      const initialUrl = await Linking.getInitialURL();
+      handleDeepLink(initialUrl);
+    };
+
+    getUrlAsync();
+
+    const deepLinkListener = Linking.addEventListener("url", (event) => {
+      handleDeepLink(event.url);
+    });
+
+    return () => deepLinkListener.remove();
+  }, [handleDeepLink]);
 
   return (
     <StripeProvider

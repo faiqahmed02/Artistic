@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/zicoarticon.png",
     "userInterfaceStyle": "light",
+    "scheme":"ZicoArt",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",

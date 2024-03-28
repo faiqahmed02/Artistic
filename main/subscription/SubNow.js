@@ -1,55 +1,79 @@
-import React from 'react'
-import { View } from 'react-native'
-import Payment from '../shop/checkoutComp/Payment'
-import InputComp from '../../component/mainscreen/InputComp'
-import { Button, withTheme } from 'react-native-paper'
-import { LinearGradient } from 'expo-linear-gradient'
-import { auth } from '../../firebaseConfig'
+import React, { useState, useEffect } from "react";
+import { View, Text, Button } from "react-native";
+import { CardField, useStripe } from "@stripe/stripe-react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { withTheme } from "react-native-paper";
+import { auth, functions } from "../../firebaseConfig";
+import {  httpsCallable } from "firebase/functions";
 
 function SubNow({ theme, navigation }) {
-    React.useEffect(() => {
-      if(!auth.currentUser){
-        navigation.navigate("Login")
+  const { confirmPayment, loading } = useStripe();
+  const [paymentMethod, setPaymentMethod] = useState(null);
+  const [processing, setProcessing] = useState(false);
+  const [subscriptionSuccess, setSubscriptionSuccess] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSubscription = async () => {
+    if (!paymentMethod) {
+      setError("Payment method not set.");
+      return;
+    }
+
+    setProcessing(true);
+
+    try {
+      const processSubscription = httpsCallable(
+        functions,
+        "processSubscription"
+      );
+      const { data } = await processSubscription({
+        priceID: "price_1Oi3mnEHdax3d8oT40uyqpf6",
+        customerID: 'cus_Pe9YyYUoxSPh8R',
+      });
+
+      if (data.success) {
+        setSubscriptionSuccess(true);
+      } else {
+        setError(data.message);
       }
-    }, [])
-    
-    return (
-        <LinearGradient style={{ alignItems: "center" }}
-            colors={[theme.colors.myOwnColor, "transparent"]}>
-            <View style={{width:"100%", padding:10, marginTop:20}}>
-                <InputComp placeholder="Name on Card" />
-                <InputComp placeholder="Card Number" />
-                <InputComp placeholder="Expiry Date" />
-                <InputComp placeholder="CVV" />
-                <View
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                    }}
-                >
-                    <Button
-                        style={{
-                            backgroundColor: "#C1272D",
-                            width: "45%",
-                            height: 50,
-                            borderRadius: 0,
-                            justifyContent: "center",
-                            margin: "auto",
-                            color: "white",
-                            textTransform: "uppercase",
-                            fontSize: 26,
-                            width:"100%"
-                        }}
-                        textColor="white"
-                    onPress={() => navigation.navigate("Thank You")}
-                    >
-                        Pay
-                    </Button>
-                </View>
-            </View>
-        </LinearGradient>
-    )
+    } catch (error) {
+      setError("Error processing subscription.");
+      console.error("Error processing subscription:", error);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  return (
+    <LinearGradient
+      colors={["#FFD700", "#FFA500", "#FF6347"]}
+      style={{ flex: 1 }}
+    >
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 20 }}>
+          Subscribe to Premium
+        </Text>
+        <CardField
+          postalCodeEnabled={false}
+          placeholder={{ number: "4242 4242 4242 4242" }}
+          cardStyle={{ backgroundColor: "#FFFFFF", textColor: "#000000" }}
+          style={{ width: "100%", height: 50, marginVertical: 20 }}
+          onCardChange={(cardDetails) => setPaymentMethod(cardDetails)}
+        />
+        <Button
+          title={processing ? "Processing..." : "Subscribe"}
+          disabled={loading || processing}
+          onPress={handleSubscription}
+        />
+        {error && <Text style={{ color: "red", marginTop: 10 }}>{error}</Text>}
+        {subscriptionSuccess && (
+          <Text style={{ color: "green", marginTop: 10 }}>
+            Subscription successful!
+          </Text>
+        )}
+      </View>
+    </LinearGradient>
+  );
 }
 
-export default withTheme(SubNow)
+export default withTheme(SubNow);
