@@ -34,6 +34,7 @@ function SignUp({ theme, navigation }) {
   const [image, setImage] = React.useState(null);
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
+  const [specialNeedCheckBox, setSpecialNeedCheckBox] = useState(false);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: "",
@@ -44,6 +45,7 @@ function SignUp({ theme, navigation }) {
     username: "",
     biography: "",
     statement: "",
+    businessName: "",
     userRole: state.user_role,
     dateCreated: serverTimestamp(),
   });
@@ -137,6 +139,7 @@ function SignUp({ theme, navigation }) {
                       userRole: formData.userRole,
                       username: formData.username,
                       biography: formData.biography,
+                      businessName: formData.businessName,
                       statement: formData.statement,
                       photoURL: imageUrl,
                     };
@@ -319,30 +322,7 @@ function SignUp({ theme, navigation }) {
               }
               inputMode="tel"
             />
-            <InputComp
-              right={true}
-              placeholder="Password"
-              secureTextEntry={true}
-              onChangeText={(pwd) =>
-                setFormData({
-                  ...formData,
-                  password: pwd,
-                })
-              }
-            />
-            <InputComp
-              right={true}
-              placeholder="Confirm Password"
-              secureTextEntry={true}
-              onChangeText={(cpwd) =>
-                setFormData({
-                  ...formData,
-                  confirmP: cpwd,
-                })
-              }
-              error={pwdValidation}
-              onPressOut={checkPwd}
-            />
+
             {/* <InputComp
               placeholder="Security Code"
               onChangeText={(seq) => console.log(seq)}
@@ -371,11 +351,55 @@ function SignUp({ theme, navigation }) {
                     })
                   }
                 />
-                <Checkbox.Item label="Special Needs" status="checked" />
+                <Checkbox.Item
+                  label="Press if Special Needs"
+                  status={specialNeedCheckBox ? "checked" : "unchecked"}
+                  onPress={() => {
+                    if (!specialNeedCheckBox) {
+                      setSpecialNeedCheckBox(true);
+                    } else {
+                      setSpecialNeedCheckBox(false);
+                    }
+                  }}
+                />
               </>
+            ) : state.user_role === "Business" ? (
+              <InputComp
+                placeholder="Business Name"
+                onChangeText={(businessName) =>
+                  setFormData({
+                    ...formData,
+                    businessName: businessName,
+                  })
+                }
+              />
             ) : (
               ""
             )}
+            <InputComp
+              right={true}
+              placeholder="Password"
+              secureTextEntry={true}
+              onChangeText={(pwd) =>
+                setFormData({
+                  ...formData,
+                  password: pwd,
+                })
+              }
+            />
+            <InputComp
+              right={true}
+              placeholder="Confirm Password"
+              secureTextEntry={true}
+              onChangeText={(cpwd) =>
+                setFormData({
+                  ...formData,
+                  confirmP: cpwd,
+                })
+              }
+              error={pwdValidation}
+              onPressOut={checkPwd}
+            />
             <ButtonComp
               btnText="Create Account"
               onPress={() => createAccount()}
