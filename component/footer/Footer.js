@@ -28,7 +28,6 @@ function Footer({ theme, navigation }) {
         flexDirection: "row",
       }}
     >
-
       <TouchableOpacity
         onPress={() =>
           navigation.navigate(!auth.currentUser ? "Login" : "Profile")
@@ -56,7 +55,12 @@ function Footer({ theme, navigation }) {
           style={{ width: 40, height: 40 }}
         />
       </TouchableOpacity>
-      <Image source={require("../../assets/notification.png")}  style={{width:40, height:40}} />
+      <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
+        <Image
+          source={require("../../assets/notification.png")}
+          style={{ width: 40, height: 40 }}
+        />
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Chat")}>
         <Image
           source={require("../../assets/chat.png")}

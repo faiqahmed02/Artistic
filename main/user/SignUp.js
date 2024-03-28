@@ -42,6 +42,8 @@ function SignUp({ theme, navigation }) {
     password: "",
     confirmP: "",
     username: "",
+    biography: "",
+    statement: "",
     userRole: state.user_role,
     dateCreated: serverTimestamp(),
   });
@@ -134,6 +136,8 @@ function SignUp({ theme, navigation }) {
                       pNumber: formData.pNumber,
                       userRole: formData.userRole,
                       username: formData.username,
+                      biography: formData.biography,
+                      statement: formData.statement,
                       photoURL: imageUrl,
                     };
                     addUser(auth.currentUser.uid, data)
@@ -339,12 +343,36 @@ function SignUp({ theme, navigation }) {
               error={pwdValidation}
               onPressOut={checkPwd}
             />
-            <InputComp
+            {/* <InputComp
               placeholder="Security Code"
               onChangeText={(seq) => console.log(seq)}
-            />
+            /> */}
             {state.user_role === "Artist" ? (
-              <Checkbox.Item label="Special Needs" status="checked" />
+              <>
+                <InputComp
+                  placeholder="Artist Biography"
+                  multiline
+                  maxLength={100}
+                  onChangeText={(bio) =>
+                    setFormData({
+                      ...formData,
+                      biography: bio,
+                    })
+                  }
+                />
+                <InputComp
+                  placeholder="Artist Statement"
+                  multiline
+                  maxLength={100}
+                  onChangeText={(statement) =>
+                    setFormData({
+                      ...formData,
+                      statement: statement,
+                    })
+                  }
+                />
+                <Checkbox.Item label="Special Needs" status="checked" />
+              </>
             ) : (
               ""
             )}

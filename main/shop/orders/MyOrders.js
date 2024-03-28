@@ -22,7 +22,7 @@ function MyOrders({ theme, navigation }) {
           id: doc.id,
           ...doc.data(),
         }));
-        setOrders(ordersData);
+        setOrders(ordersData)
         // console.log(orders);
         if (loading) {
           setLoading(false);

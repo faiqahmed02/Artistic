@@ -8,6 +8,7 @@ import { Text } from "react-native";
 import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { db } from "../../firebaseConfig";
+import { onShare } from "../../firestoreFunctions/Main";
 
 function RelatedProduct({ width, height, id }) {
   const navigation = useNavigation();
@@ -100,6 +101,7 @@ function RelatedProduct({ width, height, id }) {
             <View>
               <TouchableOpacity
               // style={{ bottom: 10, left: 10, position: "absolute" }}
+              onPress={() => onShare()}
               >
                 <Image source={require("../../assets/share.png")} />
               </TouchableOpacity>

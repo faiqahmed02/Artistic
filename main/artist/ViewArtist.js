@@ -109,7 +109,7 @@ function ViewArtist({ theme, navigation, route }) {
             <Text
               style={{ fontSize: 14, fontWeight: "normal", textAlign: "left" }}
             >
-              Lorem Ipsum
+              {artistId.biography}
             </Text>
           </View>
           <View
@@ -128,7 +128,7 @@ function ViewArtist({ theme, navigation, route }) {
             <Text
               style={{ fontSize: 14, fontWeight: "normal", textAlign: "left" }}
             >
-              Lorem Ipsum
+              {artistId.statement}
             </Text>
           </View>
           <View style={styles.product_flex}>

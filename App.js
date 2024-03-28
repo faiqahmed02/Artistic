@@ -1,6 +1,7 @@
 /**
  * @format
  */
+import React from 'react';
 import './innoorWarning';
 import "react-native-url-polyfill/auto";
 window.navigator.userAgent = "ReactNative";
@@ -66,6 +67,7 @@ import ForgetPassward from "./main/user/ForgetPassward";
 import Showroom from "./main/shop/product/Showroom";
 import OrderDetails from './main/shop/orders/OrderDetails';
 import TrackOrder from './main/shop/orders/TrackOrder';
+import AllChat from './main/user/chat/AllChat';
 
 let persistor = persistStore(store);
 const Drawer = createDrawerNavigator();
@@ -81,6 +83,14 @@ export default function App() {
       linkColor: "#C1272D",
     },
   };
+React.useEffect(() => {
+  // first
+
+  // return () => {
+  //   second
+  // }
+  // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+}, [])
 
   return (
     <StripeProvider
@@ -144,7 +154,7 @@ export default function App() {
                 <Drawer.Screen name="Track Order" component={TrackOrder} />
                 <Drawer.Screen name="Product Page" component={SingleProduct} />
                 <Drawer.Screen name="Thank You" component={Thankyou} />
-                <Drawer.Screen name="Notification" component={Login} />
+                <Drawer.Screen name="Notification" component={AllChat} />
                 <Drawer.Screen name="Login" component={Login} />
 
                 <Drawer.Screen

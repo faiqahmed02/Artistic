@@ -57,8 +57,11 @@ function OrderDetails({ theme, navigation }) {
       };
 
       addTrackingId(order.id, data);
+     
     }
     updateOrderStatus(order.id, selected);
+    setEditOrderStatus(false)
+    navigation.navigate("My Orders");
   };
   const hideModal = () => setEditOrderStatus(false);
   return auth.currentUser ? (
@@ -288,7 +291,11 @@ function OrderDetails({ theme, navigation }) {
           <ButtonComp btnText="Update" onPress={() => UpdateOrder()} />
           {addOrderTackingId ? (
             <TouchableOpacity
-              onPress={() => setOrderTrackingId(false)}
+              onPress={() => {
+                setOrderTrackingId(false);
+                setEditOrderStatus(false)
+                navigation.navigate("My Orders");
+              }}
               style={{ marginTop: 10 }}
             >
               <Text

@@ -13,6 +13,7 @@ import { ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { cartReducer } from "../../store/rootSlice";
+import { onShare } from "../../firestoreFunctions/Main";
 
 const obj = {
   artworkDetails: {
@@ -153,8 +154,10 @@ function SingleProduct({ theme, navigation }) {
             <View>
               <TouchableOpacity
               // style={{ bottom: -50, left: 10}}
+              onPress={() => onShare()}
               >
                 <Image source={require("../../assets/share.png")} />
+                
               </TouchableOpacity>
             </View>
           </View>

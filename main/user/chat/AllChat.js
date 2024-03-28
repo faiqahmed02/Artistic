@@ -20,12 +20,15 @@ import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { getUser } from "../../../firestoreFunctions/User";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const ChatListScreen = ({ theme }) => {
   // const firestore = useFirestore();
   const [chatRooms, setChatRooms] = useState([]);
   const navigation = useNavigation();
+  const route = useRoute();
+
+  console.log(route.name);
   useEffect(() => {
     // Get the user ID (replace '123' with your actual user ID retrieval logic)
     getUser(auth.currentUser.uid).then((res) => {
@@ -68,7 +71,9 @@ const ChatListScreen = ({ theme }) => {
     >
       {/* <ScrollView> */}
       <View>
-        <Text style={{ fontSize: 20, fontWeight: "500" }}>Your Chat Rooms</Text>
+        <Text style={{ fontSize: 20, fontWeight: "500" }}>
+          {route.name === "Notification" ? "Notifications" : "Your Chat Rooms"}
+        </Text>
         <FlatList
           data={chatRooms}
           keyExtractor={(item) => item.id}

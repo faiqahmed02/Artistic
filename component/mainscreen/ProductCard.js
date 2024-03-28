@@ -8,6 +8,7 @@ import { Image } from "react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native";
 import { auth, db } from "../../firebaseConfig";
+import { addFollower, followUser, onShare } from "../../firestoreFunctions/Main";
 
 const artworks = [
   {
@@ -93,6 +94,15 @@ function ProductCard({ horizontal, _style, _id }) {
     navigation.navigate("Product Page", { productId: data });
   };
 
+// Function to follow an artist
+const followArtist = (followedId) => {
+  if (auth.currentUser) {
+    followUser(auth.currentUser.uid, followedId);
+  } else {
+    console.error("User is not authenticated.");
+  }
+};
+
   return _id
     ? products
         .filter((d) => d.createdBy === _id)
@@ -121,7 +131,7 @@ function ProductCard({ horizontal, _style, _id }) {
                 >
                   {/* <View></View> */}
                   <View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => followArtist(d.createdBy)}>
                       <Image
                         source={require("../../assets/favourite_icon.png")}
                       />
@@ -140,6 +150,7 @@ function ProductCard({ horizontal, _style, _id }) {
                 <View>
                   <TouchableOpacity
                   // style={{ bottom: 10, left: 10, position: "absolute" }}
+                  onPress={() => onShare()}
                   >
                     <Image source={require("../../assets/share.png")} />
                   </TouchableOpacity>
@@ -179,7 +190,7 @@ function ProductCard({ horizontal, _style, _id }) {
               >
                 {/* <View></View> */}
                 <View>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => followArtist(d.createdBy)}>
                     <Image
                       source={require("../../assets/favourite_icon.png")}
                     />
@@ -198,6 +209,7 @@ function ProductCard({ horizontal, _style, _id }) {
               <View>
                 <TouchableOpacity
                 // style={{ bottom: 10, left: 10, position: "absolute" }}
+                onPress={() => onShare()}
                 >
                   <Image source={require("../../assets/share.png")} />
                 </TouchableOpacity>

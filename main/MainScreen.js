@@ -18,7 +18,8 @@ import Stats from "../component/mainscreen/Stats";
 import ClassesCard from "../component/mainscreen/ClassesCard";
 import EventsCard from "../component/mainscreen/EventsCard";
 import ButtonComp from "../component/mainscreen/ButtonComp";
-import { addOrder } from "../firestoreFunctions/Main";
+import { addOrder, openURL } from "../firestoreFunctions/Main";
+import Follower from "../component/mainscreen/Follower";
 
 function MainScreen({ theme, navigation }) {
   const nav = [
@@ -33,7 +34,13 @@ function MainScreen({ theme, navigation }) {
   ];
   const [homeNav, setHomeNav] = useState("Artist");
   const navChange = (d) => {
-    setHomeNav(d);
+    if (d === "Blogs") {
+      openURL("https://zicoart.com/blogs/");
+    } else if (d === "Promote With Us") {
+      openURL("https://zicoart.com/promote-your-art/");
+    } else {
+      setHomeNav(d);
+    }
   };
   const [currentUser, setCurrentUser] = useState("");
   const state = useSelector((state) => state.userType);
@@ -72,7 +79,6 @@ function MainScreen({ theme, navigation }) {
       setCurrentUser("");
     }
   }, 1000);
-
 
   return (
     <LinearGradient
@@ -119,6 +125,21 @@ function MainScreen({ theme, navigation }) {
             <View style={{ alignItems: "center" }}>
               <EventsCard theme={theme} />
             </View>
+          ) : homeNav === "Followers" ? (
+            <View style={{ alignItems: "center" }}>
+              <ScrollView
+                horizontal
+                // style={{ maxHeight: 190 }}
+              >
+                <Follower theme={theme} />
+              </ScrollView>
+            </View>
+          ) : homeNav === "Favorites" ? (
+            <TrendingArtist
+              navigation={() => navigation.navigate("Products")}
+              navigation2={navigation}
+              catname="Favorites"
+            />
           ) : (
             ""
           )}

@@ -26,6 +26,7 @@ import { db } from "../../../firebaseConfig";
 import ProductFilter from "./ProductFilter";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { onShare } from "../../../firestoreFunctions/Main";
 
 function Showroom({ theme }) {
   const navigation = useNavigation();
@@ -308,6 +309,7 @@ function Showroom({ theme }) {
                   <View>
                     <TouchableOpacity
                     // style={{ bottom: 10, left: 10, position: "absolute" }}
+                    onPress={() => onShare()}
                     >
                       <Image source={require("../../../assets/share.png")} />
                     </TouchableOpacity>
